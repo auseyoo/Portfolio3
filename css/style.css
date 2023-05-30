@@ -114,7 +114,6 @@ header .inner {
     width: 100%;
     height: 69px;
     max-width: 1783px;
-    padding:10px 20px;
     border-radius: 99px;
     border-radius: 5.2023121387vw;
     background-color: transparent;
@@ -123,7 +122,9 @@ header .inner {
     box-sizing: border-box;
     transition: 0.3s;
 }
-header .logo {}
+header .logo {
+  padding-left: 20px;
+}
 header .logo a {
   color:#fff;
   font-size: 20px;
@@ -144,7 +145,7 @@ header.dark .logo a {
   color: #fff;
 }
 header.dark .gnb a {
-  color: #fff;
+  color: #e9e9e9;
 }
 header.dark .gnb a.active {
   color: crimson;
@@ -414,6 +415,7 @@ header.dark .trigger {
 /************* Portfolio *************/
 .Portfolio .modal-notice {
   display: inline-block;
+  width: 300px;
   border: 1px solid #000;
   border-radius: 10px;
   overflow: hidden;
@@ -421,8 +423,13 @@ header.dark .trigger {
 .Portfolio .modal-notice img {
   width: 100%;
 }
+.Portfolio .container {
+  flex-wrap: wrap;
+}
 .port {
-  flex: 1;
+  margin: 30px;
+  box-sizing: border-box;
+
 }
 
 /************* About *************/
@@ -450,6 +457,7 @@ header.dark .trigger {
   position: absolute;
   top:0;
   left: 0;
+  width: 100%;
   height: inherit;
   transition: 0.5s;
   text-align: center;
@@ -491,6 +499,7 @@ header.dark .trigger {
 
 /************* Skill *************/
 .Skill .container {
+  display: flex;
   flex-wrap: wrap;
   padding: 50px 0;
 }
@@ -531,6 +540,8 @@ header.dark .trigger {
   font-size: 1.1em;
 }
 .Skill .tit {
+  width: 100%;
+  height: 110px;
   position: relative;
   margin-bottom: 10px;
 }
@@ -538,10 +549,14 @@ header.dark .trigger {
   content: '';
   display: inline-block;
   width: 110px;
-  height: 110px;
+  height: inherit;
   border-radius: 50%;
   border: 6px solid #000;
   line-height: 110px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /************* Modal *************/
