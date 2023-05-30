@@ -1,0 +1,290 @@
+$naver_color : #2db400;
+$ear_color : #F3859B;
+
+body {
+  margin: 0;
+  padding: 0;
+  background: $naver_color;
+  min-height: 100vh;
+  display:flex;
+  align-items: center;
+}  
+.cony {
+  overflow:hidden;
+  width:400px;
+  margin: 0 auto;
+
+  .cony_inner {
+    position:relative;
+    height:390px;
+    .head {
+      position:absolute;
+      top:100px;
+      left:0;
+      right:0;
+      width: 241px;
+      height: 201px;
+      margin:auto;
+      border-radius:50%;
+      box-sizing:border-box;
+      box-shadow: -1px 5px 0 0.5px #D1D2D3;
+      background:#fff;
+      transform:rotate(-3deg);
+
+      .ear {
+        position: absolute;
+        top:-15px;
+        height: 10px;
+        width: 22px;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+      .ear:before, .ear:after {
+        content:"";
+        position: absolute;
+        width: 43px;
+        height: 156px;
+        background: $ear_color;
+        border-radius: 62% 40% 70% 1%;
+        top: -64px;
+        box-shadow:#fff 0px 6px 0px 10px inset;
+      }
+      .ear:before {
+        left:-45px;
+        transform:rotate(-5deg);
+      }
+      .ear:after {
+        right:-40px;
+      }
+      .face {
+        position:absolute;
+        width:100%;
+        height:100%;
+        z-index:2;
+
+        .face_cont {
+          position:absolute;
+          width:100%;
+          height:100%;
+          left:-4%;
+
+          .eyes {
+            position: absolute;
+            top: 32%;
+            width: 100%;
+
+            .eyebrows {
+              position: absolute;
+              top: -30px;
+              width: 100%;
+
+              .eyebrow {
+                position: absolute;
+                top:12px;
+                overflow: hidden;
+                width:35px;
+                height: 0px;
+                border: 3.4px solid #000;
+                border-radius: 132px;
+                transform: rotate(70deg);
+                background:#000;
+              }
+              .eyebrow.left {                
+                left: 38%;
+              }
+              .eyebrow.right {
+                right:33%;
+                transform: rotate(-70deg);
+              }
+              .eyebrow.left:before {
+                left: -50px;
+              }
+              .eyebrow.right:before {
+                right: -50px;
+              }            
+            }
+          }
+          .eye {
+            position: absolute;
+            top:35%;
+            width: 30px;
+
+            .eye1 {
+              transform:rotate(50deg);
+            }
+            .eye2 {
+              top: 9px;
+              left: -6px;
+              transform:rotate(15deg);
+            }
+            .eye3 {
+              top: 22px;
+              width: 43px;
+              transform: rotate(-30deg);
+              left: -3px;
+            }
+          }
+          .eye [class^="eye"]{
+            position: absolute;
+            width: 39px;
+            height: 5px;
+            border-radius: 50px;
+            background: #000;
+          }
+          .eye.left {
+            left: 33%;
+            transform:rotate(-6deg)
+          }
+          .eye.right {
+            right: 28%;
+            top: 48%;
+            transform:rotate(165deg)
+          } 
+        }
+        .cheek {
+          position:absolute;
+          top:54%;
+          width:30px;
+          height:15px;
+          border-radius:50%;
+          background:pink;
+
+        }
+        .cheek_left {
+          left:36px;
+
+        }
+        .cheek_right {
+          right:39px;
+        }      
+        .nose {
+          position:absolute;
+          top:45%;
+          left:43%;
+          width:15px;
+          height:10px;
+          border:6px solid #000;
+          border-radius:50%;
+
+          .nose_line {
+            position:absolute;
+            top:100%;
+            left:30%;
+            width:6px;
+            height:20px;
+            background:#000;        
+          }
+        }
+        .mouth {
+          position: absolute;
+          width: 48px;
+          height: 53px;
+          left: 0px;
+          top: 61%;
+          left: -5px;
+          right: 0;
+          margin: auto;
+          z-index: -1;
+
+          .inner {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 56% / 100%;
+            border-top-left-radius: 0px;
+            border-top-right-radius: 0px;
+            background: #D73E34;
+            border: 6px solid black;
+            overflow: hidden;
+            box-sizing: border-box;
+
+          }
+          .inner:before {
+            position: absolute;
+            content: "";
+            width: 35px;
+            height: 23px;
+            border-radius: 50%;
+            background: #F89A8C;
+            bottom: -1px;
+            left: 58%;
+            margin-left: -20px;            
+          }
+          .outer {
+
+          }
+        }
+      }
+    }
+    .body {
+      display:none;
+      position: absolute;
+      top: 70%;
+      left: 34%;
+      width: 190px;
+      height: 128px;
+      background: #fff;
+      border-radius: 2% 17% 7% 37%;
+      transform: rotate(62deg);
+      z-index: -1;
+
+      .arms {
+        position: absolute;
+        top: 80px;
+        left: 10px;
+        width: 100px;
+        height: 250px;
+        transform: rotate(18deg);
+
+        .arm {
+          position: absolute;
+          top: 0%;
+          right: -10%;
+          width: 156px;
+          height: 48px;
+          background: #fff;
+          transform: rotate(-88deg);
+          border: 5px solid #ccc;
+          border-radius: 50% 50% 50% 30%;
+        }
+        .arm-left {
+          top: 51px;
+          left: -72px;
+        }
+        .arm-right {
+          top: -21px;
+          left: -25px;
+          width: 103px;
+          border-bottom-right-radius: 271px;
+          border-bottom-left-radius: 200px;
+        }
+      }
+      .hand {
+        position: absolute;
+        top: 87px;
+        left: 14px;
+        width: 50px;
+        height: 47px;
+        background: #fff;
+        border: 5px solid #ccc;
+        z-index: 5;
+        border-radius: 50% 50% 50% 30%/ 50% 50% 30% 50%;
+      }
+    }
+    .body:before {
+
+    }
+    .head:before {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      left: 0;
+      top: 0;
+      content: "";
+      background: inherit;
+      z-index: 1;    
+    }
+  }
+}

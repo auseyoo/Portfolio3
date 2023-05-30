@@ -1,0 +1,143 @@
+/* CSS Mobile Mockup */
+
+/* ▼ 아래 Mockup CSS는 수강생 본인이 직접 꼭! 만들어 보시기를 권합니다. */
+
+.mockup {}
+.mobile-mockup {
+  border: 1px solid #eee;
+  width: 430px;
+  height: 850px;
+  position: relative;
+  border-radius: 30px;
+  background-color: #eee;
+}
+.mobile-mockup:before {
+  content: '';
+  position: absolute;
+  width: 97.5%;
+  height: 98.5%;
+  border-radius: 27px;
+  box-shadow: 0 0 3px rgba(178, 178, 178, 0.29);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+}
+.iframe-url {
+  /*border: 1px solid red;*/
+  position: absolute;
+  width: 400px;
+  height: 680px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.home-btn {
+  border: 1px solid #ddd;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  bottom: 20px;
+  border-radius: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.home-btn:before {
+  content: '';
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 5px #606060 inset;
+  border-radius: 50%;
+}
+.camera {
+  position: absolute;
+  width: 400px;
+  height: 70px;
+  top: 11px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.camera span {
+  position: absolute;
+  background-color: #555;
+}
+.camera span:nth-child(1) {
+  width: 80px;
+  height: 6px;
+  border-radius: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.camera span:nth-child(2) {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 10px;
+}
+.camera span:nth-child(3) {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 130px;
+}
+.volume {
+/*  border: 1px solid red;*/
+  position: absolute;
+  width: 6px;
+  height: 150px;
+  right: calc(100% - 1px);
+  top: 82px;
+}
+.volume span,
+.power span {
+  background-color: #ddd;
+  position: absolute;
+  width: 100%;
+  height: 40px;
+  border-radius: 4px 0 0 4px;
+}
+.volume span:nth-child(1) {
+  top: 0;
+  height: 25px;
+}
+.volume span:nth-child(2) {
+  bottom: 50px;
+}
+.volume span:nth-child(3) {
+  bottom: 0;
+}
+.power {
+  /*border: 1px solid red;*/
+  position: absolute;
+  width: 6px;
+  height: 40px;
+  top: 82px;
+  left: 100%;
+}
+.power span {
+  transform: rotateY(180deg);
+}
+
+.iframe-url iframe {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #eee;
+}
+
+
+
+
+
+
+
+

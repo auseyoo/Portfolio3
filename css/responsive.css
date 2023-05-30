@@ -1,0 +1,63 @@
+/************* MediaQuery *************/
+@media (max-width: 768px) {
+    body.active {
+      overflow: hidden;
+    }
+    .myslider {
+      width: 100%;
+    }
+    .card {
+      width: 50%;
+      display: inline-block;
+    }
+    .seciton-main .video,
+    .seciton-main .right {
+      width: 50%;
+    }
+    .container {
+        display: block;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .gnb {
+      background-color: #fff;
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100vh;
+      width: 250px;
+      box-shadow: 10px 0 20px rgba(0, 0, 0, 0.219);
+      right: -250px;
+      transition: 0.5s;
+      padding-top: 100px;
+      padding-right: 20px;
+    }
+    .gnb.active {
+      width: 100%;
+      right: 0;
+      flex-direction: column;
+      padding-right:0;
+      justify-content: flex-start;
+    }
+    .gnb a {
+      display: block;
+      color: #000;
+      text-align: right;
+    }
+    /* Trigger */
+    .trigger {
+      display: block;
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      font-size: 28px;
+    }
+    .trigger.active {
+      color: #000;
+    }
+    /* Overlay */
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+  }

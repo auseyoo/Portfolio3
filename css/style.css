@@ -1,0 +1,636 @@
+/* Fontawesome 4.7 */
+@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+/* XEICON CDN */
+@import url('http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css');
+
+/* Font */
+@font-face {
+  font-family: "Luckiest Guy";
+  src: local("Luckiest Guy"), local("Luckiest Guy"),
+    url("/font/LuckiestGuy-Regular.ttf");
+  font-weight: bold;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #eee;
+    font-family: 'Pretendard-Regular', sans-serif;
+    font-weight: normal;
+    color: #222;
+}
+body,h1,h2,h3,h4,h5,p {
+  margin: 0;
+}
+p {
+  padding: 0;
+}
+body, p, ul {
+  margin: 0;
+  padding: 0;
+}
+a {
+    text-decoration: none;
+    color: #222;
+}
+h1,h2,h3,h4,h5,h6 {
+  font-weight: normal;
+}
+ul {
+  list-style: none;
+}
+html {
+  scroll-behavior: smooth;
+}
+/************* Font *************/
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/************* Scroll *************/
+/* ::-webkit-scrollbar { width: 8px;}
+::-webkit-scrollbar-thumb { background: #636C78;}
+::-webkit-scrollbar-track { background: #E5E4E4;} */
+
+.wrap {
+  margin: auto;
+}
+section { 
+  margin: auto;
+  background: #fff;
+  box-sizing: border-box;
+}
+.container {
+  display: flex;
+  max-width: 1440px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+}
+.container.type02 {
+  max-width: 100%;
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.5s;
+}
+
+/************* Header *************/
+header {
+    z-index: 9;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    will-change: transform;
+    transform: translateY(0);
+    transition: transform .5s ease-out;
+}
+header .inner {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 69px;
+    max-width: 1783px;
+    padding:10px 20px;
+    margin: 10px;
+    border-radius: 99px;
+    border-radius: 5.2023121387vw;
+    background-color: #fff;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+header .logo {}
+header .logo a {
+
+}
+header.dark {
+  padding: 0;
+}
+header.dark .inner {
+  background: #000;
+  width: 100%;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+}
+header.dark .logo {}
+header.dark .logo a {
+  color: #fff;
+}
+header.dark .gnb a {
+  color: #fff;
+}
+header.dark .gnb a.active {
+  color: crimson;
+}
+.gnb {
+    /* flex: 1 1; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.gnb a {
+    color:#000;
+    padding: 15px 30px;
+    display: inline-block;
+    position: relative;
+}
+.gnb a:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  background-color: crimson;
+  height: 2px;
+  width: 0;
+  border-radius: 2px;
+  transform: translateX(-50%);
+  transition: 0.5s;
+}
+
+.gnb a:hover:before,
+.gnb a.active:before {
+  width: 100%;
+}
+.gnb a.active {
+  color:crimson;
+}
+
+/* Trigger */
+.trigger {
+  display: none;
+  cursor: pointer;
+}
+
+/************* Slider *************/
+.myslider {
+    width: 100%;
+    margin: auto;
+    height: 100vh;
+}
+.myslider div {
+    background: #ddd;
+    font-size: 30px;
+    box-sizing: border-box;
+    height: inherit;
+}
+.myslider div img {
+  display: block;
+  min-width: 100%;
+  min-height: 100%;
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+.myslider .slick-arrow {
+  z-index: 10;
+  width: 50px;
+  height: 50px;
+
+}
+.myslider .slick-arrow::before {
+  font-family: fontawesome;
+  opacity: 0.3;
+  font-size: 50px;
+}
+.slick-prev {
+  left: 0;
+}
+.slick-next {
+  right: 0;
+}
+.slick-prev::before {
+  content: "\f053";
+}
+.slick-next::before {
+  content: "\f054";
+}
+
+
+/* BG Video */
+.main {
+  padding: 0;
+  margin: 0;
+  max-width: 100%;
+  overflow: hidden;
+  width: 100%;
+  display: block;
+}
+.main .video {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  float: left;
+  aspect-ratio: auto 1/1;
+}
+.main .right {
+  flex: 1;
+  float: right;
+  width: 50%;
+  aspect-ratio: auto 1/1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.main .right p {
+  font-size: 66px;
+  padding: 0 10%;
+  align-self: flex-end;
+}
+.main .right span {
+  color: #FED7E1;
+}
+.main .right div {
+  align-self: flex-start;
+}
+
+.video-frame {
+  height: 100%;
+  min-height: 100%;
+}
+
+.video-frame video {
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -2;
+  height: 100%;
+}
+.video .text {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background-color: #000;
+  color: #fff;
+  font-weight: 900;
+  font-family: sans-serif;
+  mix-blend-mode: multiply;
+  user-select: none;
+  font-size: 17rem;
+  width: 100%;
+  word-wrap: break-word;
+  font-family: 'Luckiest Guy';
+}
+
+/* AboutMe */
+.aboutme {
+  background: transparent linear-gradient(90deg, #2D55D6 0%, #DB3885 100%) 0% 0% no-repeat padding-box;
+}
+.aboutme .container {
+  position: relative;
+}
+.aboutme .container:before {
+  content: "";
+  position: absolute;
+  width: 52.5rem;
+  height: 52.5rem;
+  left: 0;
+  top: 0;
+  margin-left: -11rem;
+  margin-top: -9.3rem;
+  background: url(../img/main/round_typo.png) 0 0/cover no-repeat;
+  animation: rotate 15s infinite linear;
+}
+.aboutme .item {
+  display: flex;
+  flex: 1;
+  background: pink;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: auto 1/1;
+  flex-direction: column;
+}
+.aboutme .item-img {
+  width: 40%;
+  margin: 0 auto;
+  margin-bottom: 30px;
+  aspect-ratio: auto 1/1;
+  overflow: hidden;
+}
+.aboutme .item-img img {
+  width: 100%;
+}
+.aboutme .item p {
+  position: relative;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.aboutme .item p:before {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: -10px;
+  height: 15px;
+  background: #e581bd;
+  opacity: 0.5;
+  right: -12px;
+}
+.aboutme .item .birth {
+
+}
+.aboutme .list {
+  flex: 1;
+}
+.aboutme ul li {
+  color: #FFC6EC;
+  padding: 10px 10%;
+  font-size: 20px;
+}
+.aboutme ul .date {
+  color:#fff;
+  float: right;
+}
+
+/************* About *************/
+.card {
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  width: 25%;
+  height: 373px;
+  border-radius: 10px;
+  transition: 0.5s;
+  background: #fff;
+  text-align: center;
+  box-sizing: border-box;
+}
+.card img {
+  width: 150px;
+}
+.card .content {
+  position: absolute;
+  top:0;
+  left: 0;
+  height: inherit;
+  transition: 0.5s;
+  text-align: center;
+  padding: 20px;
+  padding-top: 205px;
+  color:#222;
+  box-sizing: border-box;
+}
+.card .content h2 {
+  font-size: 20px;
+}
+.card:hover .card .content {
+  top:0;
+}
+.card:hover {
+  transform: translateY(-20px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.21);
+}
+/* .card .sns a {
+  border: 1px solid #fff;
+  border-radius: 50%;
+  box-sizing: border-box;
+  display: inline-block;
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  color:#fff;
+  font-size: 13px;
+} */
+/* .card:nth-child(2) .card .content {
+  background: linear-gradient(to top, dodgerblue, transparent);
+}
+.card:nth-child(3) .card .content {
+  background: linear-gradient(to top, yellowgreen, transparent);
+} */
+
+
+/************* Skill *************/
+.Skill .card .content {
+  position: absolute;
+  top:0;
+  left: 0;
+  height: inherit;
+  transition: 0.5s;
+  text-align: center;
+  padding: 20px;
+  padding-top: 205px;
+  color:#222;
+  box-sizing: border-box;
+}
+
+.Skill .card:hover .card .content {
+  top:0;
+}
+.Skill .card:hover {
+  transform: none;
+  box-shadow: none;
+}
+.Skill .card .content h2 {
+  border-radius: 50px;
+  width: 300px;
+  height: 300px;
+    
+}
+
+/************* Modal *************/
+.modal {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  top:0;
+  left: 0;
+  display: none;
+  z-index: 10;
+}
+.modal.active {
+  display: block;
+}
+.modal-content {
+  width: 90%;
+  height: 80%;
+  position: absolute;
+  padding: 10px 30px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 10px;
+  text-align: center;
+  box-sizing: border-box;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.325);
+  animation: slidefade 0.35s linear;
+}
+.modal-content .container {
+  overflow-y: auto;
+  height: 100%;
+}
+.btn-close {
+  position: absolute;
+  top:10px;
+  right: 10px;
+  
+}
+.modal-content h2 {}
+.modal-content img {}
+.modal-content p {}
+.btn-guide {
+  background: #000;
+  color:#fff;
+  padding: 10px;
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+/************* Tab *************/
+.tab-inner {
+  margin: 50px 20px;
+}
+.tab-btn {
+  text-align: center;
+}
+.tab-btn a {
+  color:#fff;
+  background: #000;
+  display: inline-block;
+  width: 150px;
+  text-align: center;
+  padding: 10px;
+  text-transform: uppercase;
+  font-size: 15px;
+  margin-right: -2px;
+  border-top: 3px solid transparent;
+  transition: 0.3s;
+}
+.tab-btn a.active {
+  background: #fff;
+  color:royalblue;
+  border-top: 3px solid royalblue;
+}
+.tab-btn a:hover {
+  color: royalblue;
+}
+.tab-content {
+  position: relative;
+  overflow: hidden;
+}
+.tab {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  background-color: #fff;
+  padding: 25px;
+  transition: 0.3s;
+}
+.tab .modal-notice {
+  color: #222;
+}
+.tab h2 {
+  margin-top: 0;
+  text-transform: uppercase;
+}
+.tab p {}
+.tab img {
+  width: 100%;
+}
+.tab:target {
+  opacity: 1;
+  visibility: visible;
+}
+.tab:nth-child(1) {
+  opacity: 1;
+}
+
+/* Wow */
+.parent {
+  border: 1px solid #000;
+  width: 100%;
+  padding: 20px;
+  overflow: hidden;
+}
+.parent div {
+  float: left;
+  border: 3px solid red;
+  width: 50%;
+  height: 200px;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 200px;
+  font-size: 3em;
+}
+.parent .bg {
+  position: relative;
+
+}
+.parent .bg:after {
+  content: '';
+  background: #000;
+  width: 300px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.045;
+
+}
+.ltr {
+  animation: ltr 1s linear both;
+}
+.rtl {
+  animation: rtl 1s linear both;
+}
+@keyframes ltr {
+  0% {
+    opacity: 0;
+    transform: translateX(-150px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes rtl {
+  0% {
+    opacity: 0;
+    transform: translateX(150px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+
+
+
+
+/************* Keyframes *************/
+@keyframes slidefade{
+  0% {
+    opacity: 0;
+    margin-top: -100px;
+  }
+  100% {
+    opacity: 1;
+    margin-top: 0;
+  }
+}

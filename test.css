@@ -1,0 +1,695 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #2db400;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.line-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.line-container h1 {
+  font-size: 7.5em;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.line-items {
+  display: flex;
+  justify-self: revert;
+  justify-self: baseline;
+  justify-content: center;
+  align-items: center;
+}
+
+.cony {
+  overflow: hidden;
+  width: 400px;
+}
+.cony .cony_inner {
+  position: relative;
+  height: 390px;
+}
+.cony .cony_inner .head {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  right: 0;
+  width: 241px;
+  height: 201px;
+  margin: auto;
+  border-radius: 50%;
+  box-sizing: border-box;
+  box-shadow: -1px 5px 0 0.5px #D1D2D3;
+  background: #fff;
+  transform: rotate(-3deg);
+}
+.cony .cony_inner .head .ear {
+  position: absolute;
+  top: -15px;
+  height: 10px;
+  width: 22px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.cony .cony_inner .head .ear:before, .cony .cony_inner .head .ear:after {
+  content: "";
+  position: absolute;
+  width: 43px;
+  height: 156px;
+  background: #F3859B;
+  border-radius: 62% 40% 70% 1%;
+  top: -64px;
+  box-shadow: #fff 0px 6px 0px 10px inset;
+}
+.cony .cony_inner .head .ear:before {
+  left: -45px;
+  transform: rotate(-5deg);
+}
+.cony .cony_inner .head .ear:after {
+  right: -40px;
+}
+.cony .cony_inner .head .face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+.cony .cony_inner .head .face .face_cont {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: -4%;
+}
+.cony .cony_inner .head .face .face_cont .eyes {
+  position: absolute;
+  top: 32%;
+  width: 100%;
+}
+.cony .cony_inner .head .face .face_cont .eyes .eyebrows {
+  position: absolute;
+  top: -30px;
+  width: 100%;
+}
+.cony .cony_inner .head .face .face_cont .eyes .eyebrows .eyebrow {
+  position: absolute;
+  top: 12px;
+  overflow: hidden;
+  width: 35px;
+  height: 0px;
+  border: 3.4px solid #000;
+  border-radius: 132px;
+  transform: rotate(70deg);
+  background: #000;
+}
+.cony .cony_inner .head .face .face_cont .eyes .eyebrows .eyebrow.left {
+  left: 38%;
+}
+.cony .cony_inner .head .face .face_cont .eyes .eyebrows .eyebrow.right {
+  right: 33%;
+  transform: rotate(-70deg);
+}
+.cony .cony_inner .head .face .face_cont .eyes .eyebrows .eyebrow.left:before {
+  left: -50px;
+}
+.cony .cony_inner .head .face .face_cont .eyes .eyebrows .eyebrow.right:before {
+  right: -50px;
+}
+.cony .cony_inner .head .face .face_cont .eye {
+  position: absolute;
+  top: 35%;
+  width: 30px;
+}
+.cony .cony_inner .head .face .face_cont .eye .eye1 {
+  transform: rotate(50deg);
+}
+.cony .cony_inner .head .face .face_cont .eye .eye2 {
+  top: 9px;
+  left: -6px;
+  transform: rotate(15deg);
+}
+.cony .cony_inner .head .face .face_cont .eye .eye3 {
+  top: 22px;
+  width: 43px;
+  transform: rotate(-30deg);
+  left: -3px;
+}
+.cony .cony_inner .head .face .face_cont .eye [class^=eye] {
+  position: absolute;
+  width: 39px;
+  height: 5px;
+  border-radius: 50px;
+  background: #000;
+}
+.cony .cony_inner .head .face .face_cont .eye.left {
+  left: 33%;
+  transform: rotate(-6deg);
+}
+.cony .cony_inner .head .face .face_cont .eye.right {
+  right: 28%;
+  top: 48%;
+  transform: rotate(165deg);
+}
+.cony .cony_inner .head .face .cheek {
+  position: absolute;
+  top: 54%;
+  width: 30px;
+  height: 15px;
+  border-radius: 50%;
+  background: pink;
+}
+.cony .cony_inner .head .face .cheek_left {
+  left: 36px;
+}
+.cony .cony_inner .head .face .cheek_right {
+  right: 39px;
+}
+.cony .cony_inner .head .face .nose {
+  position: absolute;
+  top: 45%;
+  left: 43%;
+  width: 15px;
+  height: 10px;
+  border: 6px solid #000;
+  border-radius: 50%;
+}
+.cony .cony_inner .head .face .nose .nose_line {
+  position: absolute;
+  top: 100%;
+  left: 30%;
+  width: 6px;
+  height: 20px;
+  background: #000;
+}
+.cony .cony_inner .head .face .mouth {
+  position: absolute;
+  width: 48px;
+  height: 53px;
+  left: 0px;
+  top: 61%;
+  left: -5px;
+  right: 0;
+  margin: auto;
+  z-index: -1;
+}
+.cony .cony_inner .head .face .mouth .inner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 56%/100%;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  background: #D73E34;
+  border: 6px solid black;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.cony .cony_inner .head .face .mouth .inner:before {
+  position: absolute;
+  content: "";
+  width: 35px;
+  height: 23px;
+  border-radius: 50%;
+  background: #F89A8C;
+  bottom: -1px;
+  left: 58%;
+  margin-left: -20px;
+}
+.cony .cony_inner .body {
+  display: none;
+  position: absolute;
+  top: 70%;
+  left: 34%;
+  width: 190px;
+  height: 128px;
+  background: #fff;
+  border-radius: 2% 17% 7% 37%;
+  transform: rotate(62deg);
+  z-index: -1;
+}
+.cony .cony_inner .body .arms {
+  position: absolute;
+  top: 80px;
+  left: 10px;
+  width: 100px;
+  height: 250px;
+  transform: rotate(18deg);
+}
+.cony .cony_inner .body .arms .arm {
+  position: absolute;
+  top: 0%;
+  right: -10%;
+  width: 156px;
+  height: 48px;
+  background: #fff;
+  transform: rotate(-88deg);
+  border: 5px solid #ccc;
+  border-radius: 50% 50% 50% 30%;
+}
+.cony .cony_inner .body .arms .arm-left {
+  top: 51px;
+  left: -72px;
+}
+.cony .cony_inner .body .arms .arm-right {
+  top: -21px;
+  left: -25px;
+  width: 103px;
+  border-bottom-right-radius: 271px;
+  border-bottom-left-radius: 200px;
+}
+.cony .cony_inner .body .hand {
+  position: absolute;
+  top: 87px;
+  left: 14px;
+  width: 50px;
+  height: 47px;
+  background: #fff;
+  border: 5px solid #ccc;
+  z-index: 5;
+  border-radius: 50% 50% 50% 30%/50% 50% 30% 50%;
+}
+.cony .cony_inner .body .hand .finger {
+  position: absolute;
+  width: 18px;
+  height: 35px;
+  background: #fff;
+  border: 3px solid #000;
+  border-radius: 50% 50% 0 0/50% 50% 50% 0;
+  transform: rotate(252deg);
+  left: -17px;
+  top: 9px;
+  border-width: 3px 3px 0px 3px;
+  z-index: 100000;
+}
+.cony .cony_inner .head:before {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  left: 0;
+  top: 0;
+  content: "";
+  background: inherit;
+  z-index: 1;
+}
+.cony .cony_inner .item-box {
+  width: 69px;
+  height: 113px;
+  background: #222;
+  position: absolute;
+  transform: rotate(-15deg);
+  left: 10px;
+  bottom: 21px;
+  border-radius: 15px;
+}
+.cony .cony_inner .item-box .inner .top {
+  position: absolute;
+  width: 17px;
+  height: 2px;
+  background: #fff;
+  left: 10px;
+  top: 10px;
+  border-radius: 50px;
+}
+
+@keyframes ce-neutral-face-eye-anime {
+  0%, 40% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.1);
+  }
+  60%, 100% {
+    transform: scaleY(1);
+  }
+}
+@keyframes ce-neutral-face-mouth-anime {
+  0%, 35% {
+    transform: scaleY(1);
+    transform-origin: center;
+  }
+  45%, 55% {
+    transform: scaleY(0.3);
+    transform-origin: center;
+  }
+  65%, 100% {
+    transform: scaleY(1);
+    transform-origin: center;
+  }
+}
+.brown {
+  left: 100px;
+}
+.brown .brown_inner {
+  position: relative;
+  height: 390px;
+}
+.brown .brown_inner .head {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  right: 0;
+  width: 247px;
+  height: 215px;
+  margin: auto;
+  border-radius: 50%;
+  box-sizing: border-box;
+  box-shadow: -1px 5px 0 0.5px #4E302A;
+  background: #6C483B;
+  transform: rotate(-7deg);
+}
+.brown .brown_inner .head .face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+.brown .brown_inner .head .face .face_cont {
+  position: absolute;
+  top: -7%;
+  left: -4%;
+  width: 100%;
+  height: 100%;
+}
+.brown .brown_inner .head .face .face_cont .ear {
+  overflow: hidden;
+  position: absolute;
+  top: -5%;
+  left: 48px;
+  width: 164px;
+  height: 64px;
+}
+.brown .brown_inner .head .face .face_cont .ear .left {
+  float: left;
+  width: 35px;
+  height: 28px;
+  background: #4E302A;
+  border: 10px solid #6C483B;
+  border-radius: 50% 50% 20% 20%;
+  transform: rotate(-25deg);
+}
+.brown .brown_inner .head .face .face_cont .ear .right {
+  float: right;
+  width: 35px;
+  height: 28px;
+  background: #4E302A;
+  border: 10px solid #6C483B;
+  border-radius: 50% 50% 20% 20%;
+  transform: rotate(25deg);
+}
+.brown .brown_inner .head .face .face_cont .eyes {
+  overflow: hidden;
+  position: absolute;
+  top: 95px;
+  left: 44%;
+  width: 19%;
+}
+.brown .brown_inner .head .face .face_cont .eyes .eye {
+  width: 17px;
+  height: 17px;
+  background: #000;
+  border-radius: 80%;
+  animation: ce-neutral-face-eye-anime 3s ease-in-out infinite;
+}
+.brown .brown_inner .head .face .face_cont .eyes .eye.left {
+  float: left;
+}
+.brown .brown_inner .head .face .face_cont .eyes .eye.right {
+  float: right;
+}
+.brown .brown_inner .head .face .face_cont .bottom {
+  position: absolute;
+  top: 113px;
+  left: 107px;
+  width: 51px;
+  height: 63px;
+  background: #E2C9BC;
+  border-radius: 50%;
+}
+.brown .brown_inner .head .face .face_cont .bottom .nose {
+  position: absolute;
+  top: 15%;
+  left: 29%;
+  width: 8px;
+  height: 3px;
+  border: 6px solid #000;
+  border-radius: 41% 67% 60% 102%/35% 15% 94% 90%;
+  background: #000;
+}
+.brown .brown_inner .head .face .face_cont .bottom .nose .nose_line {
+  position: absolute;
+  top: 100%;
+  left: 38%;
+  width: 4px;
+  height: 20px;
+  background: #000;
+}
+.brown .brown_inner .head .face .face_cont .bottom .mouth {
+  position: absolute;
+  top: 32px;
+  left: 28px;
+}
+.brown .brown_inner .head .face .face_cont .bottom .mouth .left {
+  position: absolute;
+  top: 9px;
+  left: -20px;
+  width: 23px;
+  height: 4px;
+  background: #000;
+  border-radius: 5px;
+  transform: rotate(118deg);
+}
+.brown .brown_inner .head .face .face_cont .bottom .mouth .right {
+  top: 10%;
+  z-index: 1;
+  width: 5px;
+  height: 16px;
+  background: #000;
+  border-radius: 5px;
+  transform: rotate(-40deg);
+}
+.brown .brown_inner .body {
+  width: 150px;
+  height: 122px;
+  background: #6C483B;
+  position: absolute;
+  bottom: 0;
+  border: 1px solid #000;
+  left: 51px;
+  border-radius: 32px 15px 28px 67px/69px 53px 0px 70px;
+  transform: skewX(10deg) rotate(108deg);
+  z-index: -1;
+}
+.brown .brown_inner .body .arm {
+  position: absolute;
+  background: #000;
+}
+.brown .brown_inner .body .arm-left {
+  width: 61px;
+  height: 126px;
+  background: #FFD439;
+  border: 1px solid #000;
+  position: absolute;
+  z-index: 100;
+  right: -13px;
+  transform: rotate(127deg);
+  top: 90px;
+  border-width: 0 0 0px 1px;
+}
+.brown .brown_inner .body .arm-right {
+  background: #FFD439;
+  width: 70px;
+  height: 185px;
+  position: absolute;
+  border: 1px solid #000;
+  top: -119px;
+  /* right: -15px; */
+  transform: rotate(127deg);
+  left: -101px;
+  border-radius: 42px 9px 22px 45px/26px 51px 30px 80px;
+}
+
+.sally {
+  position: relative;
+  z-index: 10;
+}
+.sally .sally_inner {
+  position: relative;
+  height: 244px;
+}
+.sally .sally_inner .head {
+  position: absolute;
+  top: 93px;
+  left: 0;
+  right: 0;
+  width: 113px;
+  height: 113px;
+  margin: auto;
+  border-radius: 53% 51% 50% 49%/54%;
+  box-sizing: border-box;
+  background: #FFD439;
+  transform: rotate(-3deg);
+}
+.sally .sally_inner .head .face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+.sally .sally_inner .head .face .face_cont {
+  position: absolute;
+  top: -7%;
+  left: -4%;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-6deg);
+}
+.sally .sally_inner .head .face .face_cont .eyes {
+  overflow: hidden;
+  position: absolute;
+  top: 35px;
+  left: 35%;
+  width: 35%;
+}
+.sally .sally_inner .head .face .face_cont .eyes .eye {
+  width: 17px;
+  height: 17px;
+  background: #000;
+  border-radius: 80%;
+  animation: ce-neutral-face-eye-anime 3s ease-in-out infinite;
+}
+.sally .sally_inner .head .face .face_cont .eyes .eye.left {
+  float: left;
+}
+.sally .sally_inner .head .face .face_cont .eyes .eye.right {
+  float: right;
+}
+.sally .sally_inner .head .face .face_cont .mouth {
+  position: absolute;
+  top: 53px;
+  left: 40px;
+  width: 40px;
+}
+.sally .sally_inner .head .face .face_cont .mouth .inner {
+  position: absolute;
+  top: 17px;
+  left: 8%;
+  width: 22px;
+  height: 1px;
+  heigth: 5%;
+  background: #D2422A;
+  border-radius: 30%;
+  z-index: 3;
+  border: 2.2px solid #D2422A;
+  transform: rotate(-1deg);
+}
+.sally .sally_inner .head .face .face_cont .mouth .outer {
+  top: 10%;
+  z-index: 1;
+}
+.sally .sally_inner .head .face .face_cont .mouth .outer .lip {
+  position: absolute;
+  width: 36px;
+  height: 20px;
+  background: #F36F28;
+  border-radius: 30% 50% 50% 50%;
+  transform: rotate(-4deg);
+}
+.sally .sally_inner .head .face .face_cont .mouth .outer .lip.top {
+  width: 39px;
+  left: -1px;
+  border-radius: 50% 79% 0 50%/66%;
+}
+.sally .sally_inner .head .face .face_cont .mouth .outer .lip.right {
+  top: 9px;
+  left: 16px;
+  width: 25px;
+  height: 22px;
+  transform: rotate(89deg);
+  border-radius: -8% 54% 78% -64%/50%;
+}
+.sally .sally_inner .head .face .face_cont .mouth .outer .lip.bottom {
+  top: 16px;
+  left: 2px;
+  width: 35px;
+  border-radius: 30% 50% 50% 50%/55%;
+}
+.sally .sally_inner .body {
+  position: absolute;
+  top: 69%;
+  left: 40%;
+  width: 84px;
+  height: 114px;
+  background: #FFD439;
+  border-radius: 32% 24% 26% 41%;
+  transform: rotate(93deg);
+  z-index: -1;
+}
+.sally .sally_inner .body .arm {
+  position: absolute;
+  background: #FFD439;
+}
+.sally .sally_inner .body .arm-left {
+  width: 58px;
+  height: 57px;
+  left: 24px;
+  top: 22px;
+  z-index: 10000000;
+  border-radius: 2px 58px 19px 23px;
+  transform: rotate(-12deg);
+  box-shadow: 0px -3px 0 1.5px #f5b604;
+}
+.sally .sally_inner .body2 .arm-left {
+  width: 58px;
+  height: 109px;
+  position: absolute;
+  border-radius: 30px 50px 30px 50px;
+}
+.sally .effect {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+}
+.sally .effect .love {
+  margin-bottom: 18px;
+  position: relative;
+}
+.sally .effect .love .heart1 {
+  width: 20px;
+  height: 30px;
+  transform: rotate(-37deg);
+  left: 0;
+  top: 0;
+  position: absolute;
+}
+.sally .effect .love .heart {
+  width: 40px;
+  height: 21px;
+  background: #CC0000;
+  border-radius: 100% 131% 131% 126%;
+  transform: rotate(55deg);
+  animation: ce-neutral-heart-anime 3s ease-in-out infinite;
+}
+.sally .effect .love .heart .inner {
+  position: absolute;
+  top: 9px;
+  left: 4px;
+  width: 8px;
+  height: 5px;
+  background: #FF5252;
+  border-radius: 50%;
+  transform: rotate(63deg);
+}
+.sally .effect .love .heart.right {
+  position: absolute;
+  top: 0px;
+  left: 15px;
+  border-radius: 155% 113% 142% 106%;
+  transform: rotate(120deg);
+}/*# sourceMappingURL=test.css.map */
