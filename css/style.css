@@ -109,7 +109,7 @@ header .inner {
     margin: 10px;
     border-radius: 99px;
     border-radius: 5.2023121387vw;
-    background-color: #fff;
+    background-color: transparent;
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
@@ -117,10 +117,12 @@ header .inner {
 }
 header .logo {}
 header .logo a {
-
+  color:#fff;
+  font-size: 20px;
 }
 header.dark {
   padding: 0;
+  background: #000;
 }
 header.dark .inner {
   background: #000;
@@ -146,10 +148,12 @@ header.dark .gnb a.active {
     justify-content: space-between;
 }
 .gnb a {
-    color:#000;
-    padding: 15px 30px;
+    padding: 22px 8px;
     display: inline-block;
     position: relative;
+    color:#000;
+    font-size: 20px;
+    margin: 0 20px;
 }
 .gnb a:before {
   content: '';
@@ -252,15 +256,18 @@ header.dark .gnb a.active {
   flex-wrap: wrap;
 }
 .main .right p {
-  font-size: 66px;
+  font-size: 100px;
   padding: 0 10%;
   align-self: flex-end;
+  margin-bottom: 50px;
 }
 .main .right span {
   color: #FED7E1;
 }
 .main .right div {
   align-self: flex-start;
+  line-height: 1.5;
+  font-size: 24px;
 }
 
 .video-frame {
@@ -307,7 +314,7 @@ header.dark .gnb a.active {
   top: 0;
   margin-left: -11rem;
   margin-top: -9.3rem;
-  background: url(../img/main/round_typo.png) 0 0/cover no-repeat;
+  background: url(../images/icon4.) 0 0/cover no-repeat;
   animation: rotate 15s infinite linear;
 }
 .aboutme .item {
@@ -331,8 +338,9 @@ header.dark .gnb a.active {
 }
 .aboutme .item p {
   position: relative;
-  font-size: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
+  font-size: 30px;
+  font-weight: bold;
 }
 .aboutme .item p:before {
   content: '';
@@ -345,19 +353,28 @@ header.dark .gnb a.active {
   right: -12px;
 }
 .aboutme .item .birth {
-
+  font-size: 20px;
 }
 .aboutme .list {
   flex: 1;
 }
+.aboutme ul {
+  padding: 0 10%;
+}
 .aboutme ul li {
   color: #FFC6EC;
-  padding: 10px 10%;
+  padding: 10px 0;
   font-size: 20px;
 }
 .aboutme ul .date {
   color:#fff;
   float: right;
+}
+.aboutme h2 {
+  font-size: 30px;
+  color:#fff;
+  padding: 0 10%;
+  margin-bottom: 20px;
 }
 
 /************* About *************/
@@ -440,9 +457,14 @@ header.dark .gnb a.active {
   box-shadow: none;
 }
 .Skill .card .content h2 {
-  border-radius: 50px;
-  width: 300px;
-  height: 300px;
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  border: 6px solid #000;
+  text-align: center;
+  line-height: 85px;
+  margin: 0 auto;
+  margin-bottom: 35px;
     
 }
 
