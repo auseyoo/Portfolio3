@@ -11,6 +11,9 @@
     url("/font/LuckiestGuy-Regular.ttf");
   font-weight: bold;
 }
+html, body {
+    overflow-x: hidden;
+}
 
 body {
     margin: 0;
@@ -19,7 +22,6 @@ body {
     font-family: 'Pretendard-Regular', sans-serif;
     font-weight: normal;
     color: #222;
-    overflow-x: hidden;
 }
 body,h1,h2,h3,h4,h5,p {
   margin: 0;
