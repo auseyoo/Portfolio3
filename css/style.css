@@ -18,7 +18,7 @@ html, body {
 body {
     margin: 0;
     padding: 0;
-    background: #eee;
+    background: #f2f2f2;
     font-family: 'Pretendard-Regular', sans-serif;
     font-weight: normal;
     color: #222;
@@ -64,7 +64,6 @@ html {
 }
 section { 
   margin: auto;
-  background: #fff;
   box-sizing: border-box;
 }
 h3 {
@@ -75,7 +74,7 @@ h3 {
 }
 .container {
   display: flex;
-  max-width: 1440px;
+  max-width: 1700px;
   margin: 0 auto;
   justify-content: center;
   align-items: center;
@@ -104,16 +103,14 @@ header {
     top: 0;
     display: flex;
     justify-content: center;
-    will-change: transform;
-    transform: translateY(0);
     transition: transform .5s ease-out;
 }
 header .inner {
     position: relative;
     display: flex;
     width: 100%;
-    height: 69px;
     max-width: 1783px;
+    padding: 60px 10px;
     border-radius: 99px;
     border-radius: 5.2023121387vw;
     background-color: transparent;
@@ -127,7 +124,7 @@ header .logo {
 }
 header .logo a {
   color:#fff;
-  font-size: 20px;
+  font-size: 40px;
 }
 header.dark {
   padding: 0;
@@ -137,7 +134,7 @@ header.dark .inner {
   background: #000;
   width: 100%;
   border-radius: 0;
-  padding: 0;
+  padding: 10px;
   margin: 0;
 }
 header.dark .logo {}
@@ -160,7 +157,7 @@ header.dark .gnb a.active {
     padding: 22px 8px;
     display: inline-block;
     position: relative;
-    color:#222;
+    color:#fff;
     font-size: 20px;
     margin: 0 20px;
 }
@@ -243,13 +240,53 @@ header.dark .trigger {
 
 /* BG Video */
 .main {
-  padding: 0;
-  margin: 0;
-  max-width: 100%;
-  overflow: hidden;
-  width: 100%;
   display: block;
+  height: calc(100vh - 60px);
+  margin: 30px;
+  padding: 0;
+  background: #636c78;
+  border-radius: 10px;
+  position: relative;
 }
+.main .container { 
+  height: 100%;
+}
+.main .bg-box {}
+.main .bg-box span {
+  position: absolute;
+  width: 200px;
+  height: 300px;
+  border-radius: 30px;
+  box-shadow: 0 0 20px #222;
+}
+.main .bg-box span:nth-child(1) {
+  height: 400px;
+  top: 200px;
+  left:-30px;
+  background: url(../images/bg-box1.jpg) no-repeat 0 0 / 100%;
+  border-radius: 0 30px 30px 0;
+}
+.main .bg-box span:nth-child(2){
+  top: 450px;
+  right:-30px;
+  background: url(../images/bg-box2.jpg) no-repeat 0 0 / 100% 100%;
+  border-radius: 30px 0 0 30px;
+}
+.main .bg-box span:nth-child(3){
+  right: 6%;
+  bottom:30px;
+  transform: rotate(90deg);
+  background: url(../images/bg-box3.jpg) no-repeat 0 0 / 100% 100%;
+}
+.main .bg-box span:nth-child(4){
+  height: 110px;
+  bottom:0;
+  transform: rotate(180deg);
+  background: url(../images/bg-box4.jpg) no-repeat 0 0 / 100% 100%;
+  border-radius: 0 0 30px 30px;
+}
+
+
 .main .video {
   position: relative;
   width: 50%;
@@ -257,36 +294,24 @@ header.dark .trigger {
   overflow: hidden;
   float: left;
   aspect-ratio: auto 1/1;
+  display: none;
 }
 .main .right {
-  flex: 1;
-  float: right;
-  width: 50%;
-  aspect-ratio: auto 1/1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
+  text-align: center;
+  color:#fff;
 }
 .main .right p {
-  width: 100%;
   margin-bottom: 50px;
-  padding: 0 10%;
-  align-self: flex-end;
   font-size: 80px;
-  font-weight: bold;
 }
 .main .right span {
   color: #FED7E1;
 }
 .main .right div {
   width: 100%;
-  padding: 0 10%;
-  align-self: flex-start;
   line-height: 1.5;
   font-size: 24px;
 }
-
 .video-frame {
   height: 100%;
   min-height: 100%;
@@ -317,26 +342,24 @@ header.dark .trigger {
 
 /* AboutMe */
 .aboutme {
-  background: transparent linear-gradient(90deg, #2D55D6 0%, #DB3885 100%) 0% 0% no-repeat padding-box;
+  /* background: transparent linear-gradient(90deg, #2D55D6 0%, #DB3885 100%) 0% 0% no-repeat padding-box; */
 }
 .aboutme .container {
   position: relative;
   overflow: hidden;
   max-width: 1440px;
 }
-.aboutme .container:before {
+/* .aboutme .container:before {
   content: "";
-    position: absolute;
-    width: 55.5rem;
-    height: 82rem;
-    left: 0;
-    top: 0;
-    /* margin-left: -11rem; */
-    /* margin-top: -9.3rem; */
-    background: url(../images/about-bg.png) 0 0/100% no-repeat;
-    animation: rotate 15s infinite linear;
-    opacity: 0.2;
-}
+  position: absolute;
+  width: 55.5rem;
+  height: 82rem;
+  left: 0;
+  top: 0;
+  background: url(../images/about-bg.png) 0 0/100% no-repeat;
+  animation: rotate 15s infinite linear;
+  opacity: 0.2;
+} */
 .aboutme .item {
   display: flex;
   width: 100%;
@@ -564,7 +587,7 @@ header.dark .trigger {
   position: fixed;
   width: 100%;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.2);
   top:0;
   left: 0;
   display: none;
