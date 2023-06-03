@@ -1,14 +1,12 @@
 /************* MediaQuery *************/
 @media (min-width: 1300px) {
   .aboutme ul li {
-    font-size: 1.3em;
   }
 }
 @media (max-width: 1300px) {
   body {
     font-size: 14px;
   }
-  
 }
 @media (max-width: 1280px) {
   .main .right p {
@@ -20,18 +18,16 @@
   .aboutme ul li {
 
   }
-  .aboutme h2 {
+  /* .aboutme h3 {
     height: 1px;
     width: 1px;
     position: absolute;
     overflow: hidden;
     clip: rect(1px 1px 1px 1px);
     margin: 0;
-  }
+  } */
   .aboutme ul {
-    margin-bottom: 0;
   }
-  
 }
 @media (max-width: 1024px) {
   .about2 {
@@ -54,19 +50,48 @@
     width: 20%;
     left: 12%;
   }
+  .gnb {
+    background-color: #fff;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100vh;
+    width: 100px;
+    box-shadow: 10px 0 20px rgba(0, 0, 0, 0.219);
+    right: calc(-100% - 60px);
+    transition: 0.5s;
+    padding-top: 100px;
+    flex-basis: auto;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .gnb a {
+    display: block;
+    color: #000;
+  }
+  .gnb.active {
+    width: calc(100% + 60px);
+    right: -30px;
+  }
+  .gnb.active a {
+    height: auto;
+    padding: 22px 8px;
+  }
+  /* Trigger */
+  .trigger {
+    display: block;
+  }
+  .trigger.active {
+    color: #000;
+  }
+  .Skill .card {
+    width: 50%;
+  }
 }
 @media (max-width: 1000px) {
-  .gnb a {
-    color:#eee;
-  }
-  .main .video,
-  .main .right {
-    width: 100%;
-    float: initial;
-  }
   .main .right {
     height: 300px;
-    aspect-ratio: auto;
     padding: 30px 0;
   }
   .container.type02 {
@@ -76,82 +101,39 @@
     aspect-ratio: initial;
     padding: 50px 0;
   }
-  .aboutme h2 {
-    height: auto;
-    width: auto;
-    clip: auto;
-    position: initial;
-    margin-bottom: 20px;
+}
+@media (max-width: 768px) {
+  body.active {
+    overflow: hidden;
+  }
+  .myslider {
+    width: 100%;
+  }
+  .main .right p {
+    font-size: 2em;
+  }
+  .card {
+    width: 100%;
+    display: inline-block;
+  }
+  .Skill .card {
+    width: 100%;
+  }
+  .container {
+      margin: 0 auto;
+      text-align: center;
+  }
+  /* Overlay */
+  .overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  .about2 .container {
+    flex-wrap: wrap;
+  }
+  .Portfolio .modal-notice {
+    width: 88%;
+    height: 100%;
   }
   
 }
-@media (max-width: 768px) {
-    body.active {
-      overflow: hidden;
-    }
-    .myslider {
-      width: 100%;
-    }
-    .main .right p {
-      font-size: 2em;
-    }
-    .card {
-      width: 50%;
-      display: inline-block;
-    }
-    .seciton-main .video,
-    .seciton-main .right {
-      width: 50%;
-    }
-    .container {
-        display: block;
-        margin: 0 auto;
-        text-align: center;
-    }
-    .gnb {
-      background-color: #fff;
-      position: absolute;
-      right: 0;
-      top: 0;
-      height: 100vh;
-      width: 250px;
-      box-shadow: 10px 0 20px rgba(0, 0, 0, 0.219);
-      right: -250px;
-      transition: 0.5s;
-      padding-top: 100px;
-    }
-    .gnb.active {
-      width: 100%;
-      right: 0;
-      flex-direction: column;
-      padding-right:0;
-      justify-content: flex-start;
-    }
-    .gnb a {
-      display: block;
-      color: #000;
-      text-align: right;
-    }
-    /* Trigger */
-    .trigger {
-      display: block;
-      position: absolute;
-      right: 20px;
-      top: 15px;
-      font-size: 28px;
-    }
-    .trigger.active {
-      color: #000;
-    }
-    /* Overlay */
-    .overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    .about2 .container {
-      flex-wrap: wrap;
-    }
-    .Skill .card {
-      width: 50%;
-    }
-  }

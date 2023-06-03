@@ -9,6 +9,15 @@ $(function(){
     }
   })
 
+  // $(window).width(function(){
+  //   if($(window).windowWidth() >= 1024){
+  //     $('gnb').removeClass('active')
+  //   }
+  //   else {
+  //     $('gnb').siblings(this).addClass('active')
+  //   }
+  // })
+
   // GNB
   $('.gnb a').click(function(){
     $(this).addClass('active')
@@ -16,7 +25,7 @@ $(function(){
   })
   // Trigger
   $('.trigger').click(function(){
-    $('.gnb, body, .overlay').toggleClass('active')
+    $('.gnb, html, .overlay').toggleClass('active')
     $(this).toggleClass('active')
   }) 
   // Overlay
@@ -89,3 +98,14 @@ $(function(){
   )
   wow.init();
 })
+
+function gnb_wrap(){
+  var windowWidth = $( window ).width();
+  if(windowWidth >= 1024) {
+  //창 가로 크기가 1024 이상일 경우
+    $('gnb').siblings(this).removeClass('active')
+
+  } else {
+    $('gnb').siblings(this).addClass('active')
+  }
+  }
