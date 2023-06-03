@@ -15,7 +15,7 @@
     font-size: 3em;
   }
   .main .right div {
-    font-size: 1.1em;
+    font-size: 1.3em;
   }
   .aboutme ul li {
 
@@ -34,13 +34,25 @@
   
 }
 @media (max-width: 1024px) {
-  
-  
   .about2 {
     padding:20px 0;
   }
   .card {
     width: 50%;
+  }
+  .main .bg-box span {
+    width: 14%;
+    height: 20%;
+  }
+  .main .bg-box span:nth-child(1){
+    height: 20%;
+  }
+  .main .bg-box span:nth-child(2) {
+    height: 20%;
+  }
+  .main .bg-box span:nth-child(4) {
+    width: 20%;
+    left: 12%;
   }
 }
 @media (max-width: 1000px) {
@@ -71,6 +83,7 @@
     position: initial;
     margin-bottom: 20px;
   }
+  
 }
 @media (max-width: 768px) {
     body.active {

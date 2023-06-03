@@ -24,17 +24,17 @@ body {
 }
 .line-items {
     display: flex;
-justify-self: revert;
-justify-self: baseline;
-justify-content: center;
-align-items: center;
+    justify-self: revert;
+    justify-self: baseline;
+    justify-content: center;
+    align-items: center;
 }
 // Cony
 .cony {
   overflow:hidden;
   width:400px;
 
-  .cony_inner {
+  &_inner {
     position:relative;
     height:390px;
     .head {

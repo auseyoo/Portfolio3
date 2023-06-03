@@ -1,5 +1,6 @@
 /* Fontawesome 4.7 */
-@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+/* @import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'); */
+
 
 /* XEICON CDN */
 @import url('http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css');
@@ -11,22 +12,25 @@
     url("/font/LuckiestGuy-Regular.ttf");
   font-weight: bold;
 }
+* {
+  font-family: 'Pretendard-Regular', sans-serif;
+}
 html, body {
     overflow-x: hidden;
 }
-
 body {
     margin: 0;
     padding: 0;
     background: #f2f2f2;
-    font-family: 'Pretendard-Regular', sans-serif;
-    font-weight: normal;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.6em;
     color: #222;
 }
 body,h1,h2,h3,h4,h5,p {
   margin: 0;
 }
-p {
+p, button {
   padding: 0;
 }
 body, p, ul {
@@ -45,6 +49,12 @@ ul {
 }
 html {
   scroll-behavior: smooth;
+}
+img {
+  width: 100%;
+}
+input, button {
+  outline: none;
 }
 /************* Font *************/
 @font-face {
@@ -92,6 +102,7 @@ h3 {
   opacity: 0;
   visibility: hidden;
   transition: 0.5s;
+  pointer-events: none;
 }
 
 /************* Header *************/
@@ -257,13 +268,13 @@ header.dark .trigger {
   width: 200px;
   height: 300px;
   border-radius: 30px;
-  box-shadow: 0 0 20px #222;
+  box-shadow: 0 0 2px #222;
 }
 .main .bg-box span:nth-child(1) {
   height: 400px;
   top: 200px;
   left:-30px;
-  background: url(../images/bg-box1.jpg) no-repeat 0 0 / 100%;
+  background: url(../images/bg-box1.jpg) no-repeat 0 0 / 100% 100%;
   border-radius: 0 30px 30px 0;
 }
 .main .bg-box span:nth-child(2){
@@ -273,17 +284,21 @@ header.dark .trigger {
   border-radius: 30px 0 0 30px;
 }
 .main .bg-box span:nth-child(3){
+  width: 300px;
+  height: 200px;
   right: 6%;
   bottom:30px;
-  transform: rotate(90deg);
   background: url(../images/bg-box3.jpg) no-repeat 0 0 / 100% 100%;
 }
 .main .bg-box span:nth-child(4){
+  width: 210px;
   height: 110px;
+  left: 10%;
   bottom:0;
-  transform: rotate(180deg);
+  transform: rotate(360deg);
   background: url(../images/bg-box4.jpg) no-repeat 0 0 / 100% 100%;
-  border-radius: 0 0 30px 30px;
+  border-radius: 30px 30px 0 0;
+  box-shadow: 0 0 17px -7px #222;
 }
 
 
@@ -419,13 +434,15 @@ header.dark .trigger {
   margin-bottom: 0;
 }
 .aboutme ul li {
-  color: #FFC6EC;
+  color: #0a033c;
+  transform: translate(-50%, -50%) scale(0.7);
+  
   padding: 10px 0;
   font-size: 1em;
   overflow: hidden;
 }
 .aboutme ul .date {
-  color:#fff;
+  color:#828792;
   float: right;
 }
 .aboutme h2 {
@@ -439,20 +456,24 @@ header.dark .trigger {
 .Portfolio .modal-notice {
   display: inline-block;
   width: 300px;
-  border: 1px solid #000;
-  border-radius: 10px;
-  overflow: hidden;
+  height: 250px;
 }
 .Portfolio .modal-notice img {
   width: 100%;
+  margin-bottom: -3px;
 }
 .Portfolio .container {
   flex-wrap: wrap;
 }
 .port {
+  display: inline-block;
   margin: 30px;
   box-sizing: border-box;
-
+  box-shadow: 0px 3px 6px 0px rgba(232,239,242,.5);
+  border: 1px solid #f1f4f5;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 /************* About *************/
@@ -469,7 +490,6 @@ header.dark .trigger {
   height: 373px;
   border-radius: 10px;
   transition: 0.5s;
-  background: #fff;
   text-align: center;
   box-sizing: border-box;
 }
@@ -601,7 +621,7 @@ header.dark .trigger {
   max-width: 1440px;
   height: 80%;
   position: absolute;
-  padding: 10px 30px;
+  padding: 10px 15px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -613,19 +633,12 @@ header.dark .trigger {
   animation: slidefade 0.35s linear;
   overflow: hidden;
 }
-.modal-item {
-  position: absolute;
-    top: 0;
-    left: 0;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 99%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    box-sizing: border-box;
-    padding: 10px 30px;
-    height: 95%;
+.modal-item {  
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 10px 0;
+  height: 92%;
 }
 .modal-item::-webkit-scrollbar { width: 8px;}
 .modal-item::-webkit-scrollbar-thumb { background: #636C78;}
@@ -634,18 +647,31 @@ header.dark .trigger {
   overflow-y: auto;
   height: 100%;
 }
+.modal-header {
+  padding: 15px 0;
+}
+.modal-header h4 {
+  font-size: 20px;
+}
 .btn-close {
   position: absolute;
-  top:10px;
-  right: 10px;
-  
+  top: 11px;
+  right: 13px;
+  background-color: transparent;
+  border: none;
+  font-size: 35px;
+  color: #999;
+  cursor: pointer;
+  outline: none;
+}
+.btn-close:hover {
+  color: #000;
 }
 .modal-content h4 {
   font-size: 30px;
-  margin-bottom: 20px;
 }
 .modal-content img {
-  max-width: 80%;
+  max-width: 73%;
 }
 .modal-content p {
   margin-bottom: 30px;
@@ -733,17 +759,16 @@ header.dark .trigger {
   float: left;
   border: 3px solid red;
   width: 50%;
-  height: 200px;
+  height: 400px;
   box-sizing: border-box;
   text-align: center;
   line-height: 200px;
-  font-size: 3em;
 }
 .parent .bg {
   position: relative;
 
 }
-.parent .bg:after {
+/* .parent .bg:after {
   content: '';
   background: #000;
   width: 300px;
@@ -753,7 +778,7 @@ header.dark .trigger {
   left: 0;
   opacity: 0.045;
 
-}
+} */
 .ltr {
   animation: ltr 1s linear both;
 }

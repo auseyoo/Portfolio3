@@ -18,7 +18,7 @@ $(function(){
   $('.trigger').click(function(){
     $('.gnb, body, .overlay').toggleClass('active')
     $(this).toggleClass('active')
-  })
+  }) 
   // Overlay
   $('.overlay, .gnb a').click(function(){
     $('.gnb, .trigger, body, .overlay').removeClass('active')
@@ -26,10 +26,12 @@ $(function(){
 
   // Modal
   $('.modal-notice').click(function(){
-      $('.modal').fadeIn()
+      $(this).siblings('.modal').fadeIn()
+      $('html').css({"overflow": "hidden"})
   })
-  $('.btn-close').click(function(){
+  $('.btn-close, .modal').click(function(){
       $('.modal').fadeOut()
+      $('html').css({"overflow": "auto"})
   })
 
   // Tab 
