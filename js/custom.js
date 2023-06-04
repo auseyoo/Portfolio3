@@ -38,6 +38,10 @@ $(function(){
       $(this).siblings('.modal').fadeIn()
       $('html').css({"overflow": "hidden"})
   })
+  $('.modal-notice2').click(function(){
+    $(this).parent().siblings('.modal').fadeIn()
+    $('html').css({"overflow": "hidden"})
+})
   $('.btn-close, .modal').click(function(){
       $('.modal').fadeOut()
       $('html').css({"overflow": "auto"})
