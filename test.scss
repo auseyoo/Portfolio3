@@ -1,7 +1,7 @@
 $naver_color : #2db400;
 $ear_color : #F3859B;
 $sally_color: #FFD439;
-$brown_color: #FFD439;
+$brown_color: #6C483B;
 
 body {
   margin: 0;
@@ -16,6 +16,10 @@ body {
 .line-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    /* height: 100vh; */
+    justify-content: space-between;
 }
 .line-container h1 {
     font-size: 7.5em;
@@ -238,7 +242,6 @@ body {
       }
     }
     .body {
-      display:none;
       position: absolute;
       top: 70%;
       left: 34%;
@@ -251,11 +254,13 @@ body {
 
       .arms {
         position: absolute;
-        top: 80px;
-        left: 10px;
-        width: 100px;
-        height: 250px;
-        transform: rotate(18deg);
+        right: -10%;
+        width: 156px;
+        height: 48px;
+        background: #fff;
+        transform: rotate(-88deg);
+        border: 5px solid #ccc;
+        border-radius: 50% 50% 50% 30%;
 
         .arm {
           position: absolute;
@@ -271,6 +276,7 @@ body {
         .arm-left {
           top: 51px;
           left: -72px;
+          z-index: -1;
         }
         .arm-right {
           top: -21px;
@@ -278,6 +284,7 @@ body {
           width: 103px;
           border-bottom-right-radius: 271px;
           border-bottom-left-radius: 200px;
+          border-width: 0px 1px 5px 4px;
         }
       }
       .hand {
@@ -569,6 +576,8 @@ body {
 .sally {
     position: relative;
     z-index: 10;
+    align-self: flex-end;
+    margin-left: -69px;
   
     .sally_inner {
       position: relative;

@@ -287,7 +287,9 @@ header.dark .trigger.active {
 .main .container { 
   height: 100%;
 }
-.main .bg-box {}
+.main .bg-box {
+  display: none;
+}
 .main .bg-box span {
   position: absolute;
   width: 200px;
