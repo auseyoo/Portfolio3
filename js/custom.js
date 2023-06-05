@@ -3,6 +3,7 @@ $(function(){
   $(window).scroll(function(){
     if($(window).scrollTop() > 50){
       $('header').addClass('dark')
+      // $('gnb').css({"display":"block"})
     }
     else {
       $('header').removeClass('dark')
@@ -112,4 +113,4 @@ function gnb_wrap(){
   } else {
     $('gnb').siblings(this).addClass('active')
   }
-  }
+}

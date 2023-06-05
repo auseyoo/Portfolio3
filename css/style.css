@@ -156,13 +156,14 @@ header nav {
   align-items: center;
   max-width: 1700px;
   margin: 0 auto;
+  height: 65px;
 }
 header .logo {
   padding-left: 20px;
 }
 header .logo a {
   color:#fff;
-  font-size: 40px;
+  font-size: 32px;
   font-family: 'Pacifico';
 }
 header.dark {
@@ -245,8 +246,11 @@ header.dark .trigger {
   color:#fff;
   top: 19px;
 }
-header.dark .trigger.active {
-  color:#000;
+header.dark .line {
+  background: #fff;
+}
+header.dark .trigger.active .line {
+  background:#000;
 }
 /************* Slider *************/
 .myslider {
@@ -303,6 +307,7 @@ header.dark .trigger.active {
 }
 .main .container { 
   height: 100%;
+  padding-top: 65px;
 }
 
 .main .bg-box {
