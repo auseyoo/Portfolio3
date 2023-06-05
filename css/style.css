@@ -505,7 +505,7 @@ header.dark .trigger.active .line {
   overflow: hidden;  
 }
 .port {
-  margin: 28px;
+  margin: 6% 2%;
   box-sizing: border-box;
   box-shadow: 0px 3px 6px 0px rgba(232,239,242,.5);
   border: 1px solid #f1f4f5;
@@ -513,7 +513,7 @@ header.dark .trigger.active .line {
   border-radius: 8px;
   overflow: hidden;
   float: left;
-  width: 30%;
+  width: 29%;
   max-height: 400px;
   position: relative;
 }

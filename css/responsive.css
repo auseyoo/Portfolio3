@@ -50,9 +50,6 @@
     width: 20%;
     left: 12%;
   }
-  header nav {
-    
-  }
   .gnb {
     visibility: hidden;
     background-color: #fff;
@@ -88,6 +85,11 @@
   }
   .Skill .card {
     width: 50%;
+  }
+  .port-box-hover div {
+    left: 4%;
+    bottom: 7%;
+
   }
 }
 @media (max-width: 1000px) {
@@ -133,7 +135,6 @@
     flex-wrap: wrap;
   }
   .Portfolio .modal-notice {
-    width: 88%;
     height: 100%;
   }
   
