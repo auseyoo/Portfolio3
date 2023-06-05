@@ -50,18 +50,22 @@
     width: 20%;
     left: 12%;
   }
+  header nav {
+    
+  }
   .gnb {
+    display: none;
     background-color: #fff;
     position: absolute;
-    right: 0;
+    right: -100%;
     top: 0;
     height: 100vh;
-    width: 100px;
+    width: 100%;
     box-shadow: 10px 0 20px rgba(0, 0, 0, 0.219);
-    right: calc(-100% - 60px);
+    /* right: calc(-100% - 60px); */
     transition: 0.5s;
-    padding-top: 100px;
-    flex-basis: auto;
+    /* padding-top: 100px; */
+    /* flex-basis: auto; */
     flex-direction: column;
     justify-content: center;
   }
@@ -71,16 +75,16 @@
     color: #000;
   }
   .gnb.active {
-    width: calc(100% + 60px);
-    right: -30px;
+    display: flex;
+    right: 0;
   }
-  .gnb.active a {
+  .gnb a {
     height: auto;
     padding: 22px 8px;
   }
   /* Trigger */
   .trigger {
-    display: block;
+    display: flex;
   }
   .trigger.active {
     color: #000;
