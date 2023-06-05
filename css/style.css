@@ -5,6 +5,7 @@
 /* XEICON CDN */
 @import url('http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css');
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
 /* Font */
 @font-face {
   font-family: 'Pretendard-Regular';
@@ -42,6 +43,7 @@ body {
     font-size: 15px;
     line-height: 1.4;
     color: #222;
+    letter-spacing: -0.3px;
 }
 body,h1,h2,h3,h4,h5,p,blockquote {
   margin: 0;
@@ -76,14 +78,9 @@ img {
 input, button {
   outline: none;
 }
-/************* Font *************/
 
 
 /************* Scroll *************/
-/* ::-webkit-scrollbar { width: 8px;}
-::-webkit-scrollbar-thumb { background: #636C78;}
-::-webkit-scrollbar-track { background: #E5E4E4;} */
-
 .wrap {
   margin: auto;
 }
@@ -134,28 +131,7 @@ header {
     left: 0;
     right: 0;
     top: 0;
-    
-    /* z-index: 9;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    display: flex;
-    justify-content: center;
-    transition: transform .5s ease-out; */
 }
-/* header .inner {
-    position: relative;
-    display: flex;
-    width: calc(100% - 60px);
-    max-width: 1783px;
-    height: 100px;
-    background-color: transparent;
-    align-items: end;
-    justify-content: space-between;
-    box-sizing: border-box;
-    transition: 0.3s;
-} */
 header nav {
   display: flex;
   justify-content: center;
@@ -221,7 +197,6 @@ header.dark .gnb a.active {
   transform: translateX(-50%);
   transition: 0.5s;
 }
-
 .gnb a:hover:before,
 .gnb a.active:before {
   width: 100%;
@@ -229,7 +204,6 @@ header.dark .gnb a.active {
 .gnb a.active {
   color:crimson;
 }
-
 
 /* Trigger */
 .trigger {
@@ -303,7 +277,6 @@ header.dark .trigger.active .line {
   content: "\f054";
 }
 
-
 /* BG Video */
 .main {
   display: block;
@@ -359,15 +332,6 @@ header.dark .trigger.active .line {
 }
 .main-img {
 }
-/* .main .video {
-  position: relative;
-  width: 50%;
-  height: 100%;
-  overflow: hidden;
-  float: left;
-  aspect-ratio: auto 1/1;
-  display: none;
-} */
 .main .right {
   text-align-last: left;
 }
@@ -413,22 +377,10 @@ header.dark .trigger.active .line {
 
 /* AboutMe */
 .aboutme {
-  /* background: transparent linear-gradient(90deg, #2D55D6 0%, #DB3885 100%) 0% 0% no-repeat padding-box; */
 }
 .aboutme .container {
   justify-content: space-evenly;
 }
-/* .aboutme .container:before {
-  content: "";
-  position: absolute;
-  width: 55.5rem;
-  height: 82rem;
-  left: 0;
-  top: 0;
-  background: url(../images/about-bg.png) 0 0/100% no-repeat;
-  animation: rotate 15s infinite linear;
-  opacity: 0.2;
-} */
 .aboutme .item {
   display: flex;
   justify-content: center;
@@ -619,32 +571,6 @@ header.dark .trigger.active .line {
 .card .content p {
   font-size:16px;
 }
-/* .card:hover .card .content {
-  top:0;
-}
-.card:hover {
-  transform: translateY(-20px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.21);
-} */
-/* .card .sns a {
-  border: 1px solid #fff;
-  border-radius: 50%;
-  box-sizing: border-box;
-  display: inline-block;
-  text-align: center;
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
-  color:#fff;
-  font-size: 13px;
-} */
-/* .card:nth-child(2) .card .content {
-  background: linear-gradient(to top, dodgerblue, transparent);
-}
-.card:nth-child(3) .card .content {
-  background: linear-gradient(to top, yellowgreen, transparent);
-} */
-
 
 /************* Skill *************/
 .Skill .container {
@@ -880,17 +806,6 @@ header.dark .trigger.active .line {
   position: relative;
 
 }
-/* .parent .bg:after {
-  content: '';
-  background: #000;
-  width: 300px;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0.045;
-
-} */
 .ltr {
   animation: ltr 1s linear both;
 }
@@ -907,11 +822,11 @@ aside {
   height: 40px;
   background-color: #fc6060;
   text-align: center;
-  /* transition-duration: 500ms; */
   border-radius: 50%;
   z-index: 10;
 }
 aside a {
+  display: block;
   color:#fff;
   font-size: 14px;
 }
@@ -942,6 +857,9 @@ footer p {
   margin: 0;
 }
 
+
+
+/************* Keyframes *************/
 @keyframes ltr {
   0% {
     opacity: 0;
@@ -962,13 +880,6 @@ footer p {
     transform: translateX(0);
   }
 }
-
-
-
-
-
-
-/************* Keyframes *************/
 @keyframes slidefade{
   0% {
     opacity: 0;
