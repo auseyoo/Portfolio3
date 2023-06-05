@@ -4,7 +4,7 @@
 
 /* XEICON CDN */
 @import url('http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css');
-
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 /* Font */
 @font-face {
   font-family: "Luckiest Guy";
@@ -13,7 +13,7 @@
   font-weight: bold;
 }
 * {
-  font-family: 'Pretendard-Regular', sans-serif;
+  font-family: 'Pretendard-Regular', 'Luckiest Guy', sans-serif;
 }
 html, body {
     overflow-x: hidden;
@@ -154,6 +154,8 @@ header nav {
   justify-content: center;
   justify-content: space-between;
   align-items: center;
+  max-width: 1700px;
+  margin: 0 auto;
 }
 header .logo {
   padding-left: 20px;
@@ -161,6 +163,7 @@ header .logo {
 header .logo a {
   color:#fff;
   font-size: 40px;
+  font-family: 'Pacifico';
 }
 header.dark {
   padding: 0;
@@ -187,6 +190,7 @@ header.dark .gnb a.active {
     align-items: center;
     justify-content: space-between;
     flex-basis: 100px;
+    transition: 0.3s;
 }
 .gnb a {
     width: 85px;
@@ -293,11 +297,8 @@ header.dark .trigger.active {
 /* BG Video */
 .main {
   display: block;
-  height: calc(100vh - 60px);
-  margin: 30px;
   padding: 0;
   background: #636c78;
-  border-radius: 10px;
   position: relative;
 }
 .main .container { 
