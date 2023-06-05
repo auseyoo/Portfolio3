@@ -505,22 +505,8 @@ header.dark .trigger.active .line {
 }
 
 /************* Portfolio *************/
-.Portfolio .modal-notice {
-  display: block;
-  padding-left: 40px;
-  box-sizing: border-box;
-}
-.Portfolio .text {
-  position: absolute;
-  left: 0;
-  writing-mode: vertical-rl;
-  font-family: 'Tilt Prism', cursive;
-  font-size: 30px;
-}
-.Portfolio .modal-notice img {
-  display: block;
-  width: 100%;
-  height: 100%;
+.Portfolio h2 {
+  margin-bottom: -2%;
 }
 .Portfolio .container {
   display: block;
@@ -539,7 +525,23 @@ header.dark .trigger.active .line {
   max-height: 400px;
   position: relative;
 }
-
+.Portfolio .modal-notice {
+  display: block;
+  padding-left: 40px;
+  box-sizing: border-box;
+}
+.Portfolio .text {
+  position: absolute;
+  left: 0;
+  writing-mode: vertical-rl;
+  font-family: 'Tilt Prism', cursive;
+  font-size: 30px;
+}
+.Portfolio .modal-notice img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .port-box-hover {
   position: absolute;
   top: 0;
@@ -654,13 +656,20 @@ header.dark .trigger.active .line {
 
 /************* Skill *************/
 .Skill .container {
+  align-items: start;
+}
+.Skill .row {
   display: flex;
-  flex-wrap: wrap;
+  margin: 0 auto;
+  justify-content: center;
 }
 .Skill .card {
   width: 30%;
-  height: 256px;
-  border-radius: 0;
+  height: auto;
+  border-radius: 10px;
+  background: #fff;
+  margin: 20px;
+  box-sizing: border-box;
 }
 .Skill .card .content {
   position: static;
