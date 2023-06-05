@@ -2,6 +2,9 @@
 @media (min-width: 1300px) {
   .aboutme ul li {
   }
+  section {
+    margin-bottom: 100px;
+  }
 }
 @media (max-width: 1300px) {
   body {
@@ -10,13 +13,7 @@
 }
 @media (max-width: 1280px) {
   .main .right p {
-    font-size: 3em;
-  }
-  .main .right div {
-    font-size: 1.3em;
-  }
-  .aboutme ul li {
-
+    font-size: 2em;
   }
   /* .aboutme h3 {
     height: 1px;
@@ -26,8 +23,6 @@
     clip: rect(1px 1px 1px 1px);
     margin: 0;
   } */
-  .aboutme ul {
-  }
 }
 @media (max-width: 1024px) {
   .about2 {
@@ -36,6 +31,7 @@
   .card {
     width: 50%;
   }
+  
   .main .bg-box span {
     width: 14%;
     height: 20%;
@@ -83,6 +79,9 @@
   .trigger.active {
     color: #000;
   }
+  .port {
+    width: 46%;
+  }
   .port-box-hover div {
     left: 4%;
     bottom: 7%;
@@ -91,18 +90,21 @@
 }
 @media (max-width: 1000px) {
   .main .right {
-    height: 300px;
     padding: 30px 0;
   }
   .container.type02 {
     flex-direction: column;
   }
   .aboutme .list {
-    aspect-ratio: initial;
     padding: 50px 0;
+    width: 100%;
   }
 }
 @media (max-width: 768px) {
+  section {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
   body.active {
     overflow: hidden;
   }
@@ -115,6 +117,9 @@
   .card {
     width: 100%;
     display: inline-block;
+  }
+  .Skill .row {
+    flex-wrap: wrap;
   }
   .Skill .card {
     width: 100%;
@@ -130,6 +135,10 @@
   }
   .about2 .container {
     flex-wrap: wrap;
+  }
+  .port {
+    width: 100%;
+    margin: 6% 0;
   }
   .Portfolio .modal-notice {
     height: 100%;
