@@ -961,15 +961,15 @@ header.dark .trigger.active .line {
 /* Top button */
 aside {
   position: fixed;
-  bottom:15px;
-  right:15px;
+  bottom:4%;
+  right:2%;
   line-height: 40px;
   width: 40px;
   height: 40px;
   background-color: #fc6060;
   text-align: center;
   border-radius: 50%;
-  z-index: 100;
+  z-index: 1000;
 }
 aside a {
   display: block;
