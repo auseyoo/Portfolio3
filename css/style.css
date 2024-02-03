@@ -473,8 +473,9 @@ header.dark .trigger.active .line {
   overflow: hidden;
   float: left;
   width: 29%;
-  max-height: 400px;
+  height: 295px;
   position: relative;
+  cursor: pointer;
 }
 .Portfolio .modal-notice {
   display: block;
@@ -485,8 +486,9 @@ header.dark .trigger.active .line {
   position: absolute;
   left: 0;
   writing-mode: vertical-rl;
-  font-family: 'Tilt Prism', cursive;
+  /* font-family: 'Tilt Prism', cursive; */
   font-size: 30px;
+  transform: rotate(180deg);
 }
 .Portfolio .modal-notice img {
   display: block;
@@ -735,6 +737,7 @@ header.dark .trigger.active .line {
   background: #fff;
   margin: 20px;
   box-sizing: border-box;
+  flex: 1;
 }
 .Skill .card .content {
   position: static;
@@ -802,9 +805,9 @@ header.dark .trigger.active .line {
   display: block;
 }
 .modal-content {
-  width: 97%;
+  width: 100%;
   max-width: 1440px;
-  height: 80%;
+  height: 100%;
   position: absolute;
   padding: 10px 5px;
   top: 50%;
@@ -818,6 +821,7 @@ header.dark .trigger.active .line {
   animation: slidefade 0.35s linear;
   overflow: hidden;
   padding-top: 67px;
+  cursor: initial;
 }
 .modal-item {  
   overflow-x: hidden;
@@ -834,7 +838,7 @@ header.dark .trigger.active .line {
   height: 100%;
 }
 .modal-header {
-  padding: 15px 32px 15px 0;
+  /* padding: 15px 32px 15px 0;/// */
 }
 .modal-header h4 {
   font-size: 20px;
@@ -975,7 +979,7 @@ aside {
   background-color: #fc6060;
   text-align: center;
   border-radius: 50%;
-  z-index: 1000;
+  z-index: 1;
 }
 aside a {
   display: block;

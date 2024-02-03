@@ -39,8 +39,8 @@ $(function(){
       $(this).siblings('.modal').fadeIn()
       $('html').css({"overflow": "hidden"})
   })
-  $('.modal-notice2').click(function(){
-    $(this).parent().siblings('.modal').fadeIn()
+  $('.port-box-hover').click(function(){
+    $(this).siblings('.modal').fadeIn()
     $('html').css({"overflow": "hidden"})
 })
   $('.btn-close, .modal').click(function(){
