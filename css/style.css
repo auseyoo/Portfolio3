@@ -186,6 +186,7 @@ header.dark .gnb a.active {
     position: relative;
     font-size: 20px;
     text-align: center;
+    color: #fff;
 }
 .gnb a:before {
   content: '';
@@ -282,7 +283,7 @@ header.dark .trigger.active .line {
 /* BG Video */
 .main {
   display: block;
-  background: #fff;
+  background: #343a40;
   position: relative;
 }
 .main .container { 
@@ -340,6 +341,7 @@ header.dark .trigger.active .line {
 .main .right p {
   margin-bottom: 50px;
   font-size: 50px;
+  color:#fff;
 }
 .main .right span {
   color: #FED7E1;
@@ -348,6 +350,7 @@ header.dark .trigger.active .line {
   width: 100%;
   line-height: 1.5;
   font-size: 15px;
+  color:#f8f9fa;
 }
 .video-frame {
   height: 100%;
@@ -410,7 +413,7 @@ header.dark .trigger.active .line {
 .aboutme .item p:before {
   content: '';
   position: absolute;
-  bottom: -10px;
+  bottom: -2px;
   left: -10px;
   height: 15px;
   background: #e581bd;
@@ -446,8 +449,10 @@ header.dark .trigger.active .line {
   float: right;
 }
 .aboutme h3 {
-  font-size: 1.5em;
   margin-bottom: 20px;
+  font-size: 1.5em;
+  color: #17a2b8;
+  font-weight: 600;
 }
 
 /************* Portfolio *************/
@@ -710,6 +715,7 @@ header.dark .trigger.active .line {
   font-weight: bold;
 }
 .card .content p {
+  padding: 0 50px;
   font-size:16px;
 }
 
