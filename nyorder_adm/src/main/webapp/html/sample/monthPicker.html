@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>월달력 샘플</title>
+</head>
+<link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
+<link href="/css/lib/MonthPicker.min.css" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<link href="../sample/css/MonthPicker.min.css" rel="stylesheet" type="text/css">
+<script src="../sample/js/MonthPicker.min.js"></script>
+<!-- 
+샘플페이지
+https://kidsysco.github.io/jquery-ui-month-picker/
+ -->
+<script type="text/javascript">
+	$(document).ready(function(){
+		var options = {
+				MonthFormat: 'yy-mm',
+				ShowIcon: false,
+				i18n: {
+					year: '년도',
+					prevYear: '이전년도',
+					nextYear: '다음년도',
+					next12Years: '다음 12년',
+					prev12Years: '이전 12년',
+					nextLabel: '다음',
+					prevLabel: '이전',
+					buttonText: 'Open Month Chooser',
+					jumpYears: '년도로 이동',
+					backTo: '뒤로',
+					months: ['1 월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+				}
+		};
+		$('#monthPicker').MonthPicker(options);
+	});
+</script>
+<body>
+	<input type="text" value="" id="monthPicker">
+</body>
+</html>

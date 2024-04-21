@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>ADMIN 남양유업 대리점 주문시스템</title>
+<link rel="stylesheet" type="text/css" href="../css/AUIGrid/grid_custom.css"/>
+<link rel="stylesheet" type="text/css" href="../css/layout.css"/>
+<script type="text/javascript" src="../js/lib/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/lib/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGridLicense.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGrid.js"></script>
+<script type="text/javascript" src="../js/common_ui.js"></script>
+<script type="text/javascript">
+	var myGridID;
+	var gridData = [
+		{"id":"#Cust0","agenCd":"X00002","agenNm":"남유업","service":"알림톡","rcvNm":"010-***-1595","sedNm":" 043-225-4444","askTm":"","sedTm":"","result":"성공"},
+		{"id":"#Cust1","agenCd":"X00002","agenNm":"남유업","service":"알림톡","rcvNm":"010-***-1595","sedNm":" 043-225-4444","askTm":"","sedTm":"","result":"실패"},
+		{"id":"#Cust0","agenCd":"X00002","agenNm":"남유업","service":"알림톡","rcvNm":"010-***-1595","sedNm":" 043-225-4444","askTm":"","sedTm":"","result":"에러"},
+		{"id":"#Cust1","agenCd":"X00002","agenNm":"남유업","service":"알림톡","rcvNm":"010-***-1595","sedNm":" 043-225-4444","askTm":"","sedTm":"","result":"진행 중"},
+		{"id":"#Cust0","agenCd":"X00002","agenNm":"남유업","service":"알림톡","rcvNm":"010-***-1595","sedNm":" 043-225-4444","askTm":"","sedTm":"","result":"성공"},
+		{"id":"#Cust1","agenCd":"X00002","agenNm":"남유업","service":"알림톡","rcvNm":"010-***-1595","sedNm":" 043-225-4444","askTm":"","sedTm":"","result":"성공"},
+		{"id":"#Cust0","agenCd":"X00002","agenNm":"남유업","service":"알림톡","rcvNm":"010-***-1595","sedNm":" 043-225-4444","askTm":"","sedTm":"","result":"성공"},
+		{"id":"#Cust1","agenCd":"X00002","agenNm":"남유업","service":"알림톡","rcvNm":"010-***-1595","sedNm":" 043-225-4444","askTm":"","sedTm":"","result":"성공"},
+		{"id":"#Cust0","agenCd":"X00002","agenNm":"남유업","service":"알림톡","rcvNm":"010-***-1595","sedNm":" 043-225-4444","askTm":"","sedTm":"","result":"성공"},
+		{"id":"#Cust1","agenCd":"X00002","agenNm":"남유업","service":"알림톡","rcvNm":"010-***-1595","sedNm":" 043-225-4444","askTm":"","sedTm":"","result":"성공"},
+	];
+
+
+	$(document).ready(function(){
+        // AUIGrid 생성 후 반환 ID
+        createAUIGrid();
+        // 데이터 요청, 요청 성공 시 AUIGrid 에 데이터 삽입합니다.        
+        
+		AUIGrid.setGridData(myGridID, gridData);
+	    //AUIGrid.setFooter(myGridID, footerLayout);
+    });
+
+	// AUIGrid 를 생성합니다.
+	function createAUIGrid() {
+		// 그리드 속성 설정
+		var gridPros = {
+				headerHeight : 29,
+				rowHeight : 29,
+				// 편집 가능 여부 (기본값 : false)
+				editable : false,
+				// 엔터키가 다음 행이 아닌 다음 칼럼으로 이동할지 여부 (기본값 : false)
+				enterKeyColumnBase : true,
+				// 셀 선택모드 (기본값: singleCell)
+				selectionMode : "singleRow",
+				//showFooter : true,
+				// 컨텍스트 메뉴 사용 여부 (기본값 : false)
+				useContextMenu : true,
+				// 필터 사용 여부 (기본값 : false)
+				enableFilter : true,
+				// 그룹핑 패널 사용
+				useGroupingPanel : false,
+				
+				// 그룹핑 또는 트리로 만들었을 때 펼쳐지게 할지 여부 (기본값 : false)
+				displayTreeOpen : true,
+				
+				noDataMessage : "출력할 데이터가 없습니다.",
+				
+				groupingMessage : "여기에 칼럼을 드래그하면 그룹핑이 됩니다."
+		};
+		
+        // 실제로 #grid_wrap 에 그리드 생성
+        myGridID = AUIGrid.create("#grid_wrap", columnLayout, gridPros);
+
+        // 행 추가 이벤트 바인딩 
+	    AUIGrid.bind(myGridID, "addRow", auiAddRowHandler);
+		
+	}
+
+	var columnLayout = [{
+			dataField : "agenCd",
+			headerText : "대리점코드",
+            width : "10%",
+        },{
+			dataField : "agenNm",
+			headerText : "대리점명",
+			width : "10%",	
+		},{
+			dataField : "service",
+			headerText : "서비스",
+			width : "10%",
+        },{
+			dataField : "rcvNm",
+			headerText : "수신번호",
+			width : "12%",
+        },{
+			dataField : "sedNm",
+			headerText : "발신번호",
+			width : "12%",
+        },{
+			dataField : "askTm",
+			headerText : "요청/예약시간",
+        },{
+			dataField : "sedTm",
+			headerText : "발송/완료시간",
+        },{
+			dataField : "result",
+			headerText : "결과",
+			width : "10%"
+		}
+	];
+
+    
+
+    // 행 추가 이벤트 핸들러
+    function auiAddRowHandler(event) {
+        //alert(event.type + " 이벤트\r\n" + "삽입된 행 인덱스 : " + event.rowIndex + "\r\n삽입된 행 개수 : " + event.items.length);
+        document.getElementById("rowInfo").innerHTML = (event.type + " 이벤트 :  " + "삽입된 행 인덱스 : " + event.rowIndex + ", 삽입된 행 개수 : " + event.items.length);
+    };
+
+    // 행 추가, 삽입
+    function addRow() {
+        var rowPos = document.getElementById("addSelect").value;
+        
+        var item = new Object();
+        item.areaCd = "AUI-" + (++cnt),
+        item.AREA_NM = countries[cnt % countries.length],
+        item.sellerNm = colors[cnt % colors.length],
+        item.order = products[cnt % products.length],
+        item.course = Math.floor(Math.random() * 1000000),
+        item.telNm = "2015/03/05"
+
+        // parameter
+        // item : 삽입하고자 하는 아이템 Object 또는 배열(배열인 경우 다수가 삽입됨)
+        // rowPos : rowIndex 인 경우 해당 index 에 삽입, first : 최상단, last : 최하단, selectionUp : 선택된 곳 위, selectionDown : 선택된 곳 아래
+        AUIGrid.addRow(myGridID, item, rowPos);
+    };
+</script>
+</head>
+<body>
+
+<div class="modal_bg" style="display:block"></div> <!-- modal 배경 -->
+
+		<!-- 발송 상세 -->
+		<div class="popWrap large modal_wrap h520" data-popup="modalAgencyViews01" style="display:block; left:0; right:0; margin:170px auto;">
+			<header>
+				<h3>발송 상세</h3>
+				<button type="button" name="" class="closeBtn" id="modalCloseBtn"></button>
+			</header>  
+
+			<div class="popCon">
+				<div class="popTitArea">
+					<h3>발송 상세</h3>
+
+					<div class="popBtnArea">
+						<button type="button" name="" class="comBtn">엑셀다운</button>
+						<button type="button" name="" class="comBtn modalCloseBtn" id="modalCloseBtn">닫기</button>                   
+					</div>
+				</div>
+
+				<p class="numState">
+					<em>총 <span class="pColor01 fb">123</span></em> 건 이 조회되었습니다.
+				</p>
+
+				<!-- grid -->
+				<div class="girdBox">
+					<div id="grid_wrap"></div>
+				</div>
+				<!-- grid -->
+
+			</div>
+		</div>
+		<!-- 발송 상세 -->
+
+</body>
+</html>

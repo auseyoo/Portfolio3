@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.prmt.dao.PrmtAgenRqstMapper">
+
+	<select id="selectPrmtAgenRqstList" parameterType="com.namyang.nyorder.prmt.vo.PrmtAgenRqstVO" resultType="com.namyang.nyorder.prmt.vo.PrmtAgenRqstVO">
+		/* PrmtAgenRqst-Mapper - selectPrmtAgenRqstList */
+	
+			SELECT
+				A.PRMT_AGEN_SEQ
+				, D.BHFC_SEQ
+				, E.BHFC_NM
+				, A.AGEN_SEQ
+				, C.AGEN_CD
+				, C.AGEN_NM 
+				, A.PUCH_SEQ
+				, A.PRD_SEQ
+				, A.PRMT_RQST_SEQ
+				, A.AGEN_BOX_QTY
+				, A.AGEN_IDDY_QTY
+				, CONVERT(CHAR(8), A.AGEN_ORD_DTM, 112) AS AGEN_ORD_DTM
+				, CASE WHEN A.BHFC_DCSN_DTM IS NULL THEN A.AGEN_BOX_QTY ELSE A.BHFC_BOX_QTY END BHFC_BOX_QTY
+				, CASE WHEN A.BHFC_DCSN_DTM IS NULL THEN A.AGEN_IDDY_QTY ELSE A.BHFC_IDDY_QTY END BHFC_IDDY_QTY
+				, CONVERT(CHAR(8), A.BHFC_DCSN_DTM, 112) AS BHFC_DCSN_DTM
+				, CASE WHEN A.HOFF_DCSN_DTM IS NULL THEN A.BHFC_BOX_QTY ELSE A.HOFF_BOX_QTY END HOFF_BOX_QTY
+				, CASE WHEN A.HOFF_DCSN_DTM IS NULL THEN A.BHFC_IDDY_QTY ELSE A.HOFF_IDDY_QTY END HOFF_IDDY_QTY
+				, CONVERT(CHAR(8), A.HOFF_DCSN_DTM, 112) AS HOFF_DCSN_DTM
+				, B.PRD_SAP_CD 
+				, B.PRD_NM
+				, CASE WHEN B.PRTM_FREE_YN = 'Y' THEN '무상' 
+					ELSE '유상' 
+					END FREE_YN			/*유상여부*/
+				, B.FALT_QTY			/*입수량*/ 
+				, CASE WHEN B.FALT_ORD_YN = 'Y' THEN '가능' 
+					ELSE '불가'
+					END IDDY_ORD_YN		/*낱봉주문가능여부*/
+				, ((ISNULL(AGEN_BOX_QTY, 0) * B.FALT_QTY) + ISNULL(AGEN_IDDY_QTY, 0)) AS AGEN_QTY 	/*대리점입력수량*/
+				, CASE WHEN A.BHFC_DCSN_DTM IS NULL THEN ((ISNULL(AGEN_BOX_QTY, 0) * B.FALT_QTY) + ISNULL(AGEN_IDDY_QTY, 0))
+					ELSE ((ISNULL(BHFC_BOX_QTY, 0) * B.FALT_QTY) + ISNULL(BHFC_IDDY_QTY, 0)) 
+					END BHFC_QTY 	/*지점확정수량*/	
+				, CASE WHEN A.HOFF_DCSN_DTM IS NULL THEN ((ISNULL(BHFC_BOX_QTY, 0) * B.FALT_QTY) + ISNULL(BHFC_IDDY_QTY, 0))
+					ELSE ((ISNULL(HOFF_BOX_QTY, 0) * B.FALT_QTY) + ISNULL(HOFF_IDDY_QTY, 0)) 
+					END HOFF_QTY 	/*본사확정수량*/
+				, CASE WHEN A.BHFC_DCSN_DTM IS NULL THEN 0
+					ELSE (ISNULL((AGEN_BOX_QTY * B.FALT_QTY) + AGEN_IDDY_QTY, 0) - ISNULL((BHFC_BOX_QTY * B.FALT_QTY) + BHFC_IDDY_QTY, 0)) 
+					END DIFF_QTY_AB /*대리점-지점 차이수량*/
+				, CASE WHEN A.HOFF_DCSN_DTM IS NULL THEN (ISNULL((AGEN_BOX_QTY * B.FALT_QTY) + AGEN_IDDY_QTY, 0) - ISNULL((BHFC_BOX_QTY * B.FALT_QTY) + BHFC_IDDY_QTY, 0))
+					ELSE (ISNULL((AGEN_BOX_QTY * B.FALT_QTY) + AGEN_IDDY_QTY, 0) - ISNULL((HOFF_BOX_QTY * B.FALT_QTY) + HOFF_IDDY_QTY, 0)) 
+					END DIFF_QTY_AH /*대리점-본사 차이수량*/
+				, A.UPD_SEQ 
+				, CASE WHEN F.ADM_NM IS NOT NULL THEN F.ADM_NM 
+						ELSE ''
+						END UPD_NM			
+				, CASE WHEN F.ADM_NM IS NOT NULL THEN CONVERT(CHAR(8), A.UPD_DTM, 112) 
+						ELSE NULL
+						END UPD_DTM 
+			FROM
+				T_PRMT_AGEN_RQST A
+				INNER JOIN T_PRD_MST B ON A.PRD_SEQ = B.PRD_SEQ	
+				INNER JOIN T_AGEN_MST C ON A.AGEN_SEQ = C.AGEN_SEQ	
+				INNER JOIN T_BHFC_AGEN D ON D.AGEN_SEQ = A.AGEN_SEQ 
+				INNER JOIN T_BHFC_MST E ON E.BHFC_SEQ = D.BHFC_SEQ
+				LEFT OUTER JOIN T_ADM_EMPL F ON F.ADM_SEQ = A.UPD_SEQ 
+				WHERE 1=1 
+				AND PRMT_RQST_SEQ = (SELECT PRMT_RQST_SEQ FROM T_PRMT_RQST_MNG WHERE SALE_CD = #{saleCd} AND DVYFG_RQST_MONTH = #{dvyfgRqstMonth})
+				<if test="bhfcSeq != null and bhfcSeq != '' ">
+					AND A.BHFC_SEQ = #{bhfcSeq}
+				</if>
+				<if test="agenCd != null and agenCd != '' ">
+					AND C.AGEN_CD LIKE '%'+ #{agenCd} + '%'
+				</if>
+				<if test="saleCd != null and saleCd != '' ">
+					AND C.SALE_CD = #{saleCd}
+				</if>
+				<if test="srcPrdCd != null and srcPrdCd != '' ">
+					AND B.PRD_SAP_CD LIKE '%'+ #{srcPrdCd} + '%'
+				</if>
+				<if test="srcPrdNm != null and srcPrdNm != '' ">
+					AND B.PRD_NM LIKE '%'+ #{srcPrdNm} + '%'
+				</if>	
+	</select>
+	
+	<update id="updPrmtAgenRqst" parameterType="com.namyang.nyorder.prmt.vo.PrmtAgenRqstVO">
+		/* PrmtAgenRqst-Mapper updPrmtAgenRqst */
+			UPDATE
+				T_PRMT_AGEN_RQST
+			SET
+				<if test='updPart.equals("B") '>
+				BHFC_BOX_QTY = #{bhfcBoxQty}
+				, BHFC_IDDY_QTY = #{bhfcIddyQty}
+				, BHFC_DCSN_DTM = CURRENT_TIMESTAMP
+				</if>	
+				<if test='updPart.equals("H") '>
+				HOFF_BOX_QTY = #{hoffBoxQty}
+				, HOFF_IDDY_QTY = #{hoffIddyQty}
+				, HOFF_DCSN_DTM = CURRENT_TIMESTAMP
+				</if>	
+				, UPD_DTM = CURRENT_TIMESTAMP
+				, UPD_SEQ = #{emplSeq}
+			WHERE PRMT_AGEN_SEQ = #{prmtAgenSeq}		
+	</update>
+	
+</mapper>

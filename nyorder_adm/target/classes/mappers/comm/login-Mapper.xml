@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.comm.dao.LoginMapper">
+    
+    <select id="selectAccount" parameterType="com.namyang.nyorder.comm.vo.AccountVO" resultType="com.namyang.nyorder.comm.vo.AccountVO">
+        SELECT tae.ADM_SEQ, tae.ADM_CD, tae.BSN_GRP_CD, tae.BHFC_CD, tae.BHFC_NM, tae.MENU_ADM_TYPE, tae.GRP_CD, tae.ADM_NM
+			, tap.ADM_PWD AS password, tap.TMP_PWD_YN
+			, DATEDIFF(DAY, tap.REG_DTM, GETDATE()) AS DTM_DIFF 
+		FROM T_ADM_EMPL tae 
+			, T_ADM_PWD tap 
+		WHERE tae.ADM_SEQ = tap.ADM_SEQ 
+			AND tap.LST_PWD_YN = 'Y'
+			AND ADM_CD = #{admCd}			
+    </select>
+    
+    <insert id="insertPassword" parameterType="com.namyang.nyorder.comm.vo.AccountVO">
+    	INSERT INTO NY_ORDER.dbo.T_ADM_PWD
+			(ADM_PWD_SEQ
+			, ADM_SEQ			
+			, ADM_PWD
+			, LST_PWD_YN
+			, TMP_PWD_YN
+			, REG_DTM
+			, REG_SEQ
+			)
+		VALUES(
+			NEXT VALUE FOR SQ_ADM_PWD
+			, #{admSeq}			
+			, #{hexPassword}
+			, 'Y'
+			, 'N'
+			, CURRENT_TIMESTAMP	
+			, #{admSeq}
+			);
+    </insert>
+    
+    <update id="updatePassword" parameterType="com.namyang.nyorder.comm.vo.AccountVO">
+    	UPDATE T_ADM_PWD SET LST_PWD_YN = 'N' WHERE ADM_PWD_SEQ IN (
+			SELECT ADM_PWD_SEQ 		
+			FROM T_ADM_EMPL tae
+				, T_ADM_PWD tap 
+			WHERE 1=1			 
+				AND tae.ADM_SEQ = tap.ADM_SEQ
+				AND tap.LST_PWD_YN = 'Y'
+				AND tae.ADM_SEQ  = #{admSeq}				
+			);	
+    </update>
+    
+</mapper>

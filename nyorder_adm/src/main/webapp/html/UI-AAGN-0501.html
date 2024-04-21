@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>ADMIN 남양유업 대리점 주문시스템</title>
+<link rel="stylesheet" type="text/css" href="../css/lib/daterangepicker.css"/>
+<link rel="stylesheet" type="text/css" href="../css/AUIGrid/grid_custom.css"/>
+<link rel="stylesheet" type="text/css" href="../css/layout.css"/>
+<script type="text/javascript" src="../js/lib/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/lib/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/lib/moment.min.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGridLicense.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGrid.js"></script>
+<script type="text/javascript" src="../js/lib/daterangepicker.js"></script>
+<script type="text/javascript" src="../js/datepicker_range_custom.js"></script>
+<script type="text/javascript" src="../js/common_ui.js"></script>
+<script type="text/javascript">
+    var myGridID;
+    var gridData = [
+			{"id":"#Cust0","regiDate":"2021-01-22","code":"00001","name":"김남양","movebf01":"001","movebf02":"강북지점","movebf03":"0000001","movebf04":"광진동대문가정","moveaf05":"서울시 강남구 도산대로 240","moveaf01":"003","moveaf02":"호남지점","moveaf03":"0000002","moveaf04":"송정가정대리점","mvDt":"2022-01-26","cntrYn":"요청완료","dcsnDt":"2022-01-04","worker":"이*은"},
+			{"id":"#Cust1","regiDate":"2021-01-22","code":"00001","name":"남양순","movebf01":"001","movebf02":"강남지점","movebf03":"0000001","movebf04":"광진동대문가정","moveaf05":"서울시 강남구 도산대로 240","moveaf01":"003","moveaf02":"호남지점","moveaf03":"0000002","moveaf04":"송정가정대리점","mvDt":"2022-01-26","cntrYn":"거절","dcsnDt":"2022-01-04","worker":"이*은"},
+			{"id":"#Cust0","regiDate":"2021-01-22","code":"00001","name":"김남양","movebf01":"001","movebf02":"강북지점","movebf03":"0000001","movebf04":"광진동대문가정","moveaf05":"서울시 강남구 도산대로 240","moveaf01":"003","moveaf02":"호남지점","moveaf03":"0000002","moveaf04":"송정가정대리점","mvDt":"2022-01-26","cntrYn":"계약완료","dcsnDt":"2022-01-04","worker":"이*은"},
+			{"id":"#Cust0","regiDate":"2021-01-22","code":"00001","name":"김남양","movebf01":"001","movebf02":"강북지점","movebf03":"0000001","movebf04":"광진동대문가정","moveaf05":"서울시 강남구 도산대로 240","moveaf01":"003","moveaf02":"호남지점","moveaf03":"0000002","moveaf04":"송정가정대리점","mvDt":"2022-01-26","cntrYn":"대기","dcsnDt":"2022-01-04","worker":"이*은"},
+			{"id":"#Cust0","regiDate":"2021-01-22","code":"00001","name":"김남양","movebf01":"001","movebf02":"강북지점","movebf03":"0000001","movebf04":"광진동대문가정","moveaf05":"서울시 강남구 도산대로 240","moveaf01":"003","moveaf02":"호남지점","moveaf03":"0000002","moveaf04":"송정가정대리점","mvDt":"2022-01-26","cntrYn":"요청완료","dcsnDt":"2022-01-04","worker":"이*은"},
+        ];
+   
+   $(document).ready(function(){
+        // AUIGrid 생성 후 반환 ID
+        createAUIGrid(columnLayout);
+        // 데이터 요청, 요청 성공 시 AUIGrid 에 데이터 삽입합니다.        
+        
+        AUIGrid.setGridData(myGridID, gridData);
+    });
+      
+    
+    // AUIGrid 를 생성합니다.
+    function createAUIGrid(columnLayout) {
+        // 그리드 속성 설정
+        var gridPros = {
+                headerHeight : 29,
+                rowHeight : 29,
+                // 편집 가능 여부 (기본값 : false)
+                editable : false,
+                
+                // 엔터키가 다음 행이 아닌 다음 칼럼으로 이동할지 여부 (기본값 : false)
+                enterKeyColumnBase : true,
+                
+                // 셀 선택모드 (기본값: singleCell)
+                selectionMode : "“singleRow”",
+                
+                // 컨텍스트 메뉴 사용 여부 (기본값 : false)
+                useContextMenu : true,
+                
+                // 필터 사용 여부 (기본값 : false)
+                enableFilter : true,
+            
+                // 그룹핑 패널 사용
+                useGroupingPanel : false,
+                
+                
+                // 그룹핑 또는 트리로 만들었을 때 펼쳐지게 할지 여부 (기본값 : false)
+                displayTreeOpen : true,
+                
+                noDataMessage : "출력할 데이터가 없습니다.",
+                
+                groupingMessage : "여기에 칼럼을 드래그하면 그룹핑이 됩니다."
+        };
+    
+        // 실제로 #grid_wrap 에 그리드 생성
+        myGridID = AUIGrid.create("#grid_wrap", columnLayout, gridPros);
+    }
+
+    var columnLayout = [{
+        dataField : "regiDate",
+			headerText : "가입일",
+			width : "8%",
+		},{
+            dataField : "code",
+			headerText : "직영몰코드",
+		},{
+            dataField : "name",
+			headerText : "성명",
+			width : "12%",
+		},{
+            dataField : "movebf01",
+			headerText : "지점",
+			width:"8%",
+            colSpan : 2,
+		},{
+            dataField : "movebf02",
+            width:"12%",
+        },{
+            dataField : "mvDt",
+			headerText : "투입희망일자",
+			width : "12%",
+		},{
+            dataField : "cntrYn",
+			headerText : "계약여부",
+			width : "12%",
+		},{
+            dataField : "dcsnDt",
+			headerText : "확정일",
+			width : "12%",
+		},{
+            dataField : "worker",
+			headerText : "작업자",
+			width : "12%",
+		}
+	];
+
+
+    function requestJsonData() {
+        
+        // 요청 URL
+        var url = "./data/normal_500.json";
+        
+        // ajax 요청 전 그리드에 로더 표시
+        AUIGrid.showAjaxLoader(myGridID);
+        
+        // ajax (XMLHttpRequest) 로 그리드 데이터 요청
+        ajax( {
+            url : url,
+            onSuccess : function(data) {
+                
+                //console.log(data);
+                    
+                // 그리드에 JSON 데이터 설정
+                // data 는 JSON 을 파싱한 Array-Object 임
+                AUIGrid.setGridData(myGridID, data);
+                
+                // 로더 제거
+                AUIGrid.removeAjaxLoader(myGridID);
+            },
+            onError : function(status, e) {
+                alert("데이터 요청에 실패하였습니다.\r\n status : " + status + "\r\nWAS 를 IIS 로 사용하는 경우 json 확장자가 web.config 의 handler 에 등록되었는지 확인하십시오.");
+                // 로더 제거
+                AUIGrid.removeAjaxLoader(myGridID);
+            }
+        });
+     };
+
+     // 윈도우 리사이징 이벤트
+    window.onresize = function() {
+        // 크기가 변경되었을 때 AUIGrid.resize() 함수 호출 
+        if (typeof myGridID !== "undefined") {
+            AUIGrid.resize(myGridID);
+        }
+    };
+
+</script>
+</head>
+<body>
+	<div class="allWrap">
+		<header>
+            <h1><a href="#" class="logo" title="남양유업"></a></h1>
+
+            <div class="logInfo">
+                <ul>
+                    <li><span class="user">김 남양</span> 님 을 환영합니다.</li>
+                    <li>최근접속일시 : <span class="date">2021.12.10 09:30:00</span></li>
+                    <li><a href="#" class="logBtn"><span>로그아웃</span></a></li>
+                    <!-- <li><a href="#" class="logBtn"><span>로그인</span></a></li> -->
+                </ul>
+            </div>
+		</header>
+
+		<div class="contentWrap">
+            <!-- lnb -->
+			<div class="lnbWrap">
+                <!-- 검색영역 -->
+                <div class="leftSearBox">
+                    <input type="text" name="" value="" class="inp type02">
+                    <button type="button" class="searBtn" name="" title="검색하기"></button>
+                </div>
+                <!-- 검색영역 -->
+
+                <div class="lnbTabsWrap">
+                    <ul class="tabs etcMenu">
+                        <li class="active" rel="mtab01"><a href="#" class="allMenu" title="전체메뉴"><span>전체메뉴</span></a></li>
+                        <li class="" rel="mtab02"><a href="#" class="favSearch" title="즐겨찾기"><span>즐겨찾기</span></a></li>
+                    </ul>
+
+                    <!-- <a href="#" class="favSearch" title="즐겨찾기"><span>즐겨찾기</span></a> -->
+
+                    <div id="mtab01" class="tabContent lnb" style="">
+                        <ul>
+                            <li class="depth1">
+                                <a href="#" title="권한 관리"><span>권한 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">사용자그룹 권한관리</a></li>
+                                    <li><a href="#">사용자별 권한관리</a></li>
+                                    <li><a href="#">프로그램 관리</a></li>
+                                    <li><a href="#">프로그램 코드그룹 관리</a></li>
+                                    <li><a href="#">사용자그룹 관리</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="대리점 관리"><span>대리점 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">대리점 사용승인</a></li>
+                                    <li><a href="#">대리점 권한관리</a></li>
+                                    <li><a href="#">제품 관리</a></li>
+                                    <li><a href="#">이사고객 관리</a></li>
+                                    <li><a href="#">직영몰 애음자 관리</a></li>
+                                    <li><a href="#">애음자 분포 현황</a></li>
+                                    <li><a href="#">거래처 정보 조회</a></li>
+                                    <li><a href="#">거래처 지원내역 조회</a></li>
+                                    <li><a href="#">거래처 판매내역 조회</a></li>
+                                    <li><a href="#">거래처 단가 조정내역 조회</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="판촉 관리"><span>판촉 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">판촉사원 관리</a></li>
+                                    <li><a href="#">판촉사원 등록</a></li>
+                                    <li><a href="#">판촉 홉수 관리</a></li>
+                                    <li><a href="#">판촉물 요청 기간 관리</a></li>
+                                    <li><a href="#">판촉물 요청 자재 관리</a></li>
+                                    <li><a href="#">판촉물 소요량 요청 관리</a></li>
+                                    <li><a href="#">대리점별 판촉물 재고 현황</a></li>
+                                    <li><a href="#">판촉 애음자 조회1</a></li>
+                                    <li><a href="#">판촉 애음자 조회2</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="커뮤니케이션 관리"><span>커뮤니케이션 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#" class="active">공지사항 관리</a></li>
+                                    <li><a href="#">자료실 관리</a></li>
+                                    <li><a href="#">요청 게시판 관리</a></li>
+                                    <li><a href="#">알림톡 관리</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="mtab02" class="tabContent favor" style="display: none;">
+                        <ul>
+                            <li><a href="#">거래처 관리</a></li>
+                            <li><a href="#">거래처별 단가 관리</a></li>
+                            <li><a href="#">직원 관리</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="#" class="sideBtn"></a>
+			</div>
+            <!-- lnb -->
+			
+            <!-- content -->
+            <div class="rContentBox">
+                <div class="content">
+                    <div class="titTopArea">
+                        <h2 class="tit01">직영몰 고객 관리 <a href="#" class="favor" title="즐겨찾기"></a></h2>
+
+                        <div class="location">
+                            <ul>
+                                <li><i class="home"></i></li>
+                                <li>대리점관리</li>
+                                <li>직영몰 고객 관리</li>
+                            </ul>
+                        </div>
+                    </div>
+
+					<!-- 조회 -->
+					<div class="inquiryBox formBtnRepon">
+						<div class="dlBoxWrap">
+							<div class="dlBox">
+								<dl>
+									<dt>기간</dt>
+									<dd>
+										<div class="formWrap">
+											<div class="dateWrap">
+												<input type="text" name="date" value="10/24/1984" class="inp" id="datepicker" readonly="">                                        
+												<button type="button" class="datepickerBtn" title="날짜입력" data-target-id="datepicker"></button>                                        
+											</div> 
+
+											<span class="divi02">-</span>
+											
+											<div class="dateWrap">
+												<input type="text" name="date" value="10/24/1984" class="inp" id="datepicker02" readonly="">
+												<button type="button" class="datepickerBtn02" title="날짜입력" data-target-id="datepicker02"></button>                                        
+											</div>
+
+											<div class="checkGroup">
+												<input type="radio" name="date" id="date1" class="type01" checked=""><label for="date1"><span>가입일</span></label>
+												<input type="radio" name="date" id="date2" class="type01"><label for="date2"><span>확정일</span></label>
+											</div>
+										</div>
+									</dd>
+									<dt>계약여부</dt>
+									<dd>
+										<select name="" class="sel w120" id="">
+											<option>전체</option>
+										</select>
+									</dd>
+								</dl>
+								<dl>
+									<dt>구분</dt>
+									<dd>
+										<div class="formWrap">
+											<select name="" class="sel w160 mr10" id="">
+												<option>전체</option>
+											</select>
+
+											<input type="text" id="" class="inp w160">
+										</div>
+									</dd>
+								</dl>
+							</div>
+
+							<div class="btnRepon">
+								<button type="button" name="" class="comBtn" id="inp_name01">조회</button>
+							</div>
+						</div>
+					</div>
+					<!-- 조회 -->
+
+                    <div class="titleArea">
+                        <p class="numState">
+                            <em>총 <span class="pColor01 fb">24</span></em> 건 이 조회되었습니다.
+                        </p>
+                    </div>
+
+                    <!-- grid -->
+                    <div class="girdBox type07">
+                        <div id="grid_wrap"></div>
+                    </div>
+                    <!-- grid -->
+
+                   
+                    <!-- 기본 정보 -->
+                    <div class="tblWrap">
+                        <div class="titleArea right">
+                            <h3 class="tit01">기본정보</h3>
+                            <button type="button" name="" class="inquBtn full small">저장</button>
+                            
+                        </div>
+                        <div class="titleArea arTxt">
+                            <p class="txt01"><i class="icoRequir"></i>필수 입력 항목입니다.</p>
+                        </div>
+                        <table class="tbl">
+                            <caption>직원정보 상세</caption>
+                            <colgroup>
+                                <col style="width:164px;">
+                                <col>
+                                <col style="width:164px;">
+                                <col>
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        성명
+                                    </th>
+                                    <td>
+                                        <p>김영희</p>
+                                    </td>
+                                    <th scope="row">
+                                        투입희망일자
+                                    </th>
+                                    <td>
+                                        <p>2021-12-10</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+										주소
+                                    </th>
+                                    <td>
+                                         <p>서울시 논현동 학동로 100-10, 1층</p>
+                                    </td>
+                                    <th scope="row">
+										핸드폰번호
+                                    </th>
+                                    <td>
+                                        <p>010-0000-0000</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--// 기본 정보 -->
+
+                     <!-- 계약 현황 -->
+                    <div class="tblWrap">
+                        <div class="titleArea right">
+                            <h3 class="tit01">계약 현황</h3>
+                        </div>
+                        <table class="tbl">
+                            <caption>계약 현황</caption>
+                            <colgroup>
+                                <col style="width:164px;">
+                                <col>
+                                <col style="width:164px;">
+                                <col>
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        가입일
+                                    </th>
+                                    <td>
+                                        <p>2021-11-20</p>
+                                    </td>
+                                    <th scope="row">
+                                        확정일
+                                    </th>
+                                    <td>
+                                        <p>2021-12-10</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                       계약여부
+                                    </th>
+                                    <td>
+                                         <p>계약완료</p>
+                                    </td>
+                                    <th scope="row">
+                                        거절사유
+                                    </th>
+                                    <td>
+                                        <p>그냥 싫음</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--// 계약 현황 -->
+
+                    <!-- 담당 지점/대리점 정보 -->
+                    <div class="tblWrap">
+                        <div class="titleArea right">
+                            <h3 class="tit01">담당 지점/대리점 정보</h3>
+                        </div>
+                        <table class="tbl">
+                            <caption>담당 지점/대리점 정보 상세</caption>
+                            <colgroup>
+                                <col style="width:164px;">
+                                <col>
+                                <col style="width:164px;">
+                                <col>
+                            </colgroup>
+                            <tr>
+                                <tr>
+                                    <th scope="row">
+                                        지점
+                                    </th>
+                                    <td>
+                                        <p>
+                                            <span class="mr20">지점코드 : 3434HR</span>
+											<span>강북지점</span>
+                                        </p>
+                                    </td>
+                                    <th scope="row" class="blank"></th>
+                                    <td></td> 
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        담당사원
+                                    </th>
+                                    <td>
+                                        <p>홍길동</p>
+                                    </td>
+                                    <th scope="row">
+                                        연락처
+                                    </th>
+                                    <td>
+                                        <p>010-000-0000</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="inp_post_num" class="required" title="필수입력">대리점</label>
+                                    </th>
+                                    <td>
+                                        <div class="formWrap">
+                                            <p class="lh01">GF34043</p>
+
+                                            <div class="searchWrap w400 po02">
+                                                <input type="text" id="inp_post_num" class="inp">
+                                                <button type="button" class="postBtn" title="지점 찾기"></button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <th scope="row">
+                                        연락처
+                                    </th>
+                                    <td>
+                                        <p>010-000-0000</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        지역
+                                    </th>
+                                    <td colspan="3">
+                                        <p>
+                                            <span class="w180">지역코드</span>
+                                            <span class="w400">지역명</span>                                            
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--// 담당 지점/대리점 정보 -->
+
+					<!-- 직영몰 고객 상세 정보 -->
+                    <div class="tblWrap">
+                        <div class="titleArea right">
+                            <h3 class="tit01">직영몰 고객 상세 정보</h3>
+                        </div>
+                        <table class="tbl">
+                            <caption>직영몰 고객 상세</caption>
+                            <colgroup>
+                                <col style="width:164px;">
+                                <col>
+                                <col style="width:164px;">
+                                <col>
+                            </colgroup>
+                            <tr>
+                                <tr rowspan="2">
+                                    <th scope="row" rowspan="2">
+                                       배달주소
+                                    </th>
+                                    <td colspan="3">
+                                         <p class="lh01">141-22</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                         <p>서울특별시 강남구 도산대로 240</p>
+                                    </td>
+                                    <th scope="row">
+                                        상세주소
+                                    </th>
+                                    <td>
+                                        <p>1964빌딩 8층</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        제품
+                                    </th>
+                                    <td>
+                                        <p>
+                                            <span class="mr20">제품코드 : 3434HR</span> <span>남양 깜유홈 150ml</span>
+                                        </p>
+                                    </td>
+                                    <th scope="row">
+                                        계약기간
+                                    </th>
+                                    <td>
+                                        <p>12</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        투입패턴
+                                    </th>
+                                    <td colspan="3">
+                                        <p>월수금/111</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        메모
+                                    </th>
+                                    <td colspan="3">
+                                        <input type="text" id="" class="inp w100per" value="" name="">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--// 직영몰 고객 상세 정보 -->
+                </div>
+
+				<footer>
+					COPYRIGHT-NAMYANG-DAIRY-PRODUCTS-COLTD-ALL-RIGHT-RESERVED
+				</footer>
+            </div>
+            <!-- content -->
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>ADMIN 남양유업 대리점 주문시스템</title>
+<link rel="stylesheet" type="text/css" href="../css/lib/daterangepicker.css" />
+<link rel="stylesheet" type="text/css" href="../css/AUIGrid/grid_custom.css" />
+<link rel="stylesheet" type="text/css" href="../css/layout.css" />
+<script type="text/javascript" src="../js/lib/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/lib/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/lib/moment.min.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGridLicense.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGrid.js"></script>
+<script type="text/javascript" src="../js/lib/daterangepicker.js"></script>
+<script type="text/javascript" src="../js/datepicker_custom.js"></script>
+<script type="text/javascript" src="../js/common_ui.js"></script>
+<script type="text/javascript">
+    var myGridID;
+    var gridData = [
+			{"id":"#Cust0","prdSapCd":"00001","PrdNm":"GT프리미엄 200","lcls":"A","mcls":"가","scls":"a","dcls":"ㄱ","maType":"제품","state":"사용"},
+            {"id":"#Cust1","prdSapCd":"00001","PrdNm":"GT프리미엄 200","lcls":"A","mcls":"가","scls":"a","dcls":"ㄱ","maType":"제품","state":"사용"},
+            {"id":"#Cust2","prdSapCd":"00001","PrdNm":"GT프리미엄 200","lcls":"A","mcls":"가","scls":"a","dcls":"ㄱ","maType":"제품","state":"사용"},
+            {"id":"#Cust3","prdSapCd":"00001","PrdNm":"고칼글루435NAG(방)신","lcls":"A","mcls":"가","scls":"a","dcls":"ㄱ","maType":"제품","state":"사용"},
+			{"id":"#Cust0","prdSapCd":"00001","PrdNm":"GT프리미엄 200","lcls":"A","mcls":"가","scls":"a","dcls":"ㄱ","maType":"제품","state":"사용"},
+            {"id":"#Cust1","prdSapCd":"00001","PrdNm":"GT프리미엄 200","lcls":"A","mcls":"가","scls":"a","dcls":"ㄱ","maType":"제품","state":"사용"},
+            {"id":"#Cust2","prdSapCd":"00001","PrdNm":"GT프리미엄 200","lcls":"A","mcls":"가","scls":"a","dcls":"ㄱ","maType":"제품","state":"사용"},
+            {"id":"#Cust3","prdSapCd":"00001","PrdNm":"고칼글루435NAG(방)신","lcls":"A","mcls":"가","scls":"a","dcls":"ㄱ","maType":"제품","state":"사용"},
+			{"id":"#Cust0","prdSapCd":"00001","PrdNm":"GT프리미엄 200","lcls":"A","mcls":"가","scls":"a","dcls":"ㄱ","maType":"제품","state":"사용"},
+            {"id":"#Cust1","prdSapCd":"00001","PrdNm":"GT프리미엄 200","lcls":"A","mcls":"가","scls":"a","dcls":"ㄱ","maType":"제품","state":"사용"},
+            {"id":"#Cust2","prdSapCd":"00001","PrdNm":"GT프리미엄 200","lcls":"A","mcls":"가","scls":"a","dcls":"ㄱ","maType":"제품","state":"사용"},
+            {"id":"#Cust3","prdSapCd":"00001","PrdNm":"고칼글루435NAG(방)신","lcls":"A","mcls":"가","scls":"a","dcls":"ㄱ","maType":"제품","state":"사용"}
+    ];
+  
+    $(document).ready(function(){
+        // AUIGrid 생성 후 반환 ID
+        createAUIGrid();
+        // createAUIGrid(columnLayout2);
+        // 데이터 요청, 요청 성공 시 AUIGrid 에 데이터 삽입합니다.        
+        
+        AUIGrid.setGridData(myGridID, gridData);
+    });
+    
+
+    // AUIGrid 를 생성합니다.
+    function createAUIGrid() {
+        // 그리드 속성 설정
+        var gridPros = {
+                headerHeight : 58,
+                rowHeight : 29,
+                // 편집 가능 여부 (기본값 : false)
+                editable : false,
+                
+                // 엔터키가 다음 행이 아닌 다음 칼럼으로 이동할지 여부 (기본값 : false)
+                enterKeyColumnBase : true,
+                
+                // 셀 선택모드 (기본값: singleCell)
+                selectionMode : "singleRow",
+                showFooter : false,
+                showRowCheckColumn : false, // 체크박스 사용	
+                
+                // 컨텍스트 메뉴 사용 여부 (기본값 : false)
+                useContextMenu : true,
+                
+                // 필터 사용 여부 (기본값 : false)
+                enableFilter : true,
+            
+                // 그룹핑 패널 사용
+                useGroupingPanel : false,
+                             
+                // 그룹핑 또는 트리로 만들었을 때 펼쳐지게 할지 여부 (기본값 : false)
+                displayTreeOpen : true,
+                
+                noDataMessage : "출력할 데이터가 없습니다.",
+                
+                groupingMessage : "여기에 칼럼을 드래그하면 그룹핑이 됩니다.", 
+        }
+    
+        // 실제로 #grid_wrap 에 그리드 생성
+        myGridID = AUIGrid.create("#grid_wrap", columnLayout, gridPros);
+    }
+
+    var columnLayout = [{
+			dataField : "re",
+			headerText : "소요량<br/>등록",
+			width : "8%",
+            renderer : {
+				type : "CheckBoxEditRenderer",
+				editable : true,
+				imgHeight : 15,
+				imgTableRef : {
+					"true" : "../images/check_on.png",
+					"false" : "../images/check_default.png",
+					"default" : "../images/check_on.png"
+				}
+			}
+		},{
+			dataField : "prdSapCd",
+			headerText : "제품 코드",
+			width : "9%"
+		},{
+			dataField : "PrdNm",
+			headerText : "제품명",
+            style : "auiLeft"	
+        },{
+			dataField : "lcls",
+			headerText : "제품<br/>대분류",
+			width : "11%"
+        },{
+			dataField : "mcls",
+			headerText : "제품<br/>중분류",
+            width : "11%"
+		},{
+			dataField : "scls",
+			headerText : "제품<br/>소분류",
+            width : "11%"
+		},{
+			dataField : "dcls",
+			headerText : "제품<br/>세분류",
+            width : "11%"
+		},{
+			dataField : "maType",
+			headerText : "자재유형",
+            width : "10%"
+		},{
+			dataField : "state",
+			headerText : "상태",
+            width : "10%"
+		}
+	];
+
+</script>
+</head>
+<body>
+	<div class="allWrap">
+		<header>
+            <h1><a href="#" class="logo" title="남양유업"></a></h1>
+
+            <div class="logInfo">
+                <ul>
+                    <li><span class="user">홍 남양</span> 님 을 환영합니다.</li>
+                    <li>최근접속일시 : <span class="date">2021.12.10 09:30:00</span></li>
+                    <li><a href="#" class="logBtn"><span>로그아웃</span></a></li>
+                    <!-- <li><a href="#" class="logBtn"><span>로그인</span></a></li> -->
+                </ul>
+            </div>
+		</header> 
+
+		<div class="contentWrap">
+            <!-- lnb -->
+			<div class="lnbWrap">
+                <!-- 검색영역 -->
+                <div class="leftSearBox">
+                    <input type="text" name="" value="" class="inp type02">
+                    <button type="button" class="searBtn" name="" title="검색하기"></button>
+                </div>
+                <!-- 검색영역 -->
+
+                <div class="lnbTabsWrap">
+                    <ul class="tabs etcMenu">
+                        <li class="active" rel="mtab01"><a href="#" class="allMenu" title="전체메뉴"><span>전체메뉴</span></a></li>
+                        <li class="" rel="mtab02"><a href="#" class="favSearch" title="즐겨찾기"><span>즐겨찾기</span></a></li>
+                    </ul>
+
+                    <!-- <a href="#" class="favSearch" title="즐겨찾기"><span>즐겨찾기</span></a> -->
+
+                    <div id="mtab01" class="tabContent lnb" style="">
+                        <ul>
+                            <li class="depth1">
+                                <a href="#" title="권한 관리"><span>권한 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">사용자그룹 권한관리</a></li>
+                                    <li><a href="#">사용자별 권한관리</a></li>
+                                    <li><a href="#">프로그램 관리</a></li>
+                                    <li><a href="#">프로그램 코드그룹 관리</a></li>
+                                    <li><a href="#">사용자그룹 관리</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="대리점 관리"><span>대리점 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">대리점 사용승인</a></li>
+                                    <li><a href="#">대리점 권한관리</a></li>
+                                    <li><a href="#">제품 관리</a></li>
+                                    <li><a href="#">이사고객 관리</a></li>
+                                    <li><a href="#">직영몰 애음자 관리</a></li>
+                                    <li><a href="#">애음자 분포 현황</a></li>
+                                    <li><a href="#">거래처 정보 조회</a></li>
+                                    <li><a href="#">거래처 지원내역 조회</a></li>
+                                    <li><a href="#">거래처 판매내역 조회</a></li>
+                                    <li><a href="#">거래처 단가 조정내역 조회</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="판촉 관리"><span>판촉 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">판촉사원 관리</a></li>
+                                    <li><a href="#">판촉사원 등록</a></li>
+                                    <li><a href="#">판촉 홉수 관리</a></li>
+                                    <li><a href="#">판촉물 요청 기간 관리</a></li>
+                                    <li><a href="#">판촉물 요청 자재 관리</a></li>
+                                    <li><a href="#">판촉물 소요량 요청 관리</a></li>
+                                    <li><a href="#">대리점별 판촉물 재고 현황</a></li>
+                                    <li><a href="#">판촉 애음자 조회1</a></li>
+                                    <li><a href="#">판촉 애음자 조회2</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="커뮤니케이션 관리"><span>커뮤니케이션 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#" class="active">공지사항 관리</a></li>
+                                    <li><a href="#">자료실 관리</a></li>
+                                    <li><a href="#">요청 게시판 관리</a></li>
+                                    <li><a href="#">알림톡 관리</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="mtab02" class="tabContent favor" style="display: none;">
+                        <ul>
+                            <li><a href="#">거래처 관리</a></li>
+                            <li><a href="#">거래처별 단가 관리</a></li>
+                            <li><a href="#">직원 관리</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="#" class="sideBtn"></a>
+			</div>
+            <!-- lnb -->
+			
+            <!-- content -->
+            <div class="rContentBox">
+                <div class="content">
+                    <div class="titTopArea">
+                        <h2 class="tit01">제품 관리 <a href="#" class="favor" title="즐겨찾기"></a></h2>
+
+                        <div class="location">
+                            <ul>
+                                <li><i class="home"></i></li>
+                                <li>기준정보관리</li>
+                                <li>기준정보 관리</li>
+                                <li>제품 조회</li>
+                            </ul>
+                        </div>
+                    </div>
+
+					<!-- 조회 -->
+					<div class="inquiryBox row">
+						<div class="dlRowBoxWrap">
+							<div class="dlBox">
+								<dl>
+									<dt>납품요청월</dt>
+									<dd>
+										<div class="dateWrap">
+											<input type="text" name="date" value="10/24/1984" class="inp datepicker" id="datepicker" readonly="">                                        
+											<button type="button" class="datepickerBtn" title="날짜입력" data-target-id="datepicker"></button>                                        
+										</div> 
+									</dd>
+									<dt>분류</dt>
+									<dd>
+										<div class="formWrap">
+											<select name="" class="sel w120 mr10" id="sel_class01">
+												<option>대분류</option>
+											</select>
+											<select name="" class="sel w120 mr10" id="sel_class02">
+												<option>중분류</option>
+											</select>
+											<select name="" class="sel w120 mr10" id="sel_class03">
+												<option>소분류</option>
+											</select>
+										</div>
+									</dd>
+								</dl>
+								<dl>
+									<dt>
+										<select name="" class="sel w120" id="sel_class03">
+											<option>세분류</option>
+										</select>
+									</dt>
+									<dt>판촉물</dt>
+									<dd>
+										<div class="formWrap">
+											<input type="text" id="inp_product01" class="inp w120 mr10" value="" name="" placeholder="제품코드" maxlength="8">
+											<input type="text" id="inp_product02" class="inp w160 mr7" value="" name="" placeholder="제품명">
+										</div>
+									</dd>
+								</dl>
+							</div>
+
+							<div class="btnVer">
+								<button type="button" name="" class="comBtn" id="inp_name01">조회</button>
+							</div>
+						</div>
+
+                        <div class="btnGroup right">
+							<button type="button" name="" class="comBtn">양식다운</button>                                    
+							<button type="button" name="" class="comBtn">엑셀업로드</button>
+							<button type="button" name="" class="comBtn">전월복사</button>
+							<button type="button" name="" class="inquBtn">저장</button>
+						</div>
+                    </div>
+					<!-- 조회 -->
+
+					<div class="girdBoxGroup">
+						<!-- grid -->
+						<div class="girdBox w55per">
+							<div class="titleArea right">
+								<p class="numState">
+									<em>총 <span class="pColor01 fb">2</span></em> 건 이 조회되었습니다.
+								</p>
+							</div>
+							<div id="grid_wrap"></div>
+						</div>
+			  
+						<div class="conBox w43per">
+							<div class="titleArea right">
+								<h3 class="tit01">세부 정보</h3>
+							</div>
+
+							<!-- 세부정보 -->
+							<div class="tblWrap">
+								<table class="tbl">
+									<caption>세부 정보</caption>
+									<colgroup>
+										<col style="width:132px;">
+										<col>
+										<col style="width:132px;">
+										<col>
+									</colgroup>
+									<tbody>
+										<tr>
+											<th scope="row">
+												제품코드
+											</th>
+											<td>
+												<p>00791</p>
+											</td>
+											<th scope="row">
+												자재유형
+											</th>
+											<td>
+												<p>제품</p>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">
+												제품명
+											</th>
+											<td colspan="3">
+												<p>GT프리미엄200</p>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">
+												제품 대분류
+											</th>
+											<td>
+												<p>A</p>
+											</td>
+											<th scope="row">
+												제품 중분류
+											</th>
+											<td>
+												<p>가</p>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">
+												제품 소분류
+											</th>
+											<td>
+												<p>a</p>
+											</td>
+											<th scope="row">
+												제품 세분류
+											</th>
+											<td>
+												<p>ㄱ</p>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">
+												주문여부
+											</th>
+											<td>
+												<p>주문가능</p>
+											</td>
+											<th scope="row">
+												
+											</th>
+											<td>
+												<p></p>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">
+												BOX 입수량                                              
+											</th>
+											<td class="ar">
+												20
+											</td>
+											<th scope="row">
+												낱봉 기준
+											</th>
+											<td class="ar">
+												<p>6</p>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">
+												규격
+											</th>
+											<td class="ar">
+												<p>200</p>
+											</td>
+											<th scope="row">
+												단위
+											</th>
+											<td>
+												<p>ml</p>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">
+												낱봉주문
+											</th>
+											<td class="al">
+												<p>불가</p>
+											</td>
+											<th scope="row">
+												
+											</th>
+											<td class="al">
+											   <p></p>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">
+												과세구분
+											</th>
+											<td class="al">
+												<p>과세</p>
+											</td>
+											<th scope="row">
+												매입단가
+											</th>
+											<td class="ar">
+											   <p>704.00</p>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row">
+												공급가
+											</th>
+											<td class="ar">
+												<p>640.00</p>
+											</td>
+											<th scope="row">
+												VAT
+											</th>
+											<td class="ar">
+											   <p>64.00</p>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- 세부정보 -->
+						</div>    
+					</div>
+                </div>
+
+				<footer>
+					COPYRIGHT-NAMYANG-DAIRY-PRODUCTS-COLTD-ALL-RIGHT-RESERVED
+				</footer>
+            </div>
+            <!-- content -->
+		</div>
+	</div>
+</body>
+</html>

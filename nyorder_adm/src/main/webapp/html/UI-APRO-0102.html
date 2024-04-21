@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>ADMIN 남양유업 대리점 주문시스템</title>
+<link rel="stylesheet" type="text/css" href="../css/lib/daterangepicker.css"/>
+<link rel="stylesheet" type="text/css" href="../css/AUIGrid/grid_custom.css"/>
+<link rel="stylesheet" type="text/css" href="../css/layout.css"/>
+<script type="text/javascript" src="../js/lib/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/lib/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/lib/moment.min.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGridLicense.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGrid.js"></script>
+<script type="text/javascript" src="../js/lib/daterangepicker.js"></script>
+<script type="text/javascript" src="../js/datepicker_custom.js"></script>
+<script type="text/javascript" src="../js/common_ui.js"></script>
+<script type="text/javascript">
+    var myGridID;
+    var gridData = [
+			{"id":"#Cust0","area":"신사4동","code":53665,"salesGr":"방판특수사업팀","newHops":33,"reHops":37,"pay":125000,"tel":"010-9455-4560","promoDivi":"무료","perDay":50000,"conDate":"2022-08-08","reHopPrice":2500,"inputDate":"2022-08-08","endDate":"2022-08-08","hop":45,"hopPrice":1050,"store":"강남지점","endReason":"맘에 안듬","promoType":"새벽"},
+			{"id":"#Cust1","area":"신사4동","code":53665,"salesGr":"방판특수사업팀","newHops":33,"reHops":37,"pay":125000,"tel":"010-9455-4560","promoDivi":"무료","perDay":50000,"conDate":"2022-08-08","reHopPrice":2500,"inputDate":"2022-08-08","endDate":"2022-08-08","hop":45,"hopPrice":1050,"store":"강남지점","endReason":"그냥 싫어요","promoType":"새벽"},
+		];
+   
+   	$(document).ready(function(){
+        // AUIGrid 생성 후 반환 ID
+        createAUIGrid(columnLayout);
+        // 데이터 요청, 요청 성공 시 AUIGrid 에 데이터 삽입합니다.        
+        
+        AUIGrid.setGridData(myGridID, gridData);
+	    //AUIGrid.setFooter(myGridID, footerLayout);
+    });
+    
+   
+    // AUIGrid 를 생성합니다.
+    function createAUIGrid(columnLayout) {
+        // 그리드 속성 설정
+        var gridPros = {
+                headerHeight : 29,
+                rowHeight : 29,
+                // 편집 가능 여부 (기본값 : false)
+                editable : true,
+                
+                // 엔터키가 다음 행이 아닌 다음 칼럼으로 이동할지 여부 (기본값 : false)
+                enterKeyColumnBase : true,
+
+				showRowNumColumn : true, 
+                
+                // 셀 선택모드 (기본값: singleCell)
+                selectionMode : "singleRow",
+                showFooter : false,
+                
+                // 컨텍스트 메뉴 사용 여부 (기본값 : false)
+                useContextMenu : true,
+                
+                // 필터 사용 여부 (기본값 : false)
+                enableFilter : true,
+            
+                // 그룹핑 패널 사용
+                useGroupingPanel : false,
+                
+                
+                // 그룹핑 또는 트리로 만들었을 때 펼쳐지게 할지 여부 (기본값 : false)
+                displayTreeOpen : true,
+                
+                noDataMessage : "출력할 데이터가 없습니다.",
+                
+                groupingMessage : "여기에 칼럼을 드래그하면 그룹핑이 됩니다."
+                
+        };
+    
+        // 실제로 #grid_wrap 에 그리드 생성
+        myGridID = AUIGrid.create("#grid_wrap", columnLayout, gridPros);
+        
+    }
+
+    var columnLayout = [{
+			dataField : "conDate",
+			headerText : "계약일",
+            width : "12%",
+		},{
+            dataField : "store",
+			headerText : "지점",
+            width : "12%",
+        },{
+			dataField : "salesGr",
+			headerText : "영업그룹",
+			width : "12%",        
+        },{
+            dataField : "newHops",
+			headerText : "신규계약 홉단가(본사)",
+			style : "auiRight",
+        },{
+			dataField : "reHops",
+			headerText : "재계약 홉단가(본사)",
+			style : "auiRight",
+			width : "12%",
+        },{
+			dataField : "pay",
+			headerText : "일당",
+			dataType : "numeric",
+			style : "auiRight",
+            width : "12%",
+        },{
+			dataField : "endDate",
+			headerText : "계약종료일",
+            width : "12%",  
+        },{
+			dataField : "endReason",
+			headerText : "종료사유",
+			style : "auiLeft",
+		}
+	];
+
+</script>
+</head>
+<body>
+	<div class="allWrap">
+		<header>
+            <h1><a href="#" class="logo" title="남양유업"></a></h1>
+
+            <div class="logInfo">
+                <ul>
+                    <li><span class="user">김 남양</span> 님 을 환영합니다.</li>
+                    <li>최근접속일시 : <span class="date">2021.12.10 09:30:00</span></li>
+                    <li><a href="#" class="logBtn"><span>로그아웃</span></a></li>
+                    <!-- <li><a href="#" class="logBtn"><span>로그인</span></a></li> -->
+                </ul>
+            </div>
+		</header> 
+
+		<div class="contentWrap">
+            <!-- lnb -->
+			<div class="lnbWrap">
+                <!-- 검색영역 -->
+                <div class="leftSearBox">
+                    <input type="text" name="" value="" class="inp type02">
+                    <button type="button" class="searBtn" name="" title="검색하기"></button>
+                </div>
+                <!-- 검색영역 -->
+
+                <div class="lnbTabsWrap">
+                    <ul class="tabs etcMenu">
+                        <li class="active" rel="mtab01"><a href="#" class="allMenu" title="전체메뉴"><span>전체메뉴</span></a></li>
+                        <li class="" rel="mtab02"><a href="#" class="favSearch" title="즐겨찾기"><span>즐겨찾기</span></a></li>
+                    </ul>
+
+                    <!-- <a href="#" class="favSearch" title="즐겨찾기"><span>즐겨찾기</span></a> -->
+
+                    <div id="mtab01" class="tabContent lnb" style="">
+                        <ul>
+                            <li class="depth1">
+                                <a href="#" title="권한 관리"><span>권한 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">사용자그룹 권한관리</a></li>
+                                    <li><a href="#">사용자별 권한관리</a></li>
+                                    <li><a href="#">프로그램 관리</a></li>
+                                    <li><a href="#">프로그램 코드그룹 관리</a></li>
+                                    <li><a href="#">사용자그룹 관리</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="대리점 관리"><span>대리점 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">대리점 사용승인</a></li>
+                                    <li><a href="#">대리점 권한관리</a></li>
+                                    <li><a href="#">제품 관리</a></li>
+                                    <li><a href="#">이사고객 관리</a></li>
+                                    <li><a href="#">직영몰 애음자 관리</a></li>
+                                    <li><a href="#">애음자 분포 현황</a></li>
+                                    <li><a href="#">거래처 정보 조회</a></li>
+                                    <li><a href="#">거래처 지원내역 조회</a></li>
+                                    <li><a href="#">거래처 판매내역 조회</a></li>
+                                    <li><a href="#">거래처 단가 조정내역 조회</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="판촉 관리"><span>판촉 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">판촉사원 관리</a></li>
+                                    <li><a href="#">판촉사원 등록</a></li>
+                                    <li><a href="#">판촉 홉수 관리</a></li>
+                                    <li><a href="#">판촉물 요청 기간 관리</a></li>
+                                    <li><a href="#">판촉물 요청 자재 관리</a></li>
+                                    <li><a href="#">판촉물 소요량 요청 관리</a></li>
+                                    <li><a href="#">대리점별 판촉물 재고 현황</a></li>
+                                    <li><a href="#">판촉 애음자 조회1</a></li>
+                                    <li><a href="#">판촉 애음자 조회2</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="커뮤니케이션 관리"><span>커뮤니케이션 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#" class="active">공지사항 관리</a></li>
+                                    <li><a href="#">자료실 관리</a></li>
+                                    <li><a href="#">요청 게시판 관리</a></li>
+                                    <li><a href="#">알림톡 관리</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="mtab02" class="tabContent favor" style="display: none;">
+                        <ul>
+                            <li><a href="#">판촉관리</a></li>
+                            <li><a href="#">판촉사원 관리</a></li>
+                            <li><a href="#">판촉사원 등록</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="#" class="sideBtn"></a>
+			</div>
+            <!-- lnb -->
+			
+            <!-- content -->
+            <div class="rContentBox">
+                <div class="content">
+                    <div class="titTopArea">
+                        <h2 class="tit01">판촉사원 등록 <a href="#" class="favor" title="즐겨찾기"></a></h2>
+
+                        <div class="location">
+                            <ul>
+                                <li><i class="home"></i></li>
+                                <li>판촉관리</li>
+                                <li>판촉 사원 관리</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="titleArea right">
+                        <h3 class="tit01">상세 정보</h3>
+
+                        <p class="txt01"><i class="icoRequir"></i>필수 입력 항목입니다.</p>
+                    </div>
+
+					<div class="tblWrap">
+                        <table class="tbl">
+                            <caption>판촉사원 상세</caption>
+                            <colgroup>
+                                <col style="width:170px;">
+                                <col>
+                                <col style="width:170px;">
+                                <col>
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="inp_code">코드</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" id="inp_code" class="inp" value="" name="">
+                                    </td>
+                                    <th scope="row">
+                                        <label for="sel_prodivi">판촉사원구분</label>
+                                    </th>
+                                    <td>
+                                        <select name="" class="sel w160" id="sel_prodivi">
+                                            <option>전체</option>
+                                            <option>무기직</option>
+                                            <option>무기직</option>
+                                            <option>무기직</option>
+                                        </select>
+                                    </td>
+                                </tr>
+								<tr>
+                                    <th scope="row">
+                                        <label for="inp_name">성명</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" id="inp_name" class="inp" value="" name="">
+                                    </td>
+                                    <th scope="row">
+                                        <label for="sel_contract">계약여부</label>
+                                    </th>
+                                    <td>
+                                        <select name="" class="sel w160" id="sel_contract">
+                                            <option>전체</option>
+                                            <option>계약중</option>
+                                            <option>계약완료</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="sel_handPhone01">연락처</label>
+                                    </th>
+                                    <td>
+                                        <div class="formWrap">
+                                            <select name="" class="sel" id="sel_handPhone01">
+                                                <option>010</option>
+                                                <option>011</option>
+                                            </select>                                            
+                                            <span class="dash"></span>
+                                            <input type="text" id="inp_handPhone01" class="inp" value="" name="" maxlength="4">
+                                            <span class="dash"></span>
+                                            <input type="text" id="inp_handPhone02" class="inp" value="" name="" maxlength="4">
+                                        </div>   
+                                    </td>
+                                    <th scope="row">
+                                        <label for="inp_birth">생년월일</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" id="inp_birth" class="inp" value="" name="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="inp_post_num">우편번호</label>
+                                    </th>
+                                    <td colspan="3">
+                                        <div class="postWrap w200">
+                                            <input type="text" id="inp_post_num" class="inp" disabled="">
+                                            <button type="button" class="postBtn" title="우편번호 찾기"></button>
+										</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="inp_address">주소</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" id="inp_address" class="inp" disabled="">
+                                    </td>
+                                    <th scope="row">
+                                        <label for="inp_address_add">상세주소</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" id="inp_address_add" class="inp" disabled="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="sel_bank01">계약일</label>
+                                    </th>
+                                    <td>
+                                        <div class="formWrap type02">
+                                            <div class="dateWrap">
+                                                <input type="text" name="date" value="10/24/1984" class="inp " id="datepicker">
+                                                <button type="button" class="datepickerBtn" title="날짜입력" data-target-id="datepicker"></button>
+                                            </div>
+
+                                            <p class="txt01 pColor02">계약일 반드시 입력해주세요</p>
+                                        </div>
+                                    </td>
+                                    <th scope="row">
+                                        <label for="sel_store">지점</label>
+                                    </th>
+                                    <td>
+                                        <select name="" class="sel w160" id="sel_store">
+                                            <option>전체</option>
+                                            <option>강남지점</option>
+                                            <option>강남지점</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="sel_bank01">계약종료일</label>
+                                    </th>
+                                    <td>
+                                        <div class="dateWrap">
+											<input type="text" name="date" value="10/24/1984" class="inp " id="datepicker02">
+                                            <button type="button" class="datepickerBtn" title="날짜입력" data-target-id="datepicker02"></button>
+										</div>
+                                    </td>
+                                    <th scope="row">
+                                        <label for="sel_sales">영업부문</label>
+                                    </th>
+                                    <td>
+                                        <select name="" class="sel w160" id="sel_sales">
+                                            <option>전체</option>
+                                            <option>도매1부문</option>
+                                            <option>도매2부문</option>
+                                        </select>
+                                    </td>
+                                </tr>
+								<tr>
+                                    <th scope="row">
+                                        <label for="inp_reason">계약종료사유</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" id="inp_reason" class="inp" value="" name="">
+                                    </td>
+                                    <th scope="row">
+                                        <label for="sel_salesGr">영업그룹</label>
+                                    </th>
+                                    <td>
+                                        <select name="" class="sel w160" id="sel_salesGr">
+                                            <option>전체</option>
+                                            <option>방판특수사업팀</option>
+                                            <option>방판특수사업팀</option>
+                                        </select>
+                                    </td>
+                                </tr>
+								<tr>
+                                    <th scope="row">
+                                        <label for="sel_type">판촉유형</label>
+                                    </th>
+                                    <td>
+                                        <select name="" class="sel w160" id="sel_type">
+                                            <option>전체</option>
+                                            <option>새벽</option>
+                                            <option>새벽</option>
+                                        </select>
+                                    </td>
+                                    <th scope="row">
+                                        <label for="inp_hops01">신규계약 홉단가(본사)</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" id="inp_hops01" class="inp ar" value="" name="">
+                                    </td>
+                                </tr>
+								<tr>
+                                    <th scope="row">
+                                        <label for="inp_pay">일당</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" id="inp_pay" class="inp ar" value="" name="">
+                                    </td>
+                                    <th scope="row">
+                                        <label for="inp_hops02">재계약 홉단가(본사)</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" id="inp_hops02" class="inp ar" value="" name="">
+                                    </td>
+                                </tr>
+								<tr>
+                                    <th scope="row">
+                                        <label for="inp_etc">비고</label>
+                                    </th>
+                                    <td colspan="3">
+                                        <input type="text" id="inp_etc" class="inp" value="" name="">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+					<div class="titleArea">
+                        <h3 class="tit01">근무 이력</h3>
+                    </div>
+
+                    <!-- grid -->
+                    <div class="girdBox h205">
+                        <div id="grid_wrap"></div>
+                    </div>
+                    <!-- grid -->
+
+                </div>
+
+                <footer>
+                    COPYRIGHT-NAMYANG-DAIRY-PRODUCTS-COLTD-ALL-RIGHT-RESERVED
+                </footer>
+            </div>
+            <!-- content -->
+		</div>
+	</div>
+</body>
+</html>

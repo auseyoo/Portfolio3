@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.cmmc.dao.RqbodMapper">
+	
+	<select id="selectRqbodList"	parameterType="com.namyang.nyorder.cmmc.vo.NttVO" resultType="com.namyang.nyorder.cmmc.vo.NttVO">
+	/*RqbodMapper - selectRqbodList */
+		
+		DECLARE @USER_TYPE VARCHAR(20)
+		DECLARE	@BHFC_CD VARCHAR(60)
+		
+		SELECT 	@USER_TYPE = MENU_ADM_TYPE,
+				@BHFC_CD = BHFC_CD
+		FROM	T_ADM_EMPL
+		WHERE	ADM_SEQ = #{admSeq}
+		
+		IF  @USER_TYPE = 'BHFC'
+			BEGIN
+				SELECT 
+					  tnm.NTT_SEQ
+					, tnm.NTT_SUB
+					, tnm.NTT_CNTT
+					, CASE WHEN tnm.RES_SEC_CD = '1' THEN '본사' ELSE '지점' END RES_SEC_CD
+					, tnm.CFM_YN
+					, IIF(tnm.CFM_YN ='N', '미확인', '확인') AS CFM_YN_NM
+					, CONVERT(varchar(10),tnm.REG_DTM, 120) as REG_DTM
+					, tam.AGEN_SEQ 
+					, tam.AGEN_CD 
+					, tam.AGEN_NM 
+					, tnm.NTT_ATCL_SEQ
+				FROM	T_NTT_MST		tnm
+				JOIN 	T_AGEN_MST		tam 
+				ON		tnm.AGEN_SEQ = tam.AGEN_SEQ 
+				JOIN	T_BHFC_AGEN		TBA
+				ON		TBA.AGEN_SEQ = TAM.AGEN_SEQ
+				JOIN	T_BHFC_MST		TBM
+				ON		TBA.BHFC_SEQ =	TBM.BHFC_SEQ
+				<where>
+					AND tnm.USE_YN = 'Y'
+					AND tam.AGEN_USE_YN = 'Y'
+					AND tnm.NTT_CD = 3
+					AND tnm.RES_SEC_CD = '2'
+					AND TBM.BHFC_CD = @BHFC_CD
+					<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(srcType)">
+						<choose>
+							<when test="srcType == 'agenCd' ">
+								AND tam.AGEN_CD like '%'+#{srcKeyword}+'%'
+							</when>
+							<when test="srcType == 'agenNm' ">
+								AND tam.AGEN_NM like '%'+#{srcKeyword}+'%'
+							</when>
+						</choose>
+					</if>
+					<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(srcType2)">
+						<choose>
+							<when test="srcType == 'all' ">
+								AND ( tnm.NTT_SUB like '%'+#{srcKeyword2}+'%' OR tnm.NTT_CNTT like '%'+#{srcKeyword2}+'%')
+							</when>
+							<when test="srcType == 'title' ">
+								AND tnm.NTT_SUB like '%'+#{srcKeyword2}+'%'
+							</when>
+							<when test="srcType == 'content' ">
+								AND tnm.NTT_CNTT like '%'+#{srcKeyword2}+'%'
+							</when>
+						</choose>
+					</if>
+					AND tnm.REG_DTM BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE()
+				</where>
+				ORDER BY NTT_SEQ DESC
+			END
+		ELSE
+			BEGIN
+				SELECT 
+					  tnm.NTT_SEQ
+					, tnm.NTT_SUB
+					, tnm.NTT_CNTT
+					, CASE WHEN tnm.RES_SEC_CD = '1' THEN '본사' ELSE '지점' END RES_SEC_CD
+					, tnm.CFM_YN
+					, IIF(tnm.CFM_YN ='N', '미확인', '확인') AS CFM_YN_NM
+					, CONVERT(varchar(10),tnm.REG_DTM, 120) as REG_DTM
+					, tam.AGEN_SEQ 
+					, tam.AGEN_CD 
+					, tam.AGEN_NM 
+					, tnm.NTT_ATCL_SEQ
+				FROM	T_NTT_MST tnm
+				INNER
+				JOIN 	T_AGEN_MST tam 
+				ON		tnm.AGEN_SEQ = tam.AGEN_SEQ 
+				<where>
+					AND tnm.USE_YN = 'Y'
+					AND tam.AGEN_USE_YN = 'Y'
+					AND tnm.NTT_CD = 3
+					AND tnm.RES_SEC_CD = '1'
+					<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(srcType)">
+						<choose>
+							<when test="srcType == 'agenCd' ">
+								AND tam.AGEN_CD like '%'+#{srcKeyword}+'%'
+							</when>
+							<when test="srcType == 'agenNm' ">
+								AND tam.AGEN_NM like '%'+#{srcKeyword}+'%'
+							</when>
+						</choose>
+					</if>
+					<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(srcType2)">
+						<choose>
+							<when test="srcType == 'all' ">
+								AND ( tnm.NTT_SUB like '%'+#{srcKeyword2}+'%' OR tnm.NTT_CNTT like '%'+#{srcKeyword2}+'%')
+							</when>
+							<when test="srcType == 'title' ">
+								AND tnm.NTT_SUB like '%'+#{srcKeyword2}+'%'
+							</when>
+							<when test="srcType == 'content' ">
+								AND tnm.NTT_CNTT like '%'+#{srcKeyword2}+'%'
+							</when>
+						</choose>
+					</if>
+					AND tnm.REG_DTM BETWEEN DATEADD(DAY, -90, GETDATE()) AND GETDATE()
+				</where>
+				ORDER BY NTT_SEQ DESC
+			END
+	</select>
+
+
+<update id="updateCfmYn" parameterType="com.namyang.nyorder.cmmc.vo.NttVO">
+	/* rqbod-Mapper - updateCfmYn 확인/미확인 업데이트*/
+	UPDATE T_NTT_MST 
+	SET
+	  CFM_YN = 'Y'
+	, UPD_DTM = CURRENT_TIMESTAMP 
+	, UPD_SEQ = 0
+	WHERE 1=1
+	AND NTT_SEQ = #{nttSeq}
+</update>
+
+<select id="selectRcbodAtcl" parameterType="com.namyang.nyorder.cmmc.vo.NttVO" resultType="com.namyang.nyorder.cmmc.vo.NttVO">
+	SELECT 
+	  tnam.NTT_ATCL_SEQ 
+	, tnad.NTT_ATCL_DTL_SEQ 
+	, tnad.FILE_NM 
+	, tnad.FILE_ORI_NM 
+	, tnad.FILE_LC 
+	, tnad.FILE_EXT 
+	, tnad.FILE_SIZE 
+	FROM 
+	T_NTT_ATCL_MST tnam 
+	INNER JOIN T_NTT_ATCL_DTL tnad 
+	ON tnam.NTT_ATCL_SEQ = tnad.NTT_ATCL_SEQ 
+	WHERE 1=1
+	AND tnam.USE_YN = 'Y'
+	AND tnad.USE_YN = 'Y'
+</select>
+</mapper>

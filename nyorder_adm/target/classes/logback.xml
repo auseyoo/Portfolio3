@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds" debug="true">
+
+	<property name="LOG_DIR" value="D:/log" />
+    <property name="LOG_PATH_NAME" value="${LOG_DIR}/nyAdmLog.log" />
+
+    <!-- 파일 생성하는 appender-->
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH_NAME}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH_NAME}.%d{yyyyMMdd}.%i </fileNamePattern>
+            <!-- each file should be at most 100MB, keep 60 days worth of history, but at most 10GB -->
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>60</maxHistory>
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%-4relative %date [%thread] %-5level %C %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-3level %logger{5} - %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="jdbc" level="OFF"/>
+
+    <logger name="jdbc.sqlonly" level="OFF"/>
+    <logger name="jdbc.sqltiming" level="DEBUG"/>
+    <logger name="jdbc.audit" level="OFF"/>
+    <logger name="jdbc.resultset" level="OFF"/>
+    <logger name="jdbc.resultsettable" level="DEBUG"/>
+    <logger name="jdbc.connection" level="OFF"/>
+    
+    <logger name="com.zaxxer.hikari" level="OFF" /> 
+    <logger name="com.zaxxer.hikari.HikariConfig" level="OFF"/>
+    <logger name="org.apache.commons.digester" level="INFO"/>
+    
+    <logger name="org.springframework.core.env" level="DEBUG"/>
+    <logger name="org.springframework.beans.factory" level="DEBUG"/>
+    <logger name="org.springframework.web" level="DEBUG"/>
+    <logger name="org.springframework.jndi" level="DEBUG"/>
+    <logger name="org.springframework.http" level="DEBUG"/>
+    
+    <logger name="javax.servlet.http.HttpServletRequest" level="DEBUG"/>
+    
+    <logger name="org.springframework.security" level="INFO"/>
+    
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="ROLLING" />
+    </root>
+</configuration>

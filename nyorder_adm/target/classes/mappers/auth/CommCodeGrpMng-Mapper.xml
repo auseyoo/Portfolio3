@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.auth.dao.CommCodeGrpMngMapper">
+	
+	<select id="commCodeGrpMngList" parameterType="com.namyang.nyorder.auth.vo.CommCodeGrpMngVO" resultType="com.namyang.nyorder.auth.vo.CommCodeGrpMngVO">
+		SELECT COMM_SEQ
+		       , COMM_GRP_CD
+		       , COMM_GRP_NM
+		       , COMM_CD
+		       , COMM_NM
+		       , ORDR
+		       , COMM_DESC1
+		       , COMM_DESC2
+		       , COMM_DESC3
+		       , COMM_DESC4
+		       , COMM_DESC5
+		       , COMM_DESC6
+		       , USE_YN
+		       , REG_DTM
+		       , REG_SEQ
+		       , UPD_DTM
+		       , UPD_SEQ
+		  FROM T_COMM
+		 WHERE 1=1
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commGrpCd)">
+		   AND COMM_GRP_CD LIKE  '%'+#{commGrpCd}+'%'  
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commGrpNm)">
+		   AND COMM_GRP_NM LIKE  '%'+#{commGrpNm}+'%'
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commCd)">
+		   AND COMM_CD LIKE  '%'+#{commCd}+'%'
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commNm)">
+		   AND COMM_NM LIKE  '%'+#{commNm}+'%'
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commNm)">
+		   AND COMM_NM LIKE  '%'+#{commNm}+'%'
+		</if>
+		 ORDER BY COMM_GRP_CD ASC
+		          , ORDR ASC
+	</select>
+	
+	<update id="commCodeGrpMngUpd" parameterType="Map">
+		UPDATE T_ADM_MENU
+		   SET MENU_ORDR = #{menuOrdr}
+		       , USE_YN = #{useYn}
+		 WHERE MENU_SEQ = #{menuSeq}
+	</update>
+	
+</mapper>

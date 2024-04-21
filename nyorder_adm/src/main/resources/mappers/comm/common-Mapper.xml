@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.comm.dao.CommonMapper">
+	
+	<select id="selectAddr" resultType="com.namyang.nyorder.comm.vo.CstMstVO" >
+		SELECT CST_SEQ, AGEN_SEQ, AREA_SEQ, CST_AGEN_CD, CST_NM, APPCT_NM, TEL_NO, MOB_NO, MOB_NO2, CST_EML, BILCT_MTH, STPG_DT, STPG_RSON, STPG_YN, DLV_ZIP_CD, DLV_ADDR1, DLV_ADDR2, REPT_ZIP_CD, REPT_ADDR1, REPT_ADDR2, CASH_RECP_YN, USE_YN, REG_DTM, REG_SEQ, UPD_DTM, UPD_SEQ
+		FROM NY_ORDER.dbo.T_CST_MST
+		WHERE AGEN_SEQ = 923
+	 	AND	AREA_SEQ = 1150
+		AND USE_YN = 'Y'
+		AND DLV_ADDR1 is NOT NULL 
+		AND DLV_ADDR2 is NOT NULL
+	</select>
+	
+	
+	
+</mapper>

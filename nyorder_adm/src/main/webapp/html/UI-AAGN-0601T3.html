@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>ADMIN 남양유업 대리점 주문시스템</title>
+<link rel="stylesheet" type="text/css" href="../css/lib/daterangepicker.css"/>
+<link rel="stylesheet" type="text/css" href="../css/AUIGrid/grid_custom.css"/>
+<link rel="stylesheet" type="text/css" href="../css/layout.css"/>
+<script type="text/javascript" src="../js/lib/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/lib/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/lib/moment.min.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGridLicense.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGrid.js"></script>
+<script type="text/javascript" src="../js/lib/daterangepicker.js"></script>
+<script type="text/javascript" src="../js/datepicker_range_custom.js"></script>
+<script type="text/javascript" src="../js/common_ui.js"></script>
+<script type="text/javascript">
+	var myGridID;
+    var myGridID2;
+	var myGridID3;
+	var myGridID4;
+	var myGridID5;
+	
+	var gridData = [
+			{"id":"#Cust0","pName":"강남지점","aCode":"454533","aName":"논현3동","area":"대치동","seller":"남유업","loveNum":"145"},
+			{"id":"#Cust1","pName":"강남지점","aCode":"454533","aName":"논현3동","area":"대치동","seller":"남유업","loveNum":"145"}
+	];
+    var gridData2 = [
+        {"id":"#Cust02","code":"435SS","area":"강남지점","deliOrder":"1","aCode":45454,"aName":"논현3동","name":"남양진","areaCode":454522,"areaName":"내손2동","loCode":454522,"handphone":"010-5455-0505","address":"도산대로 240 8층","collStatus":"양호","regiDate":"2022-05-05","prdNm":"GT프리미엄200","price":8500,"qty":50,"pattern":"월화수목금토일","regiDate":"2022-08-12","inputDate":"2022-08-12","inputStaus":"일시정지","regiPath":"전화신청","salesPerson":"홍남양","numHops":3,"numHopsPri":3000,"term":12,"conLevy":10000,"promoPrice":8000,"stopDate":"2022-08-08","stopReason":"기간종료","holdDate":"2022-08-08","remPeriod":"200","endDate":"2022-08-08","proMa01":"할인","proMa02":"프라이팬","payDate":"2022-10-22","payer":"프라이팬"},
+		{"id":"#Cust12","code":"435SS","area":"강남지점","deliOrder":"1","aCode":45454,"aName":"논현3동","name":"남양진","areaCode":454522,"areaName":"내손2동","loCode":454522,"handphone":"010-5455-0505","address":"도산대로 240 8층","collStatus":"양호","regiDate":"2022-05-05","prdNm":"GT프리미엄200","price":8500,"qty":50,"pattern":"월화수목금토일","regiDate":"2022-08-12","inputDate":"2022-08-12","inputStaus":"일시정지","regiPath":"전화신청","salesPerson":"홍남양","numHops":3,"numHopsPri":3000,"term":12,"conLevy":10000,"promoPrice":8000,"stopDate":"2022-08-08","stopReason":"기간종료","holdDate":"2022-08-08","remPeriod":"0","endDate":"2022-08-08","proMa01":"할인","proMa02":"프라이팬","payDate":"2022-10-22","payer":"프라이팬"},
+		{"id":"#Cust12","code":"435SS","area":"강남지점","deliOrder":"1","aCode":45454,"aName":"논현3동","name":"남양진","areaCode":454522,"areaName":"내손2동","loCode":454522,"handphone":"010-5455-0505","address":"도산대로 240 8층","collStatus":"양호","regiDate":"2022-05-05","prdNm":"GT프리미엄200","price":8500,"qty":50,"pattern":"월화수목금토일","regiDate":"2022-08-12","inputDate":"2022-08-12","inputStaus":"일시정지","regiPath":"전화신청","salesPerson":"홍남양","numHops":3,"numHopsPri":3000,"term":12,"conLevy":10000,"promoPrice":8000,"stopDate":"2022-08-08","stopReason":"기간종료","holdDate":"2022-08-08","remPeriod":"0","endDate":"2022-08-08","proMa01":"할인","proMa02":"프라이팬","payDate":"2022-10-22","payer":"프라이팬"}
+    ];
+	var gridData3 = [
+        {"id":"#Cust02","emCd":0072,"prNm":"GT프리미엄200","quan":88,"total":15000},
+		{"id":"#Cust12","emCd":0072,"prNm":"GT프리미엄200","quan":88,"total":15000}
+    ];
+	var gridData4 = [
+        {"id":"#Cust02","code":34555,"name":"강남지점","aCode":"454533","aName":"강동지점","areaCode":"454533","areaName":"논현2동","loCode":"1234567","telNm":"010-4565-0505","delAdd":"학동로 1510","price":5000,"quan":5,"total":15000},
+		{"id":"#Cust12","code":34555,"name":"강남지점","aCode":"454533","aName":"강동지점","areaCode":"454533","areaName":"논현2동","loCode":"1234567","telNm":"010-4565-0505","delAdd":"학동로 1510","price":5000,"quan":5,"total":15000}
+    ];
+	var gridData5 = [
+			{"id":"#Cust0","name":"강남지점","aCode":"44SS","aName":"강동지점","areaName":"대치동","loveNum":"145"},
+			{"id":"#Cust1","name":"강남지점","aCode":"44SS","aName":"강동지점","areaName":"대치동","loveNum":"145"}
+	];
+
+	$(document).ready(function(){
+        // AUIGrid 생성 후 반환 ID
+        createAUIGrid();
+        // 데이터 요청, 요청 성공 시 AUIGrid 에 데이터 삽입합니다.        
+        
+		AUIGrid.setGridData(myGridID, gridData);
+        AUIGrid.setGridData(myGridID2, gridData2);
+		AUIGrid.setGridData(myGridID3, gridData3);
+		AUIGrid.setGridData(myGridID4, gridData4);
+		AUIGrid.setGridData(myGridID5, gridData5);
+
+	    AUIGrid.setFooter(myGridID3, footerLayout3);
+		AUIGrid.setFooter(myGridID4, footerLayout4);
+    });
+
+	// AUIGrid 를 생성합니다.
+	function createAUIGrid() {
+		// 그리드 속성 설정
+		var gridPros = {
+				headerHeight : 29,
+				rowHeight : 29,
+				// 편집 가능 여부 (기본값 : false)
+
+				enableCellMerge : true,  // 셀 병합 실행
+				showStateColumn : false,
+				showRowCheckColumn : false, // 체크박스 사용 	
+				wrapSelectionMove : true,
+				editingOnKeyDown : true, // 키보드 입력으로 편집 모드 진입 (기본값:true임;)
+				
+				editable : true,
+				// 엔터키가 다음 행이 아닌 다음 칼럼으로 이동할지 여부 (기본값 : false)
+				enterKeyColumnBase : true,
+				// 셀 선택모드 (기본값: singleCell)
+				selectionMode : "singleRow",
+				showFooter : false,
+				// 컨텍스트 메뉴 사용 여부 (기본값 : false)
+				useContextMenu : true,
+				// 필터 사용 여부 (기본값 : false)
+				enableFilter : true,
+				// 그룹핑 패널 사용
+				useGroupingPanel : false,
+				
+				// 그룹핑 또는 트리로 만들었을 때 펼쳐지게 할지 여부 (기본값 : false)
+				displayTreeOpen : true,
+				
+				noDataMessage : "출력할 데이터가 없습니다.",
+				
+				groupingMessage : "여기에 칼럼을 드래그하면 그룹핑이 됩니다."
+		};
+
+		var gridPros3 = {
+			showFooter : true,
+			selectionMode : "singleRow",
+		}
+
+		var gridPros4 = {
+			showFooter : true,
+			selectionMode : "singleRow",
+		}
+
+
+        // 실제로 #grid_wrap 에 그리드 생성
+        myGridID = AUIGrid.create("#grid_wrap", columnLayout, gridPros);
+        myGridID2 = AUIGrid.create("#grid_wrap2", columnLayout2, gridPros);
+		myGridID3 = AUIGrid.create("#grid_wrap3", columnLayout3, gridPros3);
+		myGridID4 = AUIGrid.create("#grid_wrap4", columnLayout4, gridPros4);
+		myGridID5 = AUIGrid.create("#grid_wrap5", columnLayout5, gridPros);
+	}
+
+	var columnLayout = [{
+			dataField : "pName",
+			headerText : "지점명",
+			width : "20%",
+		},{
+			dataField : "aCode",
+			headerText : "대리점코드",
+			width : "20%",
+		},{
+			dataField : "aName",
+			headerText : "대리점명",
+		},{
+			dataField : "area",
+			headerText : "지역",  
+			width : "20%",
+		},{
+			dataField : "loveNum",
+			headerText : "애음자수",
+			width : "15%",
+			style : "auiRight"
+		}
+	];
+
+    var columnLayout2 = [{
+			dataField : "code",
+			headerText : "지점코드",
+            width : "7%",
+			cellMerge : true
+		},{
+			dataField : "name",
+			headerText : "지점명",
+			width : "7%",
+			cellMerge : true
+		},{
+			dataField : "aCode",
+			headerText : "대리점코드",
+			width : "7%",
+			cellMerge : true
+		},{
+			dataField : "aName",
+			headerText : "대리점명",
+			width : "7%",
+			cellMerge : true
+		},{
+			dataField : "areaCode",
+			headerText : "지역코드",
+			width : "7%",
+			cellMerge : true
+		},{
+			dataField : "areaName",
+			headerText : "지역명",
+			width : "7%",
+			cellMerge : true
+		},{
+			dataField : "loCode",
+			headerText : "애음자코드",
+			width : "7%",
+			cellMerge : true
+		},{
+			dataField : "name",
+			headerText : "성명",
+			width : "7%",
+			cellMerge : true
+		},{
+			dataField : "handphone",
+			headerText : "휴대폰번호",
+			width : "10%",
+			cellMerge : true
+		},{
+			dataField : "address",
+			headerText : "배달주소",
+			width : "17%",
+			style : "auiLeft",
+			cellMerge : true
+		},{
+			dataField : "collStatus",
+			headerText : "수금상태",
+			width : "6%",
+			cellMerge : true
+		},{
+			dataField : "regiDate",
+			headerText : "등록일",
+			width : "8%",
+			cellMerge : true
+		},{
+			dataField : "prdNm",
+			headerText : "제품명",
+			width : "20%",
+			style : "auiLeft"
+		},{
+			dataField : "price",
+			headerText : "단가",
+			dataType : "numeric",
+			width : "7%",
+			style : "auiRight"
+		},{
+			dataField : "qty",
+			headerText : "수량",
+			width : "5%",
+			style : "auiRight"
+		},{
+			dataField : "pattern",
+			headerText : "패턴",
+			width : "10%",
+		},{
+			dataField : "regiDate",
+			headerText : "가입일",
+			width : "8%",
+		},{
+			dataField : "inputDate",
+			headerText : "투입일",
+			width : "8%",
+		},{
+			dataField : "inputStaus",
+			headerText : "투입상태",
+			width : "7%",
+		},{
+			dataField : "regiPath",
+			headerText : "가입경로",
+			width : "7%",
+		},{
+			dataField : "salesPerson",
+			headerText : "판촉사원",
+			width : "7%",
+		},{
+			dataField : "numHops",
+			headerText : "홉수",
+			width : "7%",
+		},{
+			dataField : "numHopsPri",
+			headerText : "홉단가",
+			dataType : "numeric",			
+			style : "auiRight",
+			width : "7%",
+		},{
+			dataField : "term",
+			headerText : "계약기간",
+			width : "7%",
+		},{
+			dataField : "stopDate",
+			headerText : "중지일",
+			width : "8%",
+		},{
+			dataField : "stopReason",
+			headerText : "중지사유",
+			width : "8%",
+		},{
+			dataField : "holdDate",
+			headerText : "보류일",
+			width : "8%",
+		},{
+			dataField : "remPeriod",
+			headerText : "잔여기간",
+			width : "7%",
+		},{
+			dataField : "endDate",
+			headerText : "계약종료일",
+			width : "8%",
+		}
+	];
+
+	var columnLayout3 = [{
+			dataField : "emCd",
+			headerText : "제품코드",
+			width : "18%",
+		},{
+			dataField : "prNm",
+			headerText : "제품명",
+			style : "auiLeft"
+		},{
+			dataField : "quan",
+			headerText : "수량",
+			width : "20%",
+			style : "auiRight"
+		},{
+			dataField : "total",
+			headerText : "금액합계",
+			dataType : "numeric",
+			width : "20%",
+			style : "auiRight"
+		}
+	];
+
+	var columnLayout4 = [{
+			dataField : "code",
+			headerText : "지점코드",		
+			width : "7%",	
+		},{
+			dataField : "name",
+			headerText : "지점명",
+			width : "8%", 
+		},{
+			dataField : "aCode",
+			headerText : "대리점코드",
+			width : "7%",
+		},{
+			dataField : "aName",
+			headerText : "대리점명",
+			width : "8%",
+		},{
+			dataField : "areaCode",
+			headerText : "지역코드",
+			width : "8%",
+		},{
+			dataField : "areaName",
+			headerText : "지역명",
+			width : "8%",
+		},{
+			dataField : "loCode",
+			headerText : "애음자코드",
+			width : "8%",
+		},{
+			dataField : "name",
+			headerText : "성명",
+			width : "8%",
+		},{
+			dataField : "telNm",
+			headerText : "휴대폰번호",
+			width : "8%",
+		},{
+			dataField : "delAdd",
+			headerText : "배달주소",
+			width : "16%",
+			style : "auiLeft"
+		},{
+			dataField : "price",
+			headerText : "단가",
+			dataType : "numeric",
+			style : "auiRight",
+			width : "7%",
+		},{
+			dataField : "quan",
+			headerText : "수량",
+			style : "auiRight",
+			width : "7%",
+		},{
+			dataField : "total",
+			headerText : "금액합계",
+			dataType : "numeric",
+			style : "auiRight",
+			width : "7%",
+		}
+	];
+
+	var columnLayout5 = [{
+			dataField : "name",
+			headerText : "지점명",
+		},{
+			dataField : "aCode",
+			headerText : "대리점코드",
+			width : "18%",
+		},{
+			dataField : "aName",
+			headerText : "대리점명",
+			width : "18%",
+		},{
+			dataField : "areaName",
+			headerText : "지역명",
+            width : "18%",
+		},{
+			dataField : "loveNum",
+			headerText : "애음자수",
+			width : "15%",
+			style : "auiRight"
+		}
+	];
+    
+	// 푸터 설정
+    var footerLayout3 = [{
+        labelText : "∑",
+        positionField : "#base"
+        }, {
+            dataField : "code",
+            positionField : "code",
+            operation : "SUM",
+            colSpan : 2, // 자신을 포함하여 3개의 푸터를 가로 병합함.
+            labelFunction : function(value, columnValues, footerValues) {
+                //return "합계 : " + AUIGrid.formatNumber(value, "#,##0");
+                return "합계 : "
+            }
+        }, {
+            dataField : "quan",
+            positionField : "quan",
+            operation : "SUM",
+            style : "auiRight",
+            colSpan : 1, 
+            labelFunction : function(value, columnValues, footerValues) {
+                return " " + AUIGrid.formatNumber(value, "#,##0");
+            }
+        }, {
+            dataField : "total",
+            positionField : "total",
+            operation : "SUM",
+            style : "auiRight",
+            colSpan : 1, 
+            labelFunction : function(value, columnValues, footerValues) {
+                return " " + AUIGrid.formatNumber(value, "#,##0");
+            }
+        }];
+
+	var footerLayout4 = [{
+		labelText : "∑",
+		positionField : "#base"
+		}, {
+			dataField : "code",
+			positionField : "code",
+			operation : "SUM",
+			colSpan : 3, // 자신을 포함하여 3개의 푸터를 가로 병합함.
+			labelFunction : function(value, columnValues, footerValues) {
+				//return "합계 : " + AUIGrid.formatNumber(value, "#,##0");
+				return "합계 : "
+			}
+		}, {
+			dataField : "quan",
+			positionField : "quan",
+			operation : "SUM",
+			style : "auiRight",
+			colSpan : 1, 
+			labelFunction : function(value, columnValues, footerValues) {
+				return " " + AUIGrid.formatNumber(value, "#,##0");
+			}
+		}, {
+			dataField : "total",
+			positionField : "total",
+			operation : "SUM",
+			style : "auiRight",
+			colSpan : 1, 
+			labelFunction : function(value, columnValues, footerValues) {
+				return " " + AUIGrid.formatNumber(value, "#,##0");
+			}
+	}];
+
+	var isMerged = true; // 최초에는 merged 상태
+
+	function setCellMerge() {
+			isMerged = !isMerged;
+			
+			AUIGrid.setCellMerge(myGridID, isMerged);
+	}
+</script>
+</head>
+<body>
+	<div class="allWrap">
+		<header>
+            <h1><a href="#" class="logo" title="남양유업"></a></h1>
+
+            <div class="logInfo">
+                <ul>
+                    <li><span class="user">김 남양</span> 님 을 환영합니다.</li>
+                    <li>최근접속일시 : <span class="date">2021.12.10 09:30:00</span></li>
+                    <li><a href="#" class="logBtn"><span>로그아웃</span></a></li>
+                    <!-- <li><a href="#" class="logBtn"><span>로그인</span></a></li> -->
+                </ul>
+            </div>
+		</header>
+
+		<div class="contentWrap">
+			<!-- lnb -->
+			<div class="lnbWrap">
+                <!-- 검색영역 -->
+                <div class="leftSearBox">
+                    <input type="text" name="" value="" class="inp type02">
+                    <button type="button" class="searBtn" name="" title="검색하기"></button>
+                </div>
+                <!-- 검색영역 -->
+
+                <div class="lnbTabsWrap">
+                    <ul class="tabs etcMenu">
+                        <li class="active" rel="mtab01"><a href="#" class="allMenu" title="전체메뉴"><span>전체메뉴</span></a></li>
+                        <li class="" rel="mtab02"><a href="#" class="favSearch" title="즐겨찾기"><span>즐겨찾기</span></a></li>
+                    </ul>
+
+                    <!-- <a href="#" class="favSearch" title="즐겨찾기"><span>즐겨찾기</span></a> -->
+
+                    <div id="mtab01" class="tabContent lnb" style="">
+                        <ul>
+                            <li class="depth1">
+                                <a href="#" title="권한 관리"><span>권한 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">사용자그룹 권한관리</a></li>
+                                    <li><a href="#">사용자별 권한관리</a></li>
+                                    <li><a href="#">프로그램 관리</a></li>
+                                    <li><a href="#">프로그램 코드그룹 관리</a></li>
+                                    <li><a href="#">사용자그룹 관리</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="대리점 관리"><span>대리점 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">대리점 사용승인</a></li>
+                                    <li><a href="#">대리점 권한관리</a></li>
+                                    <li><a href="#">제품 관리</a></li>
+                                    <li><a href="#">이사고객 관리</a></li>
+                                    <li><a href="#">직영몰 애음자 관리</a></li>
+                                    <li><a href="#">애음자 분포 현황</a></li>
+                                    <li><a href="#">거래처 정보 조회</a></li>
+                                    <li><a href="#">거래처 지원내역 조회</a></li>
+                                    <li><a href="#">거래처 판매내역 조회</a></li>
+                                    <li><a href="#">거래처 단가 조정내역 조회</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="판촉 관리"><span>판촉 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">판촉사원 관리</a></li>
+                                    <li><a href="#">판촉사원 등록</a></li>
+                                    <li><a href="#">판촉 홉수 관리</a></li>
+                                    <li><a href="#">판촉물 요청 기간 관리</a></li>
+                                    <li><a href="#">판촉물 요청 자재 관리</a></li>
+                                    <li><a href="#">판촉물 소요량 요청 관리</a></li>
+                                    <li><a href="#">대리점별 판촉물 재고 현황</a></li>
+                                    <li><a href="#">판촉 애음자 조회1</a></li>
+                                    <li><a href="#">판촉 애음자 조회2</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="커뮤니케이션 관리"><span>커뮤니케이션 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#" class="active">공지사항 관리</a></li>
+                                    <li><a href="#">자료실 관리</a></li>
+                                    <li><a href="#">요청 게시판 관리</a></li>
+                                    <li><a href="#">알림톡 관리</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="mtab02" class="tabContent favor" style="display: none;">
+                        <ul>
+                            <li><a href="#">거래처 관리</a></li>
+                            <li><a href="#">거래처별 단가 관리</a></li>
+                            <li><a href="#">직원 관리</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="#" class="sideBtn"></a>
+			</div>
+            <!-- lnb -->
+
+			<!-- content -->
+			<div class="rContentBox">
+				<div class="content">
+					<div class="titTopArea">
+						<h2 class="tit01">애음자 분포 현황 <a href="#" class="favor" title="즐겨찾기"></a></h2>
+						<div class="location">
+							<ul>
+								<li><i class="home"></i></li>
+								<li>대리점관리</li>
+								<li>애음자 분포 현황 - 지점별 조회</li>
+							</ul>
+						</div>
+					</div>
+
+					<!-- tabs -->
+                    <div class="tabsWrap">
+                        <ul class="tabs">
+                            <li class="active" rel="tab01">지점별 조회</li>
+                            <li class="" rel="tab02">제품별 조회</li>
+							<li class="" rel="tab03">애음자 분포</li>
+                        </ul>
+
+						<!-- tabContent 지점별 조회 -->
+                        <div id="tab01" class="tabContent">
+							<!-- 조회 -->
+							<div class="inquiryBox type02 row">
+								<dl>
+									<dt>기간</dt>
+									<dd>
+										<div class="formWrap">
+											<div class="dateWrap">
+												<input type="text" name="date" value="10/24/1984" class="inp" id="datepicker" readonly="">                                        
+												<button type="button" class="datepickerBtn" title="날짜입력" data-target-id="datepicker"></button>                                        
+											</div> 
+		
+											<span class="divi02">-</span>
+											
+											<div class="dateWrap">
+												<input type="text" name="date" value="10/24/1984" class="inp" id="datepicker02" readonly="">
+												<button type="button" class="datepickerBtn02" title="날짜입력" data-target-id="datepicker02"></button>                                        
+											</div>
+										</div>
+									</dd>
+									<dt>지점/대리점</dt>
+									<dd>
+										<div class="searchWrap w160">
+											<input type="text" id="inp_post_num" class="inp">
+											<button type="button" class="postBtn" title="지점/대리점 찾기"></button>
+										</div>
+									</dd>
+									<dt>계약구분</dt>
+									<dd>
+										<select name="" class="sel w160" id="">
+											<option>전체</option>
+											<option>등록일</option>
+											<option>가입일</option>
+											<option>투입일</option>
+											<option>계약종료일</option>
+										</select>
+									</dd>
+									<dt>수금상태</dt>
+									<dd>
+										<select name="" class="sel w120" id="">
+											<option>전체</option>
+											<option>양호</option>
+											<option>불량</option>
+										</select>
+									</dd>
+								</dl>
+								<dl>
+									<dt>투입상태</dt>
+									<dd>
+										<select name="" class="sel w160" id="">
+											<option>전체</option>
+											<option>정상</option>
+											<option>일시중지</option>
+											<option>기간보류</option>
+										</select>
+									</dd>
+									<dt>구분</dt>
+									<dd>
+										<div class="formWrap">
+											<select name="" class="sel w160 mr10" id="">
+												<option>전체</option>
+												<option>지점</option>
+												<option>대리점</option>
+												<option>지역</option>
+											</select>
+		
+											<input type="text" id="" class="inp w160">
+											<button type="button" name="" class="comBtn">조회</button>
+										</div>
+									</dd>
+								</dl>
+		
+								<div class="btnGroup right">
+									<button type="button" name="" class="comBtn">엑셀다운</button>                            
+								</div>
+							</div>
+							<!-- 조회 -->
+
+							<!-- grid -->
+							<div class="girdBoxGroup">
+								<div class="girdBox w33per">
+									<div class="titleArea">
+										<p class="numState">
+											<em>총 <span class="pColor01 fb">2</span></em> 건 이 조회되었습니다.
+										</p>
+									</div>
+
+									<div id="grid_wrap"></div>
+								</div>
+
+								<div class="girdBox w65per">
+									<div class="titleArea">
+										<p class="numState">
+											<em>총 <span class="pColor01 fb">515</span></em> 건 이 조회되었습니다.
+										</p>
+									</div>
+
+									<div id="grid_wrap2"></div>
+								</div>
+							</div>
+							<!-- grid -->
+						</div>
+						<!-- //tabContent 지점별 조회 -->
+
+						<!-- tabContent 제품별 조회 -->
+                        <div id="tab02" class="tabContent">
+							<!-- 조회 -->
+							<div class="inquiryBox type02">
+								<dl>
+									<dt>지점/대리점</dt>
+									<dd>
+										<div class="searchWrap">
+											<input type="text" id="inp_areaSear01" class="inp w160">
+											<button type="button" class="postBtn" title="지역 찾기">											
+										</div>
+									</dd>
+									<dt>기간</dt>
+									<dd>
+										<div class="formWrap">
+											<div class="dateWrap">
+												<input type="text" name="date" value="10/24/1984" class="inp" id="datepicker11" readonly="">                                        
+												<button type="button" class="datepickerBtn" title="날짜입력" data-target-id="datepicker11"></button>                                        
+											</div> 
+		
+											<span class="divi02">-</span>
+											
+											<div class="dateWrap">
+												<input type="text" name="date" value="10/24/1984" class="inp" id="datepicker12" readonly="">
+												<button type="button" class="datepickerBtn02" title="날짜입력" data-target-id="datepicker12"></button>                                        
+											</div> 
+										</div>
+									</dd>
+									<dt>구분</dt>
+									<dd>
+										<div class="formWrap">
+											<select name="" class="sel mr10">
+												<option>전체</option>
+												<option>코드</option>
+												<option>제품명</option>
+											</select>
+
+											<input type="text" id="" class="inp w160">
+
+											<button type="button" name="" class="comBtn" id="inp_name01">조회</button>
+										</div>
+									</dd>
+								</dl>
+
+								<div class="btnGroup right">
+									<button type="button" name="" class="comBtn">엑셀다운</button>                            
+								</div>
+							</div>
+							<!-- 조회 -->
+
+							<!-- grid -->
+							<div class="girdBoxGroup">
+								<div class="girdBox w33per">
+									<div class="titleArea">
+										<p class="numState">
+											<em>총 <span class="pColor01 fb">2</span></em> 건 이 조회되었습니다.
+										</p>
+									</div>
+
+									<div id="grid_wrap3"></div>
+								</div>
+
+								<div class="girdBox w65per">
+									<div class="titleArea">
+										<p class="numState">
+											<em>총 <span class="pColor01 fb">2</span></em> 건 이 조회되었습니다.
+										</p>
+									</div>
+
+									<div id="grid_wrap4"></div>
+								</div>
+							</div>
+							<!-- grid -->
+						</div>
+						<!-- //tabContent 제품별 조회 -->
+
+						<!-- tabContent 애음자 분포 -->
+                        <div id="tab03" class="tabContent">
+							<!-- 조회 -->
+							<div class="inquiryBox type02">
+								<dl>
+									<dt>지점/대리점</dt>
+									<dd>
+										<div class="searchWrap w160">
+											<input type="text" id="inp_post_num" class="inp">
+											<button type="button" class="postBtn" title="지점/대리점 찾기"></button>
+										</div>
+									</dd>
+									<dt>지역</dt>
+									<dd>
+										<div class="formWrap">
+											<input type="text" id="" class="inp w160">
+											<button type="button" name="" class="comBtn" id="">조회</button>
+										</div>
+									</dd>
+								</dl>
+							</div>
+							<!-- 조회 -->
+
+							<!-- grid -->
+							<div class="girdBoxGroup">
+								<div class="girdBox w33per">
+									<div class="titleArea">
+										<p class="numState">
+											<em>총 <span class="pColor01 fb">2</span></em> 건 이 조회되었습니다.
+										</p>
+									</div>
+
+									<div id="grid_wrap5"></div>
+								</div>
+
+								<div class="girdBox w65per">
+									<!-- map -->
+									<div class="mapBox h580">
+										<!-- 스텝별 mark-->
+										<div class="mMarkWrap" style="top:130px; left:100px">
+											<div class="mMark step01">
+												<span>100</span>
+											</div>
+										</div>
+
+										<div class="mMarkWrap" style="top:130px; left:200px">
+											<div class="mMark step02">
+												<span>3</span>
+											</div>
+										</div>
+
+										<div class="mMarkWrap" style="top:130px; left:300px">
+											<div class="mMark step03">
+												<span>90</span>
+											</div>
+										</div>
+
+										<div class="mMarkWrap" style="top:130px; left:400px">
+											<div class="mMark step04">
+												<span>80</span>
+											</div>
+										</div>
+
+										<div class="mMarkWrap" style="top:130px; left:500px">
+											<div class="mMark step05">
+												<span>100</span>
+											</div>
+										</div>
+										<!-- 스텝별 mark-->
+
+										<div class="map">
+											<span style="margin-top:24%">지도 들어갈 자리 (개발작업예정)</span>
+										</div>
+									</div>
+									<!-- map -->
+								</div>
+							</div>
+							<!-- grid -->
+						</div>
+						<!-- //tabContent 애음자 분포 -->
+					</div>
+				</div>
+
+				<footer>
+					COPYRIGHT-NAMYANG-DAIRY-PRODUCTS-COLTD-ALL-RIGHT-RESERVED
+				</footer>
+			</div>
+			<!-- content -->
+	</div>
+</div>
+</body>
+</html>

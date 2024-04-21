@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>ADMIN 남양유업 대리점 주문시스템 - 커뮤니케이션관리 : 알림톡 관리(문구관리)</title>
+<link rel="stylesheet" type="text/css" href="../css/AUIGrid/grid_custom.css"/>
+<link rel="stylesheet" type="text/css" href="../css/layout.css"/>
+<script type="text/javascript" src="../js/lib/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/lib/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGridLicense.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGrid.js"></script>
+<script type="text/javascript" src="../js/common_ui.js"></script>
+<script type="text/javascript">
+    var myGridID;
+    var myGridID2;
+
+    var gridData = [
+			{"id":"#Cust0","title":"2021년 12월 판촉물 송장번호","date":"2022-04-01"},
+			{"id":"#Cust1","title":"2021년 12월 판촉물 송장번호","date":"2022-04-01"},
+			{"id":"#Cust2","title":"2021년 11월 송장번호","date":"2022-04-01"}
+        ];
+    var gridData2 = [
+        {"id":"#Cust01","agenCode":1234567,"tranNum":"6451-8502-8730","itemNm":"이오생분해","qty":"5","reciNm":"고구려","address":"서울시 강남구 개포동 1170-6"},
+        {"id":"#Cust12","agenCode":1234567,"tranNum":"6451-8502-8730","itemNm":"이오생분해","qty":"5","reciNm":"고구려","address":"서울시 강남구 개포동 1170-6"},
+        {"id":"#Cust12","agenCode":1234567,"tranNum":"6451-8502-8730","itemNm":"이오생분해","qty":"5","reciNm":"고구려","address":"서울시 강남구 개포동 1170-6"}
+    ];
+   
+   $(document).ready(function(){
+        // AUIGrid 생성 후 반환 ID
+        createAUIGrid();
+        //createAUIGrid(columnLayout2);
+        // 데이터 요청, 요청 성공 시 AUIGrid 에 데이터 삽입합니다.        
+        
+        AUIGrid.setGridData(myGridID, gridData);
+	    //AUIGrid.setFooter(myGridID, footerLayout);
+
+        AUIGrid.setGridData(myGridID2, gridData2);
+	   // AUIGrid.setFooter(myGridID2, footerLayout2);
+    });
+    
+   
+    // AUIGrid 를 생성합니다.
+    function createAUIGrid() {
+        // 그리드 속성 설정
+        var gridPros = {
+            headerHeight : 29,
+            rowHeight : 29,
+            // 편집 가능 여부 (기본값 : false)
+            editable : true,                
+            selectionMode : "singleRow",
+            showRowCheckColumn : true, // 체크박스 사용
+            rowCheckColumnWidth : 30,
+            enterKeyColumnBase : true,
+            headerRowCheck: true,
+                            
+        }
+        
+        var gridPros2 = {
+			headerHeight : 29,
+            rowHeight : 29,
+			editable : true,
+            selectionMode : "singleRow",
+            showRowCheckColumn : false, // 체크박스 사용
+            rowCheckColumnWidth : 30,
+            enterKeyColumnBase : true,
+            headerRowCheck: true,
+		}
+    
+        // 실제로 #grid_wrap 에 그리드 생성
+        myGridID = AUIGrid.create("#grid_wrap", columnLayout, gridPros);
+        myGridID2 = AUIGrid.create("#grid_wrap2", columnLayout2, gridPros2);
+
+         // 행 추가 이벤트 바인딩 
+	    AUIGrid.bind(myGridID, "addRow", auiAddRowHandler); 
+    }
+
+    // 그리드 속성 설정
+	var auiGridProps = {
+			//scrollHeight : 18, // 스크롤의 높이
+			//scrollThumbHeight : 16, // 스크롤 썸(thumb)의 높이
+			fixedColumnCount : 7
+	};
+
+    var columnLayout = [{
+			dataField : "title",
+			headerText : "제목",
+			style: "auiLeft auiLink",
+            editable : true,
+            renderer : {
+			    type : "TemplateRenderer"
+            },
+            labelFunction: function (rowIndex, columnIndex, value, headerText, item, dataField, cItem ) {
+                if(item.title){
+                    var template = item.title
+                }else{
+                    var template = '<div class="my_div">';
+                        template += '<span class="my_div_text_box">' + value + '</span>';
+                        template += '</div>';
+                }
+                return template;
+            },            
+		},{
+			dataField : "date",
+			headerText : "날짜",
+            width : "40%",
+            editable : true,
+            renderer : {
+			    type : "TemplateRenderer"
+            },
+            labelFunction: function (rowIndex, columnIndex, value, headerText, item, dataField, cItem ) {
+                if(item.date){
+                    var template = item.date
+                }else{
+                    var template = '<div class="my_div">';
+                        template += '<span class="my_div_text_box">' + value + '</span>';
+                        template += '</div>';
+                }
+                return template;
+            },	   
+		}
+	];
+
+    var columnLayout2 = [{
+            dataField : "agenCode",
+			headerText : "대리점코드",
+			width : "15%",
+            editable : true,
+            renderer : {
+                type : "TemplateRenderer"
+            },
+            labelFunction : function (rowIndex, columnIndex, value, headerText, item ) {
+                var template = '<div class="my_div">';
+                template += '<span class="my_div_text_box center">' + value + '</span>';
+                template += '</div>';
+                return template;
+            }
+		},{
+			dataField : "tranNum",
+			headerText : "운송장번호",
+			width : "15%",
+            editable : true,
+            renderer : {
+                type : "TemplateRenderer"
+            },
+            labelFunction : function (rowIndex, columnIndex, value, headerText, item ) {
+                var template = '<div class="my_div">';
+                template += '<span class="my_div_text_box center">' + value + '</span>';
+                template += '</div>';
+                return template;
+            }
+        },{
+			dataField : "itemNm",
+			headerText : "물품명",
+			width : "15%",
+            style : "auiLeft",
+            editable : true,
+            renderer : {
+                type : "TemplateRenderer"
+            },
+            labelFunction : function (rowIndex, columnIndex, value, headerText, item ) {
+                var template = '<div class="my_div">';
+                template += '<span class="my_div_text_box center">' + value + '</span>';
+                template += '</div>';
+                return template;
+            }
+        },{
+			dataField : "qty",
+			headerText : "수량",
+			width : "5%",
+            style : "auiRight",
+            editable : true,
+            renderer : {
+                type : "TemplateRenderer"
+            },
+            labelFunction : function (rowIndex, columnIndex, value, headerText, item ) {
+                var template = '<div class="my_div">';
+                template += '<span class="my_div_text_box center">' + value + '</span>';
+                template += '</div>';
+                return template;
+            }
+        },{
+			dataField : "reciNm",
+			headerText : "수하인명",
+			width : "10%",
+            editable : true,
+            renderer : {
+                type : "TemplateRenderer"
+            },
+            labelFunction : function (rowIndex, columnIndex, value, headerText, item ) {
+                var template = '<div class="my_div">';
+                template += '<span class="my_div_text_box center">' + value + '</span>';
+                template += '</div>';
+                return template;
+            }
+        },{
+			dataField : "address",
+			headerText : "주소",
+            style : "auiLeft",
+            editable : true,
+            renderer : {
+                type : "TemplateRenderer"
+            },
+            labelFunction : function (rowIndex, columnIndex, value, headerText, item ) {
+                var template = '<div class="my_div">';
+                template += '<span class="my_div_text_box center">' + value + '</span>';
+                template += '</div>';
+                return template;
+            }
+		}
+	];
+
+    
+        // 행 추가 이벤트 핸들러
+		function auiAddRowHandler(event) {
+			//alert(event.type + " 이벤트\r\n" + "삽입된 행 인덱스 : " + event.rowIndex + "\r\n삽입된 행 개수 : " + event.items.length);
+			document.getElementById("rowInfo").innerHTML = (event.type + " 이벤트 :  " + "삽입된 행 인덱스 : " + event.rowIndex + ", 삽입된 행 개수 : " + event.items.length);
+		};
+	
+		//행추가
+		var countries = ["title"];
+		var cnt = 0;
+		function addRow(rowPos) {
+			var item = new Object();
+			AUIGrid.addRow(myGridID, item, rowPos);
+			
+		}
+
+		// 행 삭제 이벤트 핸들러
+		function auiRemoveRowHandler(event) {
+			document.getElementById("rowInfo").innerHTML = (event.type + " 이벤트 :  " + ", 삭제된 행 개수 : " + event.items.length + ", softRemoveRowMode : " + event.softRemoveRowMode);
+		};
+
+		// 행 삭제
+		function removeRow() {
+			if(!(AUIGrid.getSelectedIndex(myGridID)).length){
+				alert("삭제할 내역을 선택하세요.");
+			}
+			var rowPos = AUIGrid.getSelectedIndex(myGridID);
+			AUIGrid.removeRow(myGridID, rowPos[0]);
+		}
+
+		// 추가, 수정, 삭제 된 아이템들 확인하기
+		function checkItems() {
+			
+			// 추가된 행 아이템들(배열)
+			var addedRowItems = AUIGrid.getAddedRowItems(myGridID);
+			
+			// 수정된 행 아이템들(배열) : 진짜 수정된 필드만 얻음.
+			var editedRowItems = AUIGrid.getEditedRowColumnItems(myGridID);
+			
+			// 수정된 행 아이템들(배열) : 수정된 필드와 수정안된 필드 모두를 얻음.
+			//var editedRowItems = AUIGrid.getEditedRowItems(myGridID); 
+			
+			// 삭제된 행 아이템들(배열)
+			var removedRowItems = AUIGrid.getRemovedItems(myGridID);
+			
+			var i, len, name, rowItem;
+			var str = "";
+		
+			if(addedRowItems.length > 0) {
+				str += "---추가된 행\r\n";
+				for(i=0, len=addedRowItems.length; i<len; i++) {
+					rowItem = addedRowItems[i]; // 행아이템
+					// 전체 조회
+					for(var name in rowItem) {
+						str += name + " : " + rowItem[name] + ", ";	
+					}
+					str += "\r\n";
+				}
+			}
+		
+			if(editedRowItems.length > 0) {
+				str += "---수정된 행\r\n";
+				for(i=0, len=editedRowItems.length; i<len; i++) {
+					rowItem = editedRowItems[i]; // 행아이템
+					
+					// 전체 조회
+					for(var name in rowItem) {
+						str += name + " : " + rowItem[name] + ", ";	
+					}
+					str += "\r\n";
+				}
+			}
+		
+			if(removedRowItems.length > 0) {
+				str += "---삭제된 행\r\n";
+				for(i=0, len=removedRowItems.length; i<len; i++) {
+					rowItem = removedRowItems[i]; // 행아이템
+					// 전체 조회
+					for(var name in rowItem) {
+						str += name + " : " + rowItem[name] + ", ";	
+					}
+					str += "\r\n";
+				}
+			}
+
+        // 하단에 정보 출력.
+        $("#desc_info").html("추가 개수 : " + addedRowItems.length + ", 수정 개수 : " + editedRowItems.length + ", 삭제 개수 : " + removedRowItems.length); 	
+            if(str == "")
+                str = "변경 사항 없음";
+            
+            alert(str);
+        }
+
+</script>
+</head>
+<body>
+	<div class="allWrap">
+		<header>
+            <h1><a href="#" class="logo" title="남양유업"></a></h1>
+
+            <div class="logInfo">
+                <ul>
+                    <li><span class="user">김 남양</span> 님 을 환영합니다.</li>
+                    <li>최근접속일시 : <span class="date">2021.12.10 09:30:00</span></li>
+                    <li><a href="#" class="logBtn"><span>로그아웃</span></a></li>
+                    <!-- <li><a href="#" class="logBtn"><span>로그인</span></a></li> -->
+                </ul>
+            </div>
+		</header> 
+
+		<div class="contentWrap">
+            <!-- lnb -->
+			<div class="lnbWrap">
+                <!-- 검색영역 -->
+                <div class="leftSearBox">
+                    <input type="text" name="" value="" class="inp type02">
+                    <button type="button" class="searBtn" name="" title="검색하기"></button>
+                </div>
+                <!-- 검색영역 -->
+
+                <div class="lnbTabsWrap">
+                    <ul class="tabs etcMenu">
+                        <li class="active" rel="mtab01"><a href="#" class="allMenu" title="전체메뉴"><span>전체메뉴</span></a></li>
+                        <li class="" rel="mtab02"><a href="#" class="favSearch" title="즐겨찾기"><span>즐겨찾기</span></a></li>
+                    </ul>
+
+                    <!-- <a href="#" class="favSearch" title="즐겨찾기"><span>즐겨찾기</span></a> -->
+
+                    <div id="mtab01" class="tabContent lnb" style="">
+                        <ul>
+                            <li class="depth1">
+                                <a href="#" title="권한 관리"><span>권한 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">사용자그룹 권한관리</a></li>
+                                    <li><a href="#">사용자별 권한관리</a></li>
+                                    <li><a href="#">프로그램 관리</a></li>
+                                    <li><a href="#">프로그램 코드그룹 관리</a></li>
+                                    <li><a href="#">사용자그룹 관리</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="대리점 관리"><span>대리점 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">대리점 사용승인</a></li>
+                                    <li><a href="#">대리점 권한관리</a></li>
+                                    <li><a href="#">제품 관리</a></li>
+                                    <li><a href="#">이사고객 관리</a></li>
+                                    <li><a href="#">직영몰 애음자 관리</a></li>
+                                    <li><a href="#">애음자 분포 현황</a></li>
+                                    <li><a href="#">거래처 정보 조회</a></li>
+                                    <li><a href="#">거래처 지원내역 조회</a></li>
+                                    <li><a href="#">거래처 판매내역 조회</a></li>
+                                    <li><a href="#">거래처 단가 조정내역 조회</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="판촉 관리"><span>판촉 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">판촉사원 관리</a></li>
+                                    <li><a href="#">판촉사원 등록</a></li>
+                                    <li><a href="#">판촉 홉수 관리</a></li>
+                                    <li><a href="#">판촉물 요청 기간 관리</a></li>
+                                    <li><a href="#">판촉물 요청 자재 관리</a></li>
+                                    <li><a href="#">판촉물 소요량 요청 관리</a></li>
+                                    <li><a href="#">대리점별 판촉물 재고 현황</a></li>
+                                    <li><a href="#">판촉 애음자 조회1</a></li>
+                                    <li><a href="#">판촉 애음자 조회2</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="커뮤니케이션 관리"><span>커뮤니케이션 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#" class="active">공지사항 관리</a></li>
+                                    <li><a href="#">자료실 관리</a></li>
+                                    <li><a href="#">요청 게시판 관리</a></li>
+                                    <li><a href="#">알림톡 관리</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="mtab02" class="tabContent favor" style="display: none;">
+                        <ul>
+                            <li><a href="#">거래처 관리</a></li>
+                            <li><a href="#">거래처별 단가 관리</a></li>
+                            <li><a href="#">직원 관리</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="#" class="sideBtn"></a>
+			</div>
+            <!-- lnb -->
+			
+            <!-- content -->
+            <div class="rContentBox">
+                <div class="content">
+                    <div class="titTopArea">
+                        <h2 class="tit01">자료실 관리<a href="#" class="favor" title="즐겨찾기"></a></h2>
+
+                        <div class="location">
+                            <ul>
+                                <li><i class="home"></i></li>
+                                <li>세무/회계관리</li>
+                                <li>세금계산서 관리</li>
+                                <li>세금계산서 집계표</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 조회 -->
+                    <div class="inquiryBox">
+                        <dl>
+                            <dt>검색어</dt>
+                            <dd>
+                                <div class="formWrap">
+                                    <select name="" class="sel mr10">
+										<option>전체</option>
+										<option>제목</option>
+										<option>내용</option>
+										<option>제목+내용</option>
+                                    </select>
+                                    <input type="text" id="inp_name01" class="inp w160 mr10" value="" title="성명 입력">
+                                    <button type="button" name="" class="comBtn" id="inp_name01">조회</button>
+                                </div>
+                            </dd>
+                        </dl>
+
+						<div class="btnGroup right">
+							<button type="button" name="" class="comBtn">인쇄</button>
+						</div>
+                    </div>
+                    <!-- 조회 -->
+
+                    <div class="girdBoxGroup type02">
+						<div class="girdBox w33per">
+							<div class="titleArea right">
+								<p class="numState">
+									<em>총 <span class="pColor01 fb">2</span></em> 건 이 조회되었습니다.
+								</p>
+
+                                <div class="btnGroup">
+                                    <button type="button" name="" class="comBtn small" onclick="addRow('first')" value="추가하기">행추가</button>
+                                    <button type="button" name="" class="comBtn small" onclick="removeRow('first')">행삭제</button>
+                                </div>
+							</div>
+
+							<!-- grid -->
+							<div class="girdBox">
+								<div id="grid_wrap"></div>
+							</div>
+							<!-- grid -->
+						</div>
+
+						<div class="conBox w65per">
+							<div class="titleArea right">
+								<h3 class="tit01">내용</h3>
+							</div>
+
+							<!-- grid -->
+							<div class="girdBox">
+								<div id="grid_wrap2"></div>
+							</div>
+							<!-- grid -->
+						</div>
+					</div>
+
+                </div>
+
+                <footer>
+                    COPYRIGHT-NAMYANG-DAIRY-PRODUCTS-COLTD-ALL-RIGHT-RESERVED
+                </footer>
+            </div>
+            <!-- content -->
+		</div>
+	</div>
+</body>
+</html>

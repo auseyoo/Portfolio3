@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<!-- ######################## error 페이지 ########################-->
+	<definition name="error-definition" template="/WEB-INF/views/comm/layout/normalLayout.jsp">
+		<put-attribute name="body" value="" />
+	</definition>
+	<definition name="error/*" extends="error-definition">
+		<put-attribute name="body" value="/WEB-INF/views/error/{1}.jsp"/>
+	</definition>
+	
+	<!-- 타일즈 미 적용 --> 
+	<definition name="login" template="/WEB-INF/views/comm/layout/normalLayout.jsp">
+		<put-attribute name="body" value="" />
+	</definition>
+	
+
+   	<!-- main -->
+   	<definition name="root" 			template="/WEB-INF/views/comm/layout/baseMain.jsp">
+        <put-attribute name="header" 	value="/WEB-INF/views/comm/layout/header.jsp" />
+        <put-attribute name="left" 		value="/comm/menu/left.do" />
+        <put-attribute name="body" 		value="/WEB-INF/views/comm/layout/body.jsp" />
+        <put-attribute name="footer" 	value="/WEB-INF/views/comm/layout/footer.jsp" />
+        <put-attribute name="body.center"	value="" />
+        <!-- 
+        <put-attribute name="body.breadcrumb" cascade="true" value="/comm/menu/breadcrumb.do"/>
+         -->
+   	</definition>
+   	 
+	<definition name="/*" extends="login">
+    	<put-attribute name="body" value="/WEB-INF/views/comm/{1}.jsp" />
+   	</definition>
+   	<definition name="/*/*" extends="login">
+    	<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+   	</definition>
+   	   
+   	<definition name="comm/mainList" extends="root">
+    	<put-attribute name="body" value="/WEB-INF/views/comm/mainList.jsp" />
+   	</definition>
+   	
+    <!-- 화면전체 깜박임 --> 
+   	<definition name="*/*.view" extends="root">
+    	<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+   	</definition>
+    
+	<definition name="*/*.pop" template="/WEB-INF/views/comm/layout/pop/popMain.jsp">
+		<put-attribute name="header" 	value="/WEB-INF/views/comm/layout/pop/popHead.jsp" />
+		<put-attribute name="body" 		value="/WEB-INF/views/{1}/{2}.jsp" />
+   	</definition>
+    
+   	<definition name="*/*" extends="root">
+    	<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+   	</definition>
+<!--    	<definition name="*/*/*" extends="root">
+    	<put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+   	</definition>  -->
+   	
+   	<definition name="*/*/*.comm" extends="root" template="/WEB-INF/views/comm/comm.jsp">
+    	<put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+   	</definition>
+   
+	
+
+</tiles-definitions>

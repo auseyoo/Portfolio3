@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>ADMIN 남양유업 대리점 주문시스템 - 로그인</title>
+<link rel="stylesheet" type="text/css" href="../css/AUIGrid/grid_custom.css"/>
+<link rel="stylesheet" type="text/css" href="../css/layout.css"/>
+<script type="text/javascript" src="../js/lib/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/lib/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGridLicense.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGrid.js"></script>
+<script type="text/javascript" src="../js/common_ui.js"></script>
+<script type="text/javascript">
+      var myGridID;
+      var gridData = [
+        {
+          id: "#Cust0",
+          code: "FG51000",
+          name: "비티소프트(구로)",
+          employeeCode: "20",
+        },
+        {
+          id: "#Cust1",
+          code: "FG51000",
+          name: "비티소프트(구로)",
+          employeeCode: "20",
+        },
+        {
+          id: "#Cust2",
+          code: "FG51000",
+          name: "비티소프트(구로)",
+          employeeCode: "20",
+        },
+        {
+          id: "#Cust3",
+          code: "FG51000",
+          name: "비티소프트(구로)",
+          employeeCode: "20",
+        },
+        {
+          id: "#Cust4",
+          code: "FG51000",
+          name: "비티소프트(구로)",
+          employeeCode: "20",
+        }, 
+        {
+          id: "#Cust5",
+          code: "FG51000",
+          name: "비티소프트(구로)",
+          employeeCode: "20",
+        },
+      ];
+
+      $(document).ready(function () {
+        // AUIGrid 생성 후 반환 ID
+        createAUIGrid(columnLayout);
+        // 데이터 요청, 요청 성공 시 AUIGrid 에 데이터 삽입합니다.
+
+        AUIGrid.setGridData(myGridID, gridData);
+      });
+
+      // AUIGrid 를 생성합니다.
+      function createAUIGrid(columnLayout) {
+        // 그리드 속성 설정
+        var gridPros = {
+          headerHeight: 29,
+          rowHeight: 29,
+          // 편집 가능 여부 (기본값 : false)
+          editable: false,
+
+          // 엔터키가 다음 행이 아닌 다음 칼럼으로 이동할지 여부 (기본값 : false)
+          enterKeyColumnBase: true,
+
+          // 셀 선택모드 (기본값: singleCell)
+          selectionMode: "multipleCells",
+
+          // 컨텍스트 메뉴 사용 여부 (기본값 : false)
+          useContextMenu: true,
+
+          // 필터 사용 여부 (기본값 : false)
+          enableFilter: true,
+
+          // 그룹핑 패널 사용
+          useGroupingPanel: false,
+
+          // 그룹핑 또는 트리로 만들었을 때 펼쳐지게 할지 여부 (기본값 : false)
+          displayTreeOpen: true,
+
+          noDataMessage: "출력할 데이터가 없습니다.",
+
+          groupingMessage: "여기에 칼럼을 드래그하면 그룹핑이 됩니다.",
+          width: 500,
+        };
+
+        // 실제로 #grid_wrap 에 그리드 생성
+        myGridID = AUIGrid.create("#grid_wrap", columnLayout, gridPros);
+      }
+
+      var columnLayout = [
+        {
+          dataField: "code",
+          headerText: "대리점 코드",
+          width: "50%",
+        },
+        {
+          dataField: "name",
+          headerText: "대리점명",
+        },
+        {
+          dataField: "employeeCode",
+          headerText: "직원코드",
+          width: "20%",
+        },
+      ];
+    </script>
+</head>
+<body>
+	<div class="logWrap">
+		<header>
+            <h1><a href="#" class="logo" title="남양유업"></a></h1>         
+		</header>
+
+		<div class="contentWrap">
+            <!-- content -->
+            <div class="login_wrap">
+                <div class="content">
+                  <div class="login_title">
+                    <h2 class="login_mainTit">남양유업 대리점 주문시스템</h2>
+                    <span class="login_susTxt">Namyang online order system</span>
+                  </div>
+                  
+                  <div class="login_gr">
+                      <div class="login_box">
+                        <h3 class="login_subTit">Login</h3>
+                        <div class="formWrap">
+                            <label for="inp_name01" class="required hide">사번</label>
+                            <input type="text" name="" value="" id="inp_name01" class="inp type02" placeholder="사번">
+                            <!-- <button type="button" name="" class="inquBtn" id="inp_name01" onClick="location.href='#modalAgencyViews'" data-id="modalAgencyViews">확인</button> -->
+                        </div>
+                        <!-- <div class="formWrap">
+                            <label for="inp_name02" class="required hide" title="필수입력">대리점코드/직원코드</label>
+                            <input type="text" id="inp_name02" class="inp bg_gray" value="" name="" placeholder="대리점코드/직원코드" disabled>
+                        </div>  -->
+                        <div class="formWrap">
+                            <label for="inp_name03" class="required hide" title="필수입력">비밀번호</label>
+                            <input type="password" id="inp_name03" class="inp" value="" name="" placeholder="비밀번호">
+                        </div>
+                        <div class="formWrap">
+                             <button type="button" name="" class="inquBtn loginBtn" id="inp_name04" onclick='btnDisabled()'>로그인</button>
+                        </div>
+                        <div class="formWrap">
+                            <div class="checkGroup">
+                                <input type="checkbox" id="save" class="type01"><label for="save"><span>사번 저장</span></label>
+                            </div>
+                        </div>                                
+                    </div>
+                    <div class="login_bg"><img src="../images/img_login.png" class="login_bgimg" alt="로그인 이미지"/></div>
+                  </div>       
+                </div>
+                
+                 <footer>
+                    COPYRIGHT-NAMYANG-DAIRY-PRODUCTS-COLTD-ALL-RIGHT-RESERVED
+                </footer>
+            </div>
+            <!-- content -->
+		</div>
+	</div>
+    <!-- modal -->
+    <div class="modal_bg"></div> <!-- modal 배경 -->
+    <div class="popWrap small modal_wrap h520" data-popup="modalAgencyViews"> <!-- small 사이즈 600px * 370px -->
+		<header>
+            <h3>대리점 조회</h3>
+            <button type="button" name="" class="closeBtn" id="modalCloseBtn"></button>
+		</header>  
+
+        <!-- popCon -->
+        <div class="popCon">
+            <div class="popTitArea">
+                <h3>대리점 정보조회</h3>
+    
+                <div class="popBtnArea">
+                    <button type="button" name="" class="comBtn" id="modalCloseBtn" >닫기</button>
+                    <!-- <button type="button" name="" class="inquBtn">확인</button> -->
+                </div>
+            </div>
+
+            <p class="numState">
+                <em>총 <span class="pColor01 fb">24</span></em> 건 이 조회되었습니다.
+            </p>
+
+            <!-- grid -->
+            <div class="girdBox logGridBox" style="width: 300px">
+                <div id="grid_wrap"></div>
+            </div>
+            <!-- grid -->
+        </div>
+        <!-- popCon -->
+	</div>
+  <!--// modal -->
+  
+
+  <script>
+    function btnDisabled() {
+        $('#inp_name04').on('click', function () {
+          $(location).attr('href','UI-AATH-0101.html');
+            
+        })
+    }
+  </script>
+</body>
+</html>

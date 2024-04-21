@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.prmt.dao.PrmtInvryMapper">
+
+	<select id="selectPrmtInvryList" parameterType="com.namyang.nyorder.prmt.vo.PrmtInvryVO" resultType="com.namyang.nyorder.prmt.vo.PrmtInvryVO">
+		/* PrmtInvry-Mapper - selectPrmtInvryList */
+	
+			SELECT
+				A.INVRY_SEQ
+				, A.AGEN_SEQ
+				, B.AGEN_CD 
+				, B.AGEN_NM
+				, A.PRD_DTL_SEQ
+				, C.PRD_SEQ 
+				, D.PRD_SAP_CD AS PRD_CD
+				, D.PRD_NM 
+				, A.STDR_DT
+				, A.FALT_QTY
+				, YESTD_BOX_QTY
+				, YESTD_IDDY_QTY
+				, WRHS_BOX_QTY
+				, WRHS_IDDY_QTY	
+				, (	ISNULL(SALE_BOX_QTY, 0)	+ ISNULL(RTGD_BOX_QTY, 0) + ISNULL(PRSNT_BOX_QTY, 0) ) AS DLVY_BOX_QTY
+				, (	ISNULL(SALE_IDDY_QTY, 0) + ISNULL(RTGD_IDDY_QTY, 0) + ISNULL(PRSNT_IDDY_QTY, 0)	) AS DLVY_IDDY_QTY
+				, INVRY_CHG_BOX_QTY
+				, INVRY_CHG_IDDY_QTY
+				, INVRY_BOX_QTY
+				, INVRY_IDDY_QTY
+			FROM
+				T_INVRY_MST A 
+				INNER JOIN T_AGEN_MST B ON A.AGEN_SEQ = B.AGEN_SEQ 
+				INNER JOIN T_PRD_DTL C ON C.PRD_DTL_SEQ = A.PRD_DTL_SEQ 
+				INNER JOIN T_PRD_MST D ON D.PRD_SEQ = C.PRD_SEQ AND D.PRMT_CD != 'NONE' 
+			WHERE 1=1
+				AND A.STDR_DT = #{stdrDt}
+				<if test="agenCd != null and agenCd != '' ">
+					AND B.AGEN_CD LIKE '%' + #{agenCd} + '%'
+				</if>
+				<if test="srcPrdCd != null and srcPrdCd != '' ">
+					AND D.PRD_SAP_CD LIKE '%' + #{srcPrdCd} + '%'
+				</if>
+				<if test="srcPrdNm != null and srcPrdNm != '' ">
+					AND D.PRD_NM LIKE '%' + #{srcPrdNm} + '%'
+				</if>	
+	</select>
+	
+</mapper>

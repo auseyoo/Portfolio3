@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.auth.dao.UserGrpMngMapper">
+	
+	<select id="userGrpMngList" parameterType="com.namyang.nyorder.auth.vo.UserGrpMngVO" resultType="com.namyang.nyorder.auth.vo.UserGrpMngVO">
+		SELECT AM.MENU_SEQ
+		       , AM.MENU_LV
+		       , AM.MENU_ID
+		       , AM.MENU_NM
+		       , AM.MENU_PARENT_SEQ
+		       , AM.MENU_DESC
+		       , AM.MENU_ADM_TYPE
+		       , CASE WHEN AM.MENU_ADM_TYPE = 'SYS' THEN 'Y'
+		              ELSE 'N'
+		         END AS TYPE1
+		       , CASE WHEN AM.MENU_ADM_TYPE = 'HOFF_PRMT_EMPL' THEN 'Y'
+		              ELSE 'N'
+		         END AS TYPE2
+		       , CASE WHEN AM.MENU_ADM_TYPE = 'AGEN_EMPL' THEN 'Y'
+		              ELSE 'N'
+		         END AS TYPE3
+		       , AM.MENU_ORDR
+		       , AM.MENU_URL
+		       , AM.USE_YN
+		       , AM.REG_DTM
+		       , AM.REG_SEQ
+		       , CONVERT(CHAR(10), AM.UPD_DTM, 23) AS UPD_DTM
+		       , AM.UPD_SEQ
+		       , AE.ADM_NM AS UPD_ADM_NM
+		  FROM T_ADM_MENU AM
+		       LEFT OUTER JOIN T_ADM_EMPL AE 
+		                    ON AM.UPD_SEQ = AE.ADM_SEQ
+		 WHERE 1=1
+		   AND AM.MENU_LV >= 2
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(menuId)">
+		   AND AM.MENU_ID LIKE  '%'+#{menuId}+'%'  
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(menuNm)">
+		   AND AM.MENU_NM LIKE  '%'+#{menuNm}+'%'
+		</if>
+		 ORDER BY AM.MENU_PARENT_SEQ ASC
+		          , AM.MENU_ORDR ASC
+	</select>
+	
+	<update id="userGrpMngUpd" parameterType="Map">
+		UPDATE T_ADM_MENU
+		   SET MENU_ADM_TYPE = #{menuAdmType}
+		 WHERE MENU_SEQ = #{menuSeq}
+	</update>
+	
+</mapper>

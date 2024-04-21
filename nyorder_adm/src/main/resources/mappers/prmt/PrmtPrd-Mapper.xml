@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.prmt.dao.PrmtPrdMapper">
+
+	<select id="selectPrmtPrdList" parameterType="com.namyang.nyorder.prmt.vo.PrmtPrdVO" resultType="com.namyang.nyorder.prmt.vo.PrmtPrdVO">
+		/* PrmtPrd-Mapper - selectPrmtPrdList : 	제품 마스터-판촉물 소요량 요청 여부 조회 */
+	
+		SELECT
+			 M.PRD_SEQ
+			,M.PUCH_SEQ
+			,M.PRD_SAP_CD
+			,M.PRD_NM
+			,M.PRD_TYPE
+			,(SELECT COMM_NM FROM T_COMM WHERE COMM_GRP_CD = 'SD0001' AND COMM_CD = M.PRD_TYPE) PRD_TYPE_NM
+			,PC.LCLS_NM
+			,M.MCLS
+			,PC.MCLS_NM
+			,M.SCLS
+			,PC.SCLS_NM
+			,M.DCLS
+			,PC.DCLS_NM
+			,M.PRMT_CD
+			,M.FALT_CT
+			,M.BRCD
+			,M.IDDY_BRCD
+			,M.FALT_QTY
+			,M.PRD_STRD
+			,M.PUCH_YN
+			,M.TAXT_CD
+			,IIF(M.TAXT_CD = '2', '면세', '과세') AS TAXT_NM 
+			,M.ORD_USE_YN
+			,M.FEE_UNTPC
+			,M.IDDY_UNTPC
+			,M.SPPRC
+			,M.VAT_SPPRC
+			,M.VALD_PD
+			,M.PRD_UNIT
+			,M.RTGD_PERM_TN
+			,M.UNTPC_APPL_DT
+			,M.REG_DTM
+			,M.REG_SEQ
+			,M.UPD_DTM
+			,M.UPD_SEQ
+			,M.SHTN_NM
+			,M.PRD_TYPE
+			,M.ORD_PD
+			,M.ETC_BRCD
+			<!-- ,M.USE_YN -->
+			<!-- ,IIF(M.USE_YN = 'Y', '사용', '미사용') AS USE_YN_TX -->
+			,IIF(M.ORD_USE_YN = 'Y', '주문가능', '주문불가') AS ORD_USE_YN_TX
+			, CASE WHEN B.USE_YN = 'Y' THEN '1' ELSE '0' END USE_YN
+			, IIF(B.USE_YN = 'Y', '사용', '미사용') AS USE_YN_TX
+		FROM	T_PRD_MST M
+			LEFT JOIN T_COMM_PRD_CLS pc
+			ON	PC.LCLS = M.LCLS
+			AND PC.MCLS = M.MCLS
+			AND PC.SCLS = M.SCLS
+			AND PC.DCLS = M.DCLS
+			LEFT OUTER JOIN T_PRMT_PRD B ON M.PRD_SEQ = B.PRD_SEQ AND M.PUCH_SEQ = B.PUCH_SEQ AND B.RQST_MONTH = #{rqstMonth} AND B.USE_YN = 'Y'
+		<include refid="selectStdPrdMngBaseWhere"/>
+	
+	</select>
+	
+	<sql id="selectStdPrdMngBaseWhere">
+		<where>
+			<if test="prdType != null and prdType != '' ">
+				AND M.PRD_TYPE = #{prdType}
+			</if>
+			<if test="lcls != null and lcls != '' ">
+				AND M.lcls = #{lcls}
+			</if>
+			<if test="mcls != null and mcls != '' ">
+				AND M.mcls = #{mcls}
+			</if>
+			<if test="scls != null and scls != '' ">
+				AND M.scls = #{scls}
+			</if>
+			<if test="dcls != null and dcls != '' ">
+				AND M.dcls = #{dcls}
+			</if>
+			<if test="srcType != null and srcType != '' ">
+				<choose>
+					<when test="srcType == 'prdCd' and srcKeyword != null and srcKeyword != ''">
+						AND M.PRD_SAP_CD LIKE '%'+ #{srcPrdCd} + '%'
+					</when>
+					<when test="srcType == 'prdNm' and srcKeyword != null and srcKeyword != ''">
+						AND M.prd_nm LIKE '%'+ #{srcPrdNm} + '%'
+					</when>
+				</choose>
+			</if>
+			<if test="srcPrdCd != null and srcPrdCd != '' ">
+				AND M.PRD_SAP_CD LIKE '%'+ #{srcPrdCd} + '%'
+			</if>
+			<if test="srcPrdNm != null and srcPrdNm != '' ">
+				AND M.prd_nm LIKE '%'+ #{srcPrdNm} + '%'
+			</if>
+			<if test="baseChk != null ">
+				AND M.PRD_SEQ NOT IN ( 
+										SELECT	PRD_SEQ
+										FROM 	T_PRD_DTL
+										WHERE	USE_YN = 'Y'
+										AND		AGEN_SEQ = #{agenSeq}
+										AND		STD_PRD_YN = 'Y'
+				)
+			</if>
+		</where>
+	</sql>
+	
+	<insert id="insPrmtPrd" parameterType="hashmap">
+		/*	prmtPrd-Mapper	- insPrmtPrd	*/
+			INSERT INTO T_PRMT_PRD (PRMT_PRD_SEQ
+					, PUCH_SEQ
+					, PRD_SEQ
+					, RQST_MONTH							
+					, USE_YN
+					, REG_DTM
+					, REG_SEQ
+					)
+				VALUES
+				<foreach collection="list" item="item" separator=" , " >
+				(
+					NEXT VALUE FOR SQ_PRMT_PRD
+					, #{item.puchSeq}
+					, #{item.prdSeq}
+					, #{item.rqstMonth}
+					, 'Y'
+					, CURRENT_TIMESTAMP
+					, #{emplSeq, jdbcType=NUMERIC}
+				)
+				</foreach>
+	</insert>
+	
+	<update id="delPrmtPrd" parameterType="com.namyang.nyorder.prmt.vo.PrmtRqstMngVO">
+		/*	prmtPrd-Mapper	- delPrmtPrd	*/
+			UPDATE T_PRMT_PRD 
+			SET 
+				USE_YN = 'N'
+				, UPD_DTM = CURRENT_TIMESTAMP
+				, UPD_SEQ = #{emplSeq}
+			WHERE RQST_MONTH = #{rqstMonth}
+	</update>
+	
+	<insert id="insCopyPrmtPrd" parameterType="com.namyang.nyorder.prmt.vo.PrmtRqstMngVO">
+		/*	prmtPrd-Mapper	- insCopyPrmtPrd	*/
+			INSERT INTO T_PRMT_PRD (PRMT_PRD_SEQ
+					, PUCH_SEQ
+					, PRD_SEQ
+					, RQST_MONTH							
+					, USE_YN
+					, REG_DTM
+					, REG_SEQ
+					)
+			SELECT NEXT VALUE FOR SQ_PRMT_PRD
+					, PUCH_SEQ
+					, PRD_SEQ
+					, CONVERT(CHAR(6), GETDATE(), 112) AS RQST_MONTH							
+					, USE_YN
+					, CURRENT_TIMESTAMP
+					, #{emplSeq, jdbcType=NUMERIC}
+			FROM T_PRMT_PRD A 
+			WHERE RQST_MONTH = CONVERT(CHAR(6), DATEADD(MONTH, -1, GETDATE()), 112)
+				AND USE_YN = 'Y' 
+				AND NOT EXISTS (
+						SELECT B.PUCH_SEQ, B.PRD_SEQ
+						FROM T_PRMT_PRD B 
+						WHERE B.RQST_MONTH = CONVERT(CHAR(6), GETDATE(), 112)  
+							AND USE_YN = 'Y'
+							AND B.PUCH_SEQ = A.PUCH_SEQ
+							AND B.PRD_SEQ = A.PRD_SEQ
+					)
+	</insert>
+	
+	<select id="selectPrmtPrdSeq" parameterType="com.namyang.nyorder.prmt.vo.PrmtPrdVO" resultType="com.namyang.nyorder.prmt.vo.PrmtPrdVO">
+		SELECT PRD_SEQ, PUCH_SEQ 
+		FROM T_PRD_MST A 
+		WHERE A.PRD_SAP_CD = ${prdSapCd}
+		AND PRMT_CD != 'NONE'
+		AND USE_YN = 'Y'
+	</select>
+	
+	<update id="merUploadedPrmtPrd" parameterType="com.namyang.nyorder.prmt.vo.PrmtPrdVO">
+		/*	prmtPrd-Mapper	- merUploadedPrmtPrd	*/
+		
+			DECLARE @PRMT_PRD_SEQ NUMERIC(13)
+			SET @PRMT_PRD_SEQ = NEXT VALUE FOR SQ_PRMT_PRD
+
+			MERGE INTO T_PRMT_PRD A
+			USING(
+					SELECT #{puchSeq} AS PUCH_SEQ
+							, #{prdSeq} AS PRD_SEQ
+							, #{rqstMonth} AS RQST_MONTH
+			) B
+			ON (
+				A.PUCH_SEQ = B.PUCH_SEQ AND A.PRD_SEQ = B.PRD_SEQ AND A.RQST_MONTH = B.RQST_MONTH  
+			) 
+			WHEN	MATCHED THEN 
+					UPDATE	SET 
+							USE_YN = CASE WHEN ${prmtRegFlag} = '1' THEN 'Y' WHEN ${prmtRegFlag} = '2' THEN 'N' ELSE 'N' END
+							, UPD_DTM = CURRENT_TIMESTAMP
+							, UPD_SEQ = #{emplSeq}
+			WHEN	NOT MATCHED THEN
+					INSERT(PRMT_PRD_SEQ
+							, PUCH_SEQ
+							, PRD_SEQ
+							, RQST_MONTH							
+							, USE_YN
+							, REG_DTM
+							, REG_SEQ
+							)
+						VALUES(
+							@PRMT_PRD_SEQ
+							, #{puchSeq}
+							, #{prdSeq}
+							, #{rqstMonth}
+							, CASE WHEN ${prmtRegFlag} = '1' THEN 'Y' WHEN ${prmtRegFlag} = '2' THEN 'N' ELSE 'N' END 
+							, CURRENT_TIMESTAMP
+							, #{emplSeq}
+						);
+	</update>
+	
+</mapper>

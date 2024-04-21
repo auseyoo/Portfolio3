@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.comm.dao.CommCodeMapper">
+	
+	<sql id="selectCommCodeListWhere">
+		<where>
+			<if test="useYn != null and useYn != '' ">
+				AND USE_YN = #{useYn}
+			</if>	
+			<if test="commNm != null and commNm != '' ">
+				AND (COMM_NM like '%'+#{commNm}+'%' or COMM_CD like '%'+#{commNm}+'%')
+			</if>	
+			<if test="commGrpNm != null and commGrpNm != '' ">
+				AND (COMM_GRP_CD like '%'+#{commGrpNm}+'%' or COMM_GRP_NM like '%'+#{commGrpNm}+'%')
+			</if>	
+			<if test="commGrpCd != null and commGrpCd != '' ">
+				AND COMM_GRP_CD = #{commGrpCd}
+			</if>	
+			<if test="commDesc1 != null and commDesc1 != '' ">
+				AND COMM_DESC1 = #{commDesc1}
+			</if>	
+			<if test="commDesc2 != null and commDesc2 != '' ">
+				AND COMM_DESC2 = #{commDesc2}
+			</if>	
+			<if test="commDesc3 != null and commDesc3 != '' ">
+				AND COMM_DESC3 = #{commDesc3}
+			</if>	
+			<if test="commDesc4 != null and commDesc4 != '' ">
+				AND COMM_DESC4 = #{commDesc4}
+			</if>	
+			<if test="commDesc5 != null and commDesc5 != '' ">
+				AND COMM_DESC5 = #{commDesc5}
+			</if>	
+			<if test="commDesc6 != null and commDesc6 != '' ">
+				AND COMM_DESC6 = #{commDesc6}
+			</if>	
+		</where>
+	</sql>
+	
+	<select id="selectCommCodeList" resultType="com.namyang.nyorder.comm.vo.CommCodeVO" >
+		/*	commCode-Mapper	- selectCommCodeList	*/
+		SELECT  
+				COMM_SEQ,
+				COMM_GRP_CD,
+				COMM_GRP_NM,
+				COMM_CD,
+				COMM_NM,
+				USE_YN,
+				COMM_DESC1,
+				COMM_DESC2,
+				COMM_DESC3,
+				COMM_DESC4,
+				COMM_DESC5,
+				COMM_DESC6,
+				REG_DTM,
+				REG_SEQ,
+				UPD_DTM,
+				UPD_SEQ,
+				ORDR
+		FROM 	T_COMM 
+		<include refid="selectCommCodeListWhere"/>
+		ORDER BY COMM_GRP_CD, ORDR ASC
+	</select>
+	
+	<insert id="insertCommCode" parameterType="com.namyang.nyorder.comm.vo.CommCodeVO" >
+	/*	commCode-Mapper	- insertCommCode	*/
+	INSERT INTO T_COMM 
+	(	COMM_SEQ,
+		COMM_GRP_CD,
+		COMM_GRP_NM,
+		COMM_CD,
+		COMM_NM,
+		USE_YN,
+		COMM_DESC1,
+		COMM_DESC2,
+		COMM_DESC3,
+		COMM_DESC4,
+		COMM_DESC5,
+		COMM_DESC6,
+		REG_DTM,
+		REG_SEQ,
+		UPD_DTM,
+		UPD_SEQ,
+		ORDR
+	)
+	VALUES(
+		NEXT VALUE FOR SQ_COMM,
+		#{commGrpCd}, 
+		#{commGrpNm}, 
+		#{commCd},    
+		#{commNm},
+		#{useYn},
+		#{commDesc1},
+		#{commDesc2},
+		#{commDesc3},
+		#{commDesc4},
+		#{commDesc5},
+		#{commDesc6},
+		CURRENT_TIMESTAMP,
+		0,
+		CURRENT_TIMESTAMP,
+		0,
+		#{ordr}
+	)
+	</insert>
+	
+	<update id="updateCommCode" parameterType="com.namyang.nyorder.comm.vo.CommCodeVO" >
+	/*	commCode-Mapper - updateCommCode	*/
+	UPDATE T_COMM
+	SET		COMM_GRP_CD		=	#{commGrpCd},
+			COMM_GRP_NM		=	#{commGrpNm},
+			COMM_CD			=	#{commCd},   
+			COMM_NM			=	#{commNm},   
+			USE_YN			=	#{useYn},
+			COMM_DESC1		=	#{commDesc1},
+			COMM_DESC2		=	#{commDesc2},
+			COMM_DESC3		=	#{commDesc3},
+			COMM_DESC4		=	#{commDesc4},
+			COMM_DESC5		=	#{commDesc5},
+			COMM_DESC6		=	#{commDesc6},
+			UPD_DTM			=	CURRENT_TIMESTAMP,
+			UPD_SEQ			=	0	
+	WHERE	COMM_SEQ = #{commSeq}
+	</update>
+	
+	
+	<update id="delCommCode" parameterType="com.namyang.nyorder.comm.vo.CommCodeVO" >
+	/*	commCode-Mapper	- delCommCode	*/
+	UPDATE T_COMM
+	SET		USE_YN			=	'N',
+			UPD_DTM			=	CURRENT_TIMESTAMP,
+			UPD_SEQ			=	0	
+	WHERE	COMM_SEQ = #{commSeq}
+	</update>
+	
+	<select id="selectPrdCls" resultType="com.namyang.nyorder.comm.vo.PrdClsVO" statementType="CALLABLE" >
+		{
+			CALL P_PRD_CLS (
+				#{lcls, mode=IN, jdbcType=VARCHAR},
+				#{mcls, mode=IN, jdbcType=VARCHAR},
+				#{scls, mode=IN, jdbcType=VARCHAR},
+				#{dcls, mode=IN, jdbcType=VARCHAR}
+			)
+		}
+	</select>
+	
+	
+</mapper>

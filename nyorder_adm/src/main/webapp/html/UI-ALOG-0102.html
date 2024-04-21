@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>ADMIN 남양유업 대리점 주문시스템 - 비밀번호 변경</title>
+<link rel="stylesheet" type="text/css" href="../css/AUIGrid/grid_custom.css"/>
+<link rel="stylesheet" type="text/css" href="../css/layout.css"/>
+<script type="text/javascript" src="../js/lib/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/lib/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGridLicense.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGrid.js"></script>
+<script type="text/javascript" src="../js/common_ui.js"></script>
+<script>
+    // 비밀번호 변경 클릭 이벤트
+    function btnDisabled()  {
+        var pwBtnId = $('.cerNum_wrap');
+        const target = document.getElementById('btn_pwEdit');
+        target.disabled = true;
+        $(pwBtnId).removeClass('disabled');
+        $(pwBtnId).removeAttr('style');
+    }
+</script>
+</head>
+
+<body>
+	<div class="logWrap pwWrap">
+		<header>
+            <h1><a href="#" class="logo" title="남양유업"></a></h1>         
+		</header>
+
+		<div class="contentWrap">
+            <!-- content -->
+            <div class="login_wrap">
+                <div class="content">
+                    <div class="login_title">
+                        <h2 class="login_mainTit">비밀번호 변경</h2>
+                        <span class="login_susTxt">Change password</span>
+                    </div>
+                    <div class="login_box">
+                                               
+                        <div class="formWrap jEnd">
+                            <form class="jBetween">
+                                <label for="inp_pw01" class="required badge" title="새 비밀번호">새 비밀번호</label>
+                                <input type="password" id="inp_pw01" class="inp" name="pw" minlength="6" maxlength="12">
+                            </form>
+                            <p class="inpText">영문+숫자+특수문자 조합으로 8자리 이상</p>
+                        </div>
+                        
+                        <div class="formWrap jEnd">
+                            <form class="jBetween">
+                                <label for="inp_pw02" class="required badge" title="비밀번호 확인">비밀번호 확인</label>
+                                <input type="password" id="inp_pw02" class="inp" name="pw" minlength="6" maxlength="12">
+                            </form>
+                            <p class="inpText">비밀번호를 재입력해주세요.</p>
+                        </div>
+                        <div class="formWrap jCenter">
+                             <button type="button" name="" class="inquBtn large" id="btn_pwEdit" onclick='btnDisabled()'>비밀번호 변경</button>
+                        </div>
+                        
+                        <!-- 인증번호 -->
+                        <div class="cerNum_wrap" style="display: none;">
+                            <p>본인 인증을 위해 계정에 <span class="fb">등록된 휴대폰 번호</span>로 <span class="fb">인증번호를 전송</span>했습니다.</p>
+                            <p class="last">휴대폰으로 전송된 인증번호를 입력해주세요.</p>
+                            <div class="formWrap jCenter">
+                                <button type="button" name="" class="inquBtn large w170" id="btn_pw">인증번호 재전송</button>
+                            </div>
+                            <div class="formWrap jEnd">
+                                <form class="jBetween" >
+                                    <label for="inp_num01" class="required badge" title="인증번호">인증번호</label>
+                                    <input type="password" id="inp_num01" class="inp w180" name="pw" minlength="9" maxlength="9">
+                                    <button type="button" name="" class="inquBtn" onClick="location.href='#modalAgencyViews'" data-modal="modal" >확인</button> 
+                                </form>
+                                <p class="inpText">3:00</p>
+                            </div>    
+                        </div>
+                        <!--// 인증번호 -->
+                                     
+                    </div>
+                       
+                </div>
+                
+                 <footer>
+                    COPYRIGHT-NAMYANG-DAIRY-PRODUCTS-COLTD-ALL-RIGHT-RESERVED
+                </footer>
+            </div>
+            <!-- content -->
+		</div>
+	</div>
+    
+</body>
+</html>

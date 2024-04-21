@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.cmmc.dao.FileMapper">
+	<!-- 공지사항 리스트 출력 -->
+	<select id="addNttAtclMst" parameterType="com.namyang.nyorder.cmmc.vo.FileVO" resultType="int">
+		/* File-Mapper - addNttAtclMst */
+		DECLARE  @S_ATCL_SEQ INT
+		set @S_ATCL_SEQ = (NEXT VALUE FOR SQ_NTT_ATCL)
+		
+		INSERT INTO T_NTT_ATCL_MST(NTT_ATCL_SEQ,USE_YN,REG_DTM,REG_SEQ,UPD_DTM,UPD_SEQ)
+		VALUES(@S_ATCL_SEQ, 'Y', CURRENT_TIMESTAMP, #{emplSeq}, CURRENT_TIMESTAMP, #{emplSeq})
+		
+		SELECT @S_ATCL_SEQ
+	</select>
+	
+	<update id="addNttAtclDtl" parameterType="com.namyang.nyorder.cmmc.vo.FileVO" >
+		/* File-Mapper - addNttAtclDtl */ 
+		
+		DECLARE  @S_ATCL_SEQ INT
+		SET @S_ATCL_SEQ = (NEXT VALUE FOR SQ_NTT_ATCL) 
+		
+		
+		MERGE INTO T_NTT_ATCL_DTL	A
+		USING(
+			SELECT 	#{ordr}	AS ORDR,
+					#{nttAtclSeq} AS NTT_ATCL_SEQ
+		) B
+		ON (
+			A.ORDR = B.ORDR
+			AND A.NTT_ATCL_SEQ = B.NTT_ATCL_SEQ
+		)
+		WHEN 
+			MATCHED THEN
+				UPDATE 
+				SET		NTT_ATCL_DTL_SEQ = @S_ATCL_SEQ,
+						FILE_NM	=	#{fileNm},
+						FILE_ORI_NM = #{fileOriNm},
+						FILE_LC = #{fileLc},
+						FILE_EXT = #{fileExt},
+						FILE_SIZE = #{fileSize},
+						USE_YN = #{useYn},
+						UPD_DTM = CURRENT_TIMESTAMP,
+						UPD_SEQ = #{emplSeq}
+			
+		WHEN
+			NOT MATCHED THEN
+				INSERT(
+					NTT_ATCL_DTL_SEQ, 
+					NTT_ATCL_SEQ, 
+					FILE_NM, 
+					FILE_ORI_NM, 
+					FILE_LC, 
+					FILE_EXT, 
+					FILE_SIZE, 
+					ORDR, 
+					USE_YN, 
+					REG_DTM, 
+					REG_SEQ, 
+					UPD_DTM, 
+					UPD_SEQ
+				) 
+				VALUES(
+					@S_ATCL_SEQ,
+					#{nttAtclSeq},
+					#{fileNm},
+					#{fileOriNm},
+					#{fileLc},
+					#{fileExt},
+					#{fileSize},
+					#{ordr},
+					#{useYn},
+					CURRENT_TIMESTAMP,
+					#{emplSeq},
+					CURRENT_TIMESTAMP,
+					#{emplSeq}
+				);
+	</update>
+	
+	<select id="selectAtclList" parameterType="com.namyang.nyorder.cmmc.vo.FileVO" resultType="com.namyang.nyorder.cmmc.vo.FileVO">
+		/* File-Mapper - selectAtclList */
+		SELECT 
+				NTT_ATCL_DTL_SEQ, 
+				NTT_ATCL_SEQ, 
+				FILE_NM, 
+				FILE_ORI_NM, 
+				FILE_LC, 
+				FILE_EXT, 
+				FILE_SIZE, 
+				ORDR, 
+				USE_YN, 
+				REG_DTM, 
+				REG_SEQ, 
+				UPD_DTM, 
+				UPD_SEQ 
+		FROM 	NY_ORDER.dbo.T_NTT_ATCL_DTL
+		WHERE	NTT_ATCL_SEQ = #{nttAtclSeq}
+		AND		USE_YN = 'Y'
+	</select>
+	
+	<select id="selectAtclDtlList" parameterType="com.namyang.nyorder.cmmc.vo.FileVO" resultType="com.namyang.nyorder.cmmc.vo.FileVO">
+		/* File-Mapper - selectAtclDtlList */
+		SELECT 
+				NTT_ATCL_DTL_SEQ, 
+				NTT_ATCL_SEQ, 
+				FILE_NM, 
+				FILE_ORI_NM, 
+				FILE_LC, 
+				FILE_EXT, 
+				FILE_SIZE, 
+				ORDR, 
+				USE_YN, 
+				REG_DTM, 
+				REG_SEQ, 
+				UPD_DTM, 
+				UPD_SEQ 
+		FROM 	NY_ORDER.dbo.T_NTT_ATCL_DTL
+		WHERE	NTT_ATCL_DTL_SEQ = #{nttAtclDtlSeq}
+		AND		USE_YN = 'Y'
+	</select>
+	
+	<update id="rmvAtclDtl" parameterType="com.namyang.nyorder.cmmc.vo.FileVO" >
+		UPDATE	T_NTT_ATCL_DTL
+		SET		USE_YN = 'N'
+		WHERE	NTT_ATCL_DTL_SEQ = #{nttAtclDtlSeq}
+	</update>
+	
+</mapper>

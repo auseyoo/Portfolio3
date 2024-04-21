@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.prmt.dao.PrmtEmplMngMapper">
+	
+	<select id="getBhfcList" resultType="camelHashMap">
+		SELECT BHFC_SEQ
+		       , BHFC_CD
+		       , BHFC_NM
+		  FROM T_BHFC_MST
+		 WHERE USE_YN = 'Y'
+	</select>
+	
+	<select id="prmtEmplMngList" parameterType="com.namyang.nyorder.prmt.vo.PrmtEmplMngVO" resultType="com.namyang.nyorder.prmt.vo.PrmtEmplMngVO">
+		EXEC P_OPEN_KEY
+		
+		SELECT PE.PRMT_EMPL_SEQ 
+		       , PE.PRMT_EMPL_CD
+		       , PEH.EMPL_SEC_CD
+		       , CASE WHEN PEH.EMPL_SEC_CD ='AGENT_PRMT_EMPL'  THEN '별동대'
+		              WHEN PEH.EMPL_SEC_CD ='HOFF_PRMT_EMPL'  THEN '무기직'
+		              ELSE ''
+		          END AS EMPL_SEC_NM
+		       , dbo.F_GET_DECRYT(PE.EMPL_NM) AS EMPL_NM
+		       , PE.CNTR_YN
+		       , CASE WHEN PE.CNTR_YN ='Y' THEN '계약중'
+		              ELSE 'N'
+		          END AS CNTR_NM
+		       , dbo.F_GET_TEL_NO(dbo.F_GET_DECRYT(PE.TEL_NO)) AS TEL_NO
+		       , CONVERT(date, dbo.F_GET_DECRYT(PE.BRTHDY)) AS BRTHDY
+		       , PE.ZIP_CD
+		       , PE.ADDR1
+		       , dbo.F_GET_DECRYT(PE.ADDR2) AS ADDR2
+		       , PE.REG_DTM
+		       , PE.REG_SEQ
+		       , PE.UPD_DTM
+		       , PE.UPD_SEQ
+		       , BM.BHFC_SEQ
+		       , BM.BHFC_NM
+		       , CONVERT(date, PEH.CNTR_DT) AS CNTR_DT
+		       , CONVERT(date, PEH.CNTR_END_DT) AS CNTR_END_DT
+		  FROM T_PRMT_EMPL PE
+		       LEFT OUTER JOIN (SELECT ST1.PRMT_EMPL_HIS_SEQ
+		                               , ST1.PRMT_EMPL_SEQ
+		                               , ST1.CNTR_DT
+		                               , ST1.CNTR_END_DT
+		                               , ST1.BHFC_SEQ
+		                               , ST1.EMPL_SEC_CD
+		          	              FROM T_PRMT_EMPL_HIS ST1
+		          	                   INNER JOIN (SELECT PRMT_EMPL_SEQ
+		          	                                      , MAX(CNTR_DT) AS CNTR_DT
+		                                             FROM T_PRMT_EMPL_HIS
+		                                            GROUP BY PRMT_EMPL_SEQ) ST2
+		                                       ON ST1.PRMT_EMPL_SEQ = ST2.PRMT_EMPL_SEQ 
+		                                      AND ST1.CNTR_DT = ST2.CNTR_DT
+		                       ) PEH
+		                    ON PEH.PRMT_EMPL_SEQ = PE.PRMT_EMPL_SEQ
+		       LEFT OUTER JOIN T_BHFC_MST BM
+		                    ON BM.BHFC_SEQ = PEH.BHFC_SEQ
+		 WHERE 1=1
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(prmtEmplCd)">
+		   AND PE.PRMT_EMPL_CD LIKE '%'+#{prmtEmplCd}+'%'
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(emplNm)">
+		   AND PE.EMPL_NM LIKE '%'+#{emplNm}+'%'
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(bhfcSeq)">
+		   AND PEH.BHFC_SEQ = #{bhfcSeq}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(cntrYn)">
+		   AND PEH.CNTR_YN = #{cntrYn}
+		</if>
+		 ORDER BY PE.PRMT_EMPL_CD
+	</select>
+	
+	<select id="selectEmplSecCommCodeList" resultType="com.namyang.nyorder.comm.vo.CommCodeVO" >
+		SELECT COMM_SEQ
+		       , COMM_GRP_CD
+		       , COMM_GRP_NM
+		       , COMM_CD
+		       , COMM_NM
+		       , USE_YN
+		       , COMM_DESC1
+		       , COMM_DESC2
+		       , COMM_DESC3
+		       , COMM_DESC4
+		       , COMM_DESC5
+		       , COMM_DESC6
+		       , REG_DTM
+		       , REG_SEQ
+		       , UPD_DTM
+		       , UPD_SEQ
+		       , ORDR
+		  FROM T_COMM 
+		 WHERE 1=1
+		   AND USE_YN = 'Y'
+		   AND COMM_GRP_CD = 'EMPL_SEC_CD'
+		   AND COMM_DESC4 IS NOT NULL
+		ORDER BY ORDR DESC
+	</select>
+	
+	<update id="insertPrmtEmpl" parameterType="com.namyang.nyorder.prmt.vo.PrmtEmplMngVO">
+		<selectKey keyProperty="prmtEmplSeq" resultType="String" order="BEFORE">
+		SELECT NEXT VALUE FOR SQ_PRMT_EMPL
+		</selectKey>
+		INSERT INTO T_PRMT_EMPL
+		(
+		    PRMT_EMPL_SEQ
+		    , PRMT_EMPL_CD
+		    , EMPL_NM
+		    , CNTR_YN
+		    , TEL_NO
+		    , BRTHDY
+		    , ZIP_CD
+		    , ADDR1
+		    , ADDR2
+		    , REG_DTM
+		    , REG_SEQ
+		    , UPD_DTM
+		    , UPD_SEQ
+		)
+		VALUES
+		(
+		    #{prmtEmplSeq}
+		    , 'A' + FORMAT(CONVERT(numeric, #{prmtEmplSeq}), '00000')
+		    , dbo.F_GET_ENCRYT(#{emplNm})
+		    , #{cntrYn}
+		    , dbo.F_GET_ENCRYT(#{telNo})
+		    , dbo.F_GET_ENCRYT(REPLACE(#{brthdy},'-','')) 
+		    , #{zipCd}
+		    , #{addr1}
+		    , dbo.F_GET_ENCRYT(#{addr2})
+		    , CURRENT_TIMESTAMP
+		    , #{regSeq}
+		    , CURRENT_TIMESTAMP
+		    , #{updSeq}
+		)
+	</update>
+	
+	<update id="insertPrmtEmplHis" parameterType="com.namyang.nyorder.prmt.vo.PrmtEmplHisVO">
+		INSERT INTO T_PRMT_EMPL_HIS
+		(
+		    PRMT_EMPL_HIS_SEQ
+		    , PRMT_EMPL_SEQ
+		    , CNTR_DT
+		    , CNTR_END_DT
+		    , BHFC_SEQ
+		    , EMPL_SEC_CD
+		    , NEW_HOFF_HOP
+		    , RECNTR_HOFF_HOP
+		    , CHPDY_CT
+		    , END_RMK
+		    , RMK
+		    , REG_DTM
+		    , REG_SEQ
+		    , UPD_DTM
+		    , UPD_SEQ
+		)
+		VALUES
+		(
+		    NEXT VALUE FOR SQ_PRMT_EMPL_HIS
+		    , #{prmtEmplSeq}
+		    , REPLACE(#{cntrDt},'-','')
+		    , REPLACE(#{cntrEndDt},'-','')
+		    , #{bhfcSeq}
+		    , #{emplSecCd}
+		    , CONVERT(numeric, #{newHoffHop})
+		    , CONVERT(numeric, #{recntrHoffHop})
+		    , CONVERT(numeric, #{chpdyCt})
+		    , #{endRmk}
+		    , #{rmk}
+		    , CURRENT_TIMESTAMP
+		    , #{regSeq}
+		    , CURRENT_TIMESTAMP
+		    , #{updSeq}
+		)
+	</update>
+	
+	<select id="getPrmtEmplInfo" parameterType="Map" resultType="com.namyang.nyorder.prmt.vo.PrmtEmplMngVO">
+		EXEC P_OPEN_KEY
+		
+		SELECT PE.PRMT_EMPL_SEQ 
+		       , PE.PRMT_EMPL_CD
+		       , PEH.EMPL_SEC_CD
+		       , CASE WHEN PEH.EMPL_SEC_CD ='AGENT_PRMT_EMPL'  THEN '별동대'
+		              WHEN PEH.EMPL_SEC_CD ='HOFF_PRMT_EMPL'  THEN '무기직'
+		              ELSE ''
+		          END AS EMPL_SEC_NM
+		       , dbo.F_GET_DECRYT(PE.EMPL_NM) AS EMPL_NM
+		       , PE.CNTR_YN
+		       , CASE WHEN PE.CNTR_YN ='Y'  THEN '계약중'
+		              ELSE 'N'
+		          END AS CNTR_NM
+		       , dbo.F_GET_TEL_NO(dbo.F_GET_DECRYT(PE.TEL_NO)) AS TEL_NO
+		       , CONVERT(date, dbo.F_GET_DECRYT(PE.BRTHDY)) AS BRTHDY
+		       , PE.ZIP_CD
+		       , PE.ADDR1
+		       , dbo.F_GET_DECRYT(PE.ADDR2) AS ADDR2
+		       , PE.REG_DTM
+		       , PE.REG_SEQ
+		       , PE.UPD_DTM
+		       , PE.UPD_SEQ
+		       , BM.BHFC_SEQ
+		       , BM.BHFC_NM
+		       , PEH.PRMT_EMPL_HIS_SEQ 
+		       , CONVERT(date, PEH.CNTR_DT) AS CNTR_DT
+		       , CONVERT(date, PEH.CNTR_END_DT) AS CNTR_END_DT
+		       , CONVERT(NUMERIC, PEH.NEW_HOFF_HOP) AS NEW_HOFF_HOP
+		       , CONVERT(NUMERIC, PEH.RECNTR_HOFF_HOP) AS RECNTR_HOFF_HOP
+		       , CONVERT(NUMERIC, PEH.CHPDY_CT) AS CHPDY_CT
+		       , PEH.RMK
+		       , PEH.END_RMK
+		  FROM T_PRMT_EMPL PE
+		       LEFT OUTER JOIN (SELECT ST1.PRMT_EMPL_HIS_SEQ
+		                               , ST1.PRMT_EMPL_SEQ
+		                               , ST1.CNTR_DT
+		                               , ST1.CNTR_END_DT
+		                               , ST1.BHFC_SEQ
+		                               , ST1.EMPL_SEC_CD
+		                               , ST1.NEW_HOFF_HOP
+		                               , ST1.RECNTR_HOFF_HOP
+		                               , ST1.CHPDY_CT
+		                               , ST1.RMK
+		                               , ST1.END_RMK
+		          	              FROM T_PRMT_EMPL_HIS ST1
+		          	                   INNER JOIN (SELECT PRMT_EMPL_SEQ
+		          	                                      , MAX(CNTR_DT) AS CNTR_DT
+		                                             FROM T_PRMT_EMPL_HIS
+		                                            GROUP BY PRMT_EMPL_SEQ) ST2
+		                                       ON ST1.PRMT_EMPL_SEQ = ST2.PRMT_EMPL_SEQ 
+		                                      AND ST1.CNTR_DT = ST2.CNTR_DT
+		                       ) PEH
+		                    ON PEH.PRMT_EMPL_SEQ = PE.PRMT_EMPL_SEQ
+		       LEFT OUTER JOIN T_BHFC_MST BM
+		                    ON BM.BHFC_SEQ = PEH.BHFC_SEQ
+		 WHERE 1=1
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(p_prmtEmplSeq)">
+		   AND PE.PRMT_EMPL_SEQ = #{p_prmtEmplSeq}
+		</if>
+	</select>
+	
+	<select id="getPrmtEmplHisList" parameterType="Map" resultType="com.namyang.nyorder.prmt.vo.PrmtEmplHisVO">
+		EXEC P_OPEN_KEY
+		
+		SELECT PEH.PRMT_EMPL_HIS_SEQ 
+		       , PEH.PRMT_EMPL_SEQ
+		       , PE.PRMT_EMPL_CD
+		       , CONVERT(NUMERIC, PEH.NEW_HOFF_HOP) AS NEW_HOFF_HOP
+		       , CONVERT(NUMERIC, PEH.RECNTR_HOFF_HOP) AS RECNTR_HOFF_HOP
+		       , CONVERT(NUMERIC, PEH.CHPDY_CT) AS CHPDY_CT
+		       , CONVERT(date, PEH.CNTR_DT) AS CNTR_DT
+		       , CONVERT(date, PEH.CNTR_END_DT) AS CNTR_END_DT
+		       , PEH.END_RMK
+		       , PEH.REG_DTM
+		       , PEH.REG_SEQ
+		       , PEH.UPD_DTM
+		       , PEH.UPD_SEQ
+		       , BM.BHFC_SEQ
+		       , BM.BHFC_NM
+		  FROM T_PRMT_EMPL_HIS PEH
+		       LEFT OUTER JOIN T_PRMT_EMPL PE
+		                    ON PE.PRMT_EMPL_SEQ = PEH.PRMT_EMPL_SEQ
+		       LEFT OUTER JOIN T_BHFC_MST BM
+		                    ON BM.BHFC_SEQ = PEH.BHFC_SEQ
+		 WHERE 1=1
+		   AND PEH.PRMT_EMPL_SEQ = #{prmtEmplSeq}
+		<!-- <if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(emplNm)">
+		   AND dbo.F_GET_DECRYT(PE.EMPL_NM) = #{emplNm}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(brthdy)">
+		   AND dbo.F_GET_DECRYT(PE.BRTHDY) = REPLACE(#{brthdy},'-','')
+		</if> -->
+		 ORDER BY PEH.PRMT_EMPL_HIS_SEQ DESC
+	</select>
+	
+	<update id="updatePrmtEmpl" parameterType="com.namyang.nyorder.prmt.vo.PrmtEmplMngVO">
+		UPDATE T_PRMT_EMPL
+		   SET EMPL_NM = dbo.F_GET_ENCRYT(#{emplNm})
+		       , CNTR_YN = #{cntrYn}
+		       , TEL_NO = dbo.F_GET_ENCRYT(#{telNo})
+		       , BRTHDY = dbo.F_GET_ENCRYT(REPLACE(#{brthdy},'-',''))
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(zipCd)">
+		       , ZIP_CD = #{zipCd}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(addr1)">
+		       , ADDR1 = #{addr1}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(addr2)">
+		       , ADDR2 = dbo.F_GET_ENCRYT(#{addr2})
+		</if>
+		       , UPD_DTM = CURRENT_TIMESTAMP
+		       , UPD_SEQ = #{updSeq}
+		 WHERE PRMT_EMPL_SEQ = #{prmtEmplSeq}
+	</update>
+	
+	<update id="updatePrmtEmplHis" parameterType="com.namyang.nyorder.prmt.vo.PrmtEmplHisVO">
+		UPDATE T_PRMT_EMPL_HIS
+		   SET BHFC_SEQ = #{bhfcSeq}
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(newHoffHop)">
+		       , NEW_HOFF_HOP = CONVERT(numeric, #{newHoffHop})
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(recntrHoffHop)">
+		       , RECNTR_HOFF_HOP = CONVERT(numeric, #{recntrHoffHop})
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(chpdyCt)">
+		       , CHPDY_CT = CONVERT(numeric, #{chpdyCt})
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(cntrDt)">
+		       , CNTR_DT = REPLACE(#{cntrDt},'-','')
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(cntrEndDt)">
+		       , CNTR_END_DT = REPLACE(#{cntrEndDt},'-','')
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(endRmk)">
+		       , END_RMK = #{endRmk}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(rmk)">
+		       , RMK = #{rmk}
+		</if>
+		       , UPD_DTM = CURRENT_TIMESTAMP
+		       , UPD_SEQ = #{updSeq}
+		 WHERE PRMT_EMPL_HIS_SEQ = #{prmtEmplHisSeq}
+	</update>
+	
+	<update id="updatePrmtEmplEnd" parameterType="com.namyang.nyorder.prmt.vo.PrmtEmplMngVO">
+		UPDATE T_PRMT_EMPL
+		   SET CNTR_YN = 'N'
+		       , UPD_DTM = CURRENT_TIMESTAMP
+		       , UPD_SEQ = #{updSeq}
+		 WHERE PRMT_EMPL_SEQ = #{prmtEmplSeq}
+	</update>
+	
+</mapper>

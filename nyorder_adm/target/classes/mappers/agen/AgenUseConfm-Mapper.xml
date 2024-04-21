@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.agen.dao.AgenUseConfmMapper">
+	
+	<select id="agenUseConfmList" parameterType="com.namyang.nyorder.agen.vo.AgenUseConfmVO" resultType="com.namyang.nyorder.agen.vo.AgenUseConfmVO">
+		EXEC P_OPEN_KEY
+		
+		SELECT AM.AGEN_SEQ
+		       , AM.AGEN_CD
+		       , AM.AGEN_NM
+		       , dbo.F_GET_BIZ_NO(AM.BIZ_NO) AS BIZ_NO
+		       , AM.JUR_NO
+		       , AM.SALE_CD
+		       , dbo.F_GET_NAME_MASKING(dbo.F_GET_DECRYT(AM.AGEN_PRST), 0) AS AGEN_PRST
+		       , AM.BIZ_CON
+		       , AM.BIZ_INDU
+		       , AM.ZIP_CD
+		       , AM.ADDR1
+		       , AM.ADDR2
+		       , AM.TEL_NO
+		       , AM.PRST_TEL_NO
+		       , AM.FAX_NO
+		       , AM.AGEN_EML
+		       , AM.AGEN_USE_YN
+		       , AM.CLS_YN_CD
+		       , AM.CLS_DE
+		       , AM.GIRO_NO
+		       , AM.REG_DTM
+		       , AM.REG_SEQ
+		       , AM.UPD_DTM
+		       , AM.UPD_SEQ
+		       , CONVERT(DATE, AM.DELG_STAT_DT) AS DELG_STAT_DT
+		       , CONVERT(DATE, AM.DELG_END_DT) AS DELG_END_DT
+		       , CASE WHEN AE.CONFM_YN IS NULL OR AE.CONFM_YN = '' THEN '0'
+		              ELSE AE.CONFM_YN
+		         END AS CONFM_YN
+		       , CASE WHEN AE.CONFM_YN = 'Y' THEN CONVERT(DATE, AE.CONFM_DT)
+		              ELSE ''
+		         END AS CONFM_DT
+		       , CASE WHEN AE.CONFM_YN = 'N' THEN CONVERT(DATE, AE.CONFM_DT)
+		              ELSE ''
+		         END AS INTRCP_DT
+		       , AE.EMPL_SEQ
+		       , CONCAT(AM.AGEN_SEQ, '-', AE.EMPL_SEQ) AS agenEmplSeq		-- 그리드에서 rowIdField 사용을 위해 키 두개 '-' 구분으로 합치기
+		       --, AEP.EMPL_PWD
+		  FROM T_AGEN_MST AM
+		       INNER JOIN T_AGEN_EMPL AE
+		               ON AE.AGEN_SEQ = AM.AGEN_SEQ
+		              AND AE.EMPL_CD = '10001'			-- 대표자인거
+		              AND AE.EMPL_SEC_CD = 'STOR_OWNR'	-- 대표자인거
+		       INNER JOIN T_AGEN_EMPL_PWD AEP
+		               ON AEP.AGEN_SEQ = AE.AGEN_SEQ
+		              AND AEP.EMPL_SEQ = AE.EMPL_SEQ
+		              AND AEP.LST_PWD_YN = 'Y'
+		 WHERE 1=1
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(agenCd)">
+		   AND AM.AGEN_CD = #{agenCd}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(bizNo)">
+		   AND AM.BIZ_NO = #{bizNo}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(confmYn)">
+		   AND AE.CONFM_YN = #{confmYn}
+		</if>
+		 ORDER BY AM.AGEN_NM
+	</select>
+	
+	<update id="updateConfm" parameterType="Map">
+		UPDATE T_AGEN_EMPL
+		   SET CONFM_YN = #{confmYn}
+		       , CONFM_DT = CONVERT(CHAR(8), getdate(), 112)
+		 WHERE EMPL_SEQ = #{emplSeq}
+		   AND AGEN_SEQ = #{agenSeq}
+	</update>
+	
+	<update id="updateLstPwd" parameterType="Map">
+		UPDATE T_AGEN_EMPL_PWD
+		   SET LST_PWD_YN = 'N'
+		 WHERE EMPL_SEQ = #{emplSeq}
+		   AND AGEN_SEQ = #{agenSeq}
+	</update>
+	
+	<update id="insertPwd" parameterType="Map">
+		INSERT INTO T_AGEN_EMPL_PWD
+		(
+		    EMPL_PWD_SEQ
+		    , AGEN_SEQ
+		    , EMPL_SEQ
+		    , EMPL_PWD
+		    , LST_PWD_YN
+		    , TMP_PWD_YN
+		    , REG_DTM
+		    , REG_SEQ
+		)
+		VALUES
+		(
+		    NEXT VALUE FOR SQ_EMPL_PWD
+		    , #{agenSeq}
+		    , #{emplSeq}
+		    , #{encEmplPwd}
+		    , 'Y'
+		    , 'Y'
+		    , CURRENT_TIMESTAMP
+		    , #{admSeq}
+		)
+	</update>
+	
+</mapper>

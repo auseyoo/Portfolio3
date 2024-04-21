@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>ADMIN 남양유업 대리점 주문시스템</title>
+<link rel="stylesheet" type="text/css" href="../css/lib/daterangepicker.css"/>
+<link rel="stylesheet" type="text/css" href="../css/AUIGrid/grid_custom.css"/>
+<link rel="stylesheet" type="text/css" href="../css/lib/boot.css">
+<link rel="stylesheet" type="text/css" href="../css/layout.css"/>
+<script type="text/javascript" src="../js/lib/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/lib/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/lib/moment.min.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGridLicense.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGrid.js"></script>
+<script type="text/javascript" src="../js/lib/daterangepicker.js"></script>
+<script type="text/javascript" src="../js/datepicker_custom.js"></script>
+<script type="text/javascript" src="../js/common_ui.js"></script>
+<script type="text/javascript">
+    var myGridID;    
+    var gridData = [
+        {"id":"#Cust01","areaCd":"0072221","areaNm":"논현1동","emCd":"0000200","emNm":"청담점"},
+		{"id":"#Cust02","areaCd":"0072221","areaNm":"학동","emCd":"0000200","emNm":"청담점"},
+		{"id":"#Cust03","areaCd":"0072221","areaNm":"논현1동","emCd":"0000200","emNm":"청담점"},
+		{"id":"#Cust04","areaCd":"0072221","areaNm":"논현1동","emCd":"0000200","emNm":"청담점"},
+    ];
+   
+   $(document).ready(function(){
+        // AUIGrid 생성 후 반환 ID
+        createAUIGrid();
+        // 데이터 요청, 요청 성공 시 AUIGrid 에 데이터 삽입합니다.        
+        
+        AUIGrid.setGridData(myGridID, gridData);
+	    //AUIGrid.setFooter(myGridID, footerLayout);
+    });
+    
+   
+    // AUIGrid 를 생성합니다.
+    function createAUIGrid() {
+        // 그리드 속성 설정
+        var gridPros = {
+                headerHeight : 29,
+                rowHeight : 29,
+                // 편집 가능 여부 (기본값 : false)
+                editable : false,
+                
+                // 엔터키가 다음 행이 아닌 다음 칼럼으로 이동할지 여부 (기본값 : false)
+                enterKeyColumnBase : true,
+                
+                // 셀 선택모드 (기본값: singleCell)
+                selectionMode : "singleRow",
+                //showFooter : true,
+                
+                // 컨텍스트 메뉴 사용 여부 (기본값 : false)
+                useContextMenu : true,
+                
+                // 필터 사용 여부 (기본값 : false)
+                enableFilter : true,
+            
+                // 그룹핑 패널 사용
+                useGroupingPanel : false,
+
+                // 체크박스 사용 
+	            showRowCheckColumn : true,
+                
+                
+                // 그룹핑 또는 트리로 만들었을 때 펼쳐지게 할지 여부 (기본값 : false)
+                displayTreeOpen : true,
+                
+                noDataMessage : "출력할 데이터가 없습니다.",
+                
+                groupingMessage : "여기에 칼럼을 드래그하면 그룹핑이 됩니다.",
+                rowNumColumnWidth : 50,
+                
+        };
+
+        // 실제로 #grid_wrap 에 그리드 생성
+        myGridID = AUIGrid.create("#grid_wrap", columnLayout, gridPros);
+    }
+
+    var columnLayout = [{
+			dataField : "areaCd",
+			headerText : "지점코드",
+            width : "25%" ,
+            style : "auiLink"           	
+        },{
+			dataField : "areaNm",
+			headerText : "지점명",
+            style : "auiLeft"
+		},{
+			dataField : "emCd",
+			headerText : "대리점코드",
+            width : "20%",
+        },{
+			dataField : "emNm",
+			headerText : "대리점명",
+            width : "20%",
+        }
+	];
+</script>
+</head>
+<body>
+    <!-- layerPopup -->
+    <div class="modal_bg" style="display:block"></div> <!-- modal 배경 -->
+    <!-- 조회할 지역선택 팝업 -->
+    <div class="popWrap mideum modal_wrap h600" data-popup="modalAgencyViews03" style="display:block; left:0; right:0; margin:100px auto;">
+        <header>
+            <h3>조회할 지점/대리점 선택</h3>
+            <button type="button" name="" class="closeBtn" id="modalCloseBtn"></button>
+        </header>  
+
+        <!-- popCon -->
+        <div class="popCon">
+            <div class="popTitArea">
+                <h3>조회할 지점/대리점 선택</h3>
+                <div class="popBtnArea">
+				<button type="button" name="" class="comBtn modalCloseBtn" id="modalCloseBtn">닫기</button>                   
+				<button type="button" name="" class="inquBtn">저장</button>
+            </div>
+            </div>
+
+            <!-- 조회 -->
+            <div class="inquiryBox mb14">
+                <dl>
+                    <dt>구분</dt>
+                    <dd>
+                        <div class="formWrap">
+                            <select name="" class="sel w120 mr10" id="sel_class01">
+                                <option>전체</option>
+                                <option>지역명</option>
+                                <option>직원명</option>
+                            </select>                            
+                        </div>
+                    </dd>
+                    
+                    <dd>
+                        <div class="formWrap">
+                            <input type="text" id="inp_product02" class="inp w160 mr7" value="" name="">
+                            <button type="button" name="" class="comBtn" id="inp_name01">조회</button>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+            <!-- 조회 -->
+            
+            <div class="titleArea">
+                <p class="numState">
+                    <em>총 <span class="pColor01 fb">123</span></em> 건 이 조회되었습니다.
+                </p>
+            </div>
+            
+            <!-- grid -->
+            <div class="girdBox">
+                <div id="grid_wrap"></div>
+            </div>
+            <!-- grid -->           
+
+        </div>
+        <!-- popCon -->
+    </div>
+    <!-- 조회할 지역선택 팝업 -->
+    <!--// layerPopup -->
+</body>
+</html>

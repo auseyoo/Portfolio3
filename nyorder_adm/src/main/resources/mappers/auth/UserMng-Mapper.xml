@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.auth.dao.UserMngMapper">
+	
+	<select id="userMngList" parameterType="com.namyang.nyorder.auth.vo.UserMngVO" resultType="com.namyang.nyorder.auth.vo.UserMngVO">
+		SELECT AE.ADM_SEQ
+		       , AE.ADM_CD
+		       , AE.BSN_GRP_CD
+		       , AE.BHFC_CD
+		       , AE.BHFC_NM
+		       , AE.ADM_NM
+		       , AE.GRP_CD
+		       , AE.REG_DTM
+		       , AE.REG_SEQ
+		       , AE.MENU_ADM_TYPE
+		       , CASE WHEN AE.MENU_ADM_TYPE = 'SYS' THEN 'Y'
+		              ELSE 'N'
+		         END AS TYPE1
+		       , CASE WHEN AE.MENU_ADM_TYPE = 'HOFF_PRMT_EMPL' THEN 'Y'
+		              ELSE 'N'
+		         END AS TYPE2
+		       , CASE WHEN AE.MENU_ADM_TYPE = 'AGEN_EMPL' THEN 'Y'
+		              ELSE 'N'
+		         END AS TYPE3
+		       , AE.REG_DTM
+		       , AE.REG_SEQ
+		       , CONVERT(CHAR(10), AE.AUTH_DTM, 23) AS UPD_DTM
+		       , AE.AUTH_SEQ AS UPD_SEQ
+		       , AEE.ADM_NM AS UPD_ADM_NM
+		  FROM T_ADM_EMPL AE
+		       LEFT OUTER JOIN T_ADM_EMPL AEE 
+		                    ON AEE.ADM_SEQ = AE.AUTH_SEQ
+		 WHERE 1=1
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(admCd)">
+		   AND AE.ADM_CD LIKE  '%'+#{admCd}+'%'  
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(admNm)">
+		   AND AE.ADM_NM LIKE  '%'+#{admNm}+'%'
+		</if>
+		 ORDER BY AE.ADM_NM ASC
+	</select>
+	
+	<update id="userMngUpd" parameterType="Map">
+		UPDATE T_ADM_EMPL
+		   SET MENU_ADM_TYPE = #{menuAdmType}
+		 WHERE ADM_SEQ = #{admSeq}
+	</update>
+	
+</mapper>

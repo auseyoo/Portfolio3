@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>ADMIN 남양유업 대리점 주문시스템</title>
+<link rel="stylesheet" type="text/css" href="../css/AUIGrid/grid_custom.css"/>
+<link rel="stylesheet" type="text/css" href="../css/layout.css"/>
+<script type="text/javascript" src="../js/lib/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/lib/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGridLicense.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGrid.js"></script>
+<script type="text/javascript" src="../js/common_ui.js"></script>
+<script type="text/javascript">
+    var myGridID;
+    
+    var gridData = [
+        {"id":"#Cust0","busCtg":"시판1부문","store":"강남지점","agenCd":"123456","agenNm":"논현","vendCd":"0001","vendNm":"이세상 슈퍼","repre":"이*표","sellMon":"12","sellType":"일반","status":"정상","busiNum":"012-45-67890","address":"서울시 강남구 청담4동 555","saleDt":"2022-01","prdSapCd":"1212","proNm":"GT","stdrQty":"10","seOrder":"1000000"},
+        {"id":"#Cust1","busCtg":"시판1부문","store":"강남지점","agenCd":"123456","agenNm":"논현","vendCd":"0001","vendNm":"이세상 슈퍼","repre":"이*표","sellMon":"12","sellType":"일반","status":"정상","busiNum":"012-45-67890","address":"서울시 강남구 청담4동 555","saleDt":"2022-01","prdSapCd":"1212","proNm":"GT","stdrQty":"10","seOrder":"1000000"}
+    ];
+   
+   $(document).ready(function(){
+        // AUIGrid 생성 후 반환 ID
+        createAUIGrid(columnLayout);
+        // 데이터 요청, 요청 성공 시 AUIGrid 에 데이터 삽입합니다.        
+        
+        AUIGrid.setGridData(myGridID, gridData);
+    });
+        
+    // AUIGrid 를 생성합니다.
+    function createAUIGrid(columnLayout) {
+        // 그리드 속성 설정
+        var gridPros = {
+                headerHeight : 29,
+                rowHeight : 29,
+                // 편집 가능 여부 (기본값 : false)
+                editable : false,
+                
+                // 엔터키가 다음 행이 아닌 다음 칼럼으로 이동할지 여부 (기본값 : false)
+                enterKeyColumnBase : true,
+                
+                // 셀 선택모드 (기본값: singleCell)
+                selectionMode : "singleRow",
+                
+                // 컨텍스트 메뉴 사용 여부 (기본값 : false)
+                useContextMenu : true,
+                
+                // 필터 사용 여부 (기본값 : false)
+                enableFilter : true,
+            
+                // 그룹핑 패널 사용
+                useGroupingPanel : false,
+                
+                
+                // 그룹핑 또는 트리로 만들었을 때 펼쳐지게 할지 여부 (기본값 : false)
+                displayTreeOpen : true,
+                
+                noDataMessage : "출력할 데이터가 없습니다.",
+                
+                groupingMessage : "여기에 칼럼을 드래그하면 그룹핑이 됩니다."
+        };
+    
+        // 실제로 #grid_wrap 에 그리드 생성
+        myGridID = AUIGrid.create("#grid_wrap", columnLayout, gridPros);
+    }
+
+    var columnLayout = [{
+            dataField : "busCtg",
+			headerText : "영업부문",
+			width : "7%",
+		},{
+			dataField : "store",
+			headerText : "지점",
+			width : "7%",
+		},{
+			dataField : "agenCd",
+			headerText : "대리점코드",
+			width : "6%",	
+		},{
+			dataField : "agenNm",
+			headerText : "대리점명",
+			width : "7%",
+		},{
+			dataField : "vendCd",
+			headerText : "거래처코드",
+			width : "6%",
+		},{
+			dataField : "vendNm",
+			headerText : "거래처명",
+			width : "8%",
+			style :"auiLeft"
+		},{
+			dataField : "repre",
+			headerText : "대표자",
+			width : "6%",
+		},{
+			dataField : "sellMon",
+			headerText : "판매월",
+			width : "6%",
+		},{
+			dataField : "sellType",
+			headerText : "거래처유형",
+			width : "7%",
+		},{
+			dataField : "status",
+			headerText : "상태",     
+			width : "6%",       
+		},{
+			dataField : "busiNum",
+			headerText : "사업자번호",
+			width : "9%",
+		},{
+			dataField : "address",
+			headerText : "주소",
+            style :"auiLeft"
+		},{
+			dataField : "seOrder",
+			headerText : "전월 매출액",
+            dataType : "numeric",
+            style :"auiRight",
+			width : "8%",
+		}
+	];
+
+</script>
+</head>
+<body>
+	<div class="allWrap">
+		<header>
+            <h1><a href="#" class="logo" title="남양유업"></a></h1>
+
+            <div class="logInfo">
+                <ul>
+                    <li><span class="user">김 남양</span> 님 을 환영합니다.</li>
+                    <li>최근접속일시 : <span class="date">2021.12.10 09:30:00</span></li>
+                    <li><a href="#" class="logBtn"><span>로그아웃</span></a></li>
+                    <!-- <li><a href="#" class="logBtn"><span>로그인</span></a></li> -->
+                </ul>
+            </div>
+		</header> 
+
+		<div class="contentWrap">
+            <!-- lnb -->
+			<div class="lnbWrap">
+                <!-- 검색영역 -->
+                <div class="leftSearBox">
+                    <input type="text" name="" value="" class="inp type02">
+                    <button type="button" class="searBtn" name="" title="검색하기"></button>
+                </div>
+                <!-- 검색영역 -->
+
+                <div class="lnbTabsWrap">
+                    <ul class="tabs etcMenu">
+                        <li class="active" rel="mtab01"><a href="#" class="allMenu" title="전체메뉴"><span>전체메뉴</span></a></li>
+                        <li class="" rel="mtab02"><a href="#" class="favSearch" title="즐겨찾기"><span>즐겨찾기</span></a></li>
+                    </ul>
+
+                    <!-- <a href="#" class="favSearch" title="즐겨찾기"><span>즐겨찾기</span></a> -->
+
+                    <div id="mtab01" class="tabContent lnb" style="">
+                        <ul>
+                            <li class="depth1">
+                                <a href="#" title="권한 관리"><span>권한 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">사용자그룹 권한관리</a></li>
+                                    <li><a href="#">사용자별 권한관리</a></li>
+                                    <li><a href="#">프로그램 관리</a></li>
+                                    <li><a href="#">프로그램 코드그룹 관리</a></li>
+                                    <li><a href="#">사용자그룹 관리</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="대리점 관리"><span>대리점 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">대리점 사용승인</a></li>
+                                    <li><a href="#">대리점 권한관리</a></li>
+                                    <li><a href="#">제품 관리</a></li>
+                                    <li><a href="#">이사고객 관리</a></li>
+                                    <li><a href="#">직영몰 애음자 관리</a></li>
+                                    <li><a href="#">애음자 분포 현황</a></li>
+                                    <li><a href="#">거래처 정보 조회</a></li>
+                                    <li><a href="#">거래처 지원내역 조회</a></li>
+                                    <li><a href="#">거래처 판매내역 조회</a></li>
+                                    <li><a href="#">거래처 단가 조정내역 조회</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="판촉 관리"><span>판촉 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">판촉사원 관리</a></li>
+                                    <li><a href="#">판촉사원 등록</a></li>
+                                    <li><a href="#">판촉 홉수 관리</a></li>
+                                    <li><a href="#">판촉물 요청 기간 관리</a></li>
+                                    <li><a href="#">판촉물 요청 자재 관리</a></li>
+                                    <li><a href="#">판촉물 소요량 요청 관리</a></li>
+                                    <li><a href="#">대리점별 판촉물 재고 현황</a></li>
+                                    <li><a href="#">판촉 애음자 조회1</a></li>
+                                    <li><a href="#">판촉 애음자 조회2</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="커뮤니케이션 관리"><span>커뮤니케이션 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#" class="active">공지사항 관리</a></li>
+                                    <li><a href="#">자료실 관리</a></li>
+                                    <li><a href="#">요청 게시판 관리</a></li>
+                                    <li><a href="#">알림톡 관리</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="mtab02" class="tabContent favor" style="display: none;">
+                        <ul>
+                            <li><a href="#">거래처 관리</a></li>
+                            <li><a href="#">거래처별 단가 관리</a></li>
+                            <li><a href="#">직원 관리</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="#" class="sideBtn"></a>
+			</div>
+            <!-- lnb -->
+			
+            <!-- content -->
+            <div class="rContentBox">
+                <div class="content">
+                    <div class="titTopArea">
+                        <h2 class="tit01">거래처 정보 조회 <a href="#" class="favor" title="즐겨찾기"></a></h2>
+
+                        <div class="location">
+                            <ul>
+                                <li><i class="home"></i></li>
+                                <li>대리점관리</li>
+                                <li>거래처 정보 조회</li>
+                            </ul>
+                        </div>
+                    </div>
+
+					<!-- 조회 -->
+					<div class="inquiryBox formBtnRepon">
+						<div class="dlBoxWrap">
+							<div class="dlBox">
+								<dl>
+									<dt>영업부분</dt>
+									<dd>
+										<select name="" class="sel">
+											<option>전체</option>
+											<option>-</option>
+											<option>-</option>
+											<option>-</option>
+											<option>-</option>
+										</select>
+									</dd>
+									<dt>지점</dt>
+									<dd>
+										<select name="" class="sel">
+											<option>전체</option>
+											<option>-</option>
+											<option>-</option>
+											<option>-</option>
+											<option>-</option>
+										</select>
+									</dd>
+									<dt>대리점코드</dt>
+									<dd>
+										<div class="formWrap">
+											<input type="text" id="inp_name01" class="inp w120" value="" title="성명 입력">
+										</div>
+									</dd>
+									<dt>거래처유형</dt>
+									<dd>
+										<select name="" class="sel wm100">
+											<option>전체</option>
+											<option>일반</option>
+											<option>위탁</option>
+											<option>학교</option>
+										</select>
+									</dd>
+								</dl>
+								<dl>
+									<dt>상태</dt>
+									<dd>
+										<select name="" class="sel wm100">
+											<option>전체</option>
+											<option>정상</option>
+											<option>중지</option>
+											<option>폐업</option>
+											<option>미거래</option>
+										</select>
+									</dd>
+									<dt>거래처명</dt>
+									<dd>
+										<div class="formWrap">
+											<input type="text" id="inp_name01" class="inp w120" value="" title="성명 입력">
+										</div>
+									</dd>
+								</dl>
+							</div>
+
+							<div class="btnRepon">
+								<button type="button" name="" class="comBtn" id="inp_name01">조회</button>
+							</div>
+						</div>
+
+						<div class="btnGroup verAlign">
+							<button type="button" name="" class="comBtn">엑셀다운</button>
+						</div>
+					</div>
+					<!-- 조회 -->
+
+					<div class="titleArea">
+						<p class="numState">
+							<em>총 <span class="pColor01 fb">24</span></em> 건 이 조회되었습니다.
+						</p>
+					</div>
+
+					<!-- grid -->
+					<div class="girdBox">
+						<div id="grid_wrap"></div>
+					</div>
+					<!-- grid -->                   
+                </div>
+
+				<footer>
+					COPYRIGHT-NAMYANG-DAIRY-PRODUCTS-COLTD-ALL-RIGHT-RESERVED
+				</footer>
+            </div>
+            <!-- content -->
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.prmt.dao.CstDkpsSearchMapper">
+	
+	<select id="cstDkpsSearchList" parameterType="com.namyang.nyorder.prmt.vo.CstDkpsSearchVO" resultType="com.namyang.nyorder.prmt.vo.CstDkpsSearchVO">
+		EXEC P_OPEN_KEY
+		
+		SELECT CM.CST_SEQ 
+		       , BM.BHFC_SEQ 								/*지점 seq*/
+		       , BM.BHFC_NM 								/*지점 명*/
+		       , AM.AGEN_SEQ								/*대리점 seq*/
+		       , AM.AGEN_CD									/*대리점 코드*/
+		       , AM.AGEN_NM 								/*대리점 명*/
+		       , CM.CST_AGEN_CD								/*애음자 코드*/
+		       , dbo.F_GET_DECRYT(CM.CST_NM) AS CST_NM		/*애음자 명*/
+		       , CONVERT(date, CP.PRMT_DT) AS PRMT_DT		/*가입일*/
+		       , PE.PRMT_EMPL_SEQ							/*판촉사원 seq*/
+		       , PE.PRMT_EMPL_CD 							/*판촉사원 코드*/
+		       , PE.EMPL_NM 								/*판촉사원 명*/
+		       , CP.CST_PRD_SEQ 							/*애음자 제품 seq*/
+		       , CP.CNTR_MONTH 								/*계약월*/
+		       , CP.STDR_QTY 								/*기준수량*/
+		       , PM.PRD_NM									/*계약 제품*/
+		       , S_CP.SUM_QTY 								/*계약 총수량*/
+		       , PD.SHTN_NM 								/*단축명*/
+		  FROM T_CST_MST CM 
+		       INNER JOIN T_CST_PRD CP
+		               ON CP.CST_SEQ = CM.CST_SEQ 
+		              AND CP.AGEN_SEQ = CM.AGEN_SEQ 
+		              AND CP.AREA_SEQ = CM.AREA_SEQ 
+		              --AND CP.LAST_YN = 'Y'
+		       INNER JOIN T_PRD_DTL PD
+		               ON PD.PRD_DTL_SEQ = CP.PRD_DTL_SEQ
+		              AND PD.AGEN_SEQ = CP.AGEN_SEQ 
+		              AND PD.PUCH_SEQ = CP.PUCH_SEQ
+		       INNER JOIN T_PRD_MST PM
+		               ON PM.PRD_SEQ = PD.PRD_SEQ 
+		              AND PM.PUCH_SEQ = PD.PUCH_SEQ
+		       INNER JOIN T_AGEN_MST AM
+		               ON AM.AGEN_SEQ = CM.AGEN_SEQ 
+		       INNER JOIN T_BHFC_AGEN BA
+		               ON BA.AGEN_SEQ = AM.AGEN_SEQ
+		       INNER JOIN T_BHFC_MST BM
+		               ON BM.BHFC_SEQ = BA.BHFC_SEQ
+		              AND BM.USE_YN = 'Y'
+		       LEFT OUTER JOIN ( SELECT CST_PRD_SEQ
+		                                , PRD_DTL_SEQ
+		                                , SUM(MON_QTY + TUE_QTY + WED_QTY + THU_QTY + FRI_QTY + SAT_QTY + SUN_QTY) AS SUM_QTY
+		                          FROM T_CST_PTTN
+		                          WHERE 1=1
+		                            --AND LAST_YN = 'Y'
+		                            --AND CST_PRD_SEQ = CP.CST_PRD_SEQ 
+		                          GROUP BY CST_PRD_SEQ
+		                                   , PRD_DTL_SEQ
+		                       ) S_CP
+		                    ON S_CP.CST_PRD_SEQ = CP.CST_PRD_SEQ 
+		                   --AND S_CP.PRD_DTL_SEQ = CP.PRD_DTL_SEQ
+		       LEFT OUTER JOIN T_PRMT_EMPL PE
+		                    ON PE.PRMT_EMPL_SEQ = CM.PRMT_EMPL_SEQ 
+		 WHERE 1=1
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(sPrmtDt) and @com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(ePrmtDt)">
+			AND CP.PRMT_DT BETWEEN REPLACE(#{sPrmtDt},'-','') + '01' AND EOMONTH( REPLACE(#{ePrmtDt},'-','') + '01' )
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(bhfcSeq)">
+			AND BM.BHFC_SEQ = #{bhfcSeq}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(agenCd)">
+			AND AM.AGEN_CD = #{agenCd}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(cstAgenCd)">
+			AND CM.CST_AGEN_CD = #{cstAgenCd}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(prmtEmplCd)">
+			AND PE.PRMT_EMPL_CD = #{prmtEmplCd}
+		</if>
+		ORDER BY CM.CST_AGEN_CD ASC 
+		         , CP.PRMT_DT DESC 
+		         --, PM.PRD_SEQ ASC 
+	</select>
+	
+	
+	
+</mapper>

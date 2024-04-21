@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>ADMIN 남양유업 대리점 주문시스템</title>
+<link rel="stylesheet" type="text/css" href="../css/lib/MonthPicker.min.css"/>
+<link rel="stylesheet" type="text/css" href="../css/AUIGrid/grid_custom.css"/>
+<link rel="stylesheet" type="text/css" href="../css/layout.css"/>
+<script type="text/javascript" src="../js/lib/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/lib/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/lib/moment.min.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGridLicense.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGrid.js"></script>
+<script type="text/javascript" src="../js/lib/MonthPicker.min.js"></script>
+<script type="text/javascript" src="../js/datepicker_month_custom.js"></script>
+<script type="text/javascript" src="../js/common_ui.js"></script>
+<script type="text/javascript">
+    var myGridID;
+    var gridData = [
+			{"id":"#Cust1","prClass01":"A","prClass02":"가","prClass03":"a","prClass04":"ㄱ","code":53665,"name":"아인슈타인GT가정(소)","proDivi":"신규","birth":"850505","orNot":"계약중","tel":"010-9455-4560","promoDivi":"무료","perDay":50000,"conDate":"2022-08-08","reHopPrice":2500,"inputDate":"2022-08-08",},
+			{"id":"#Cust1","prClass01":"A","prClass02":"가","prClass03":"a","prClass04":"ㄱ","code":53665,"name":"아인슈타인GT가정(소)","proDivi":"재계약","birth":"850505","orNot":"계약중","tel":"010-9455-4560","promoDivi":"무료","perDay":50000,"conDate":"2022-08-08","reHopPrice":2500,"inputDate":"2022-08-08",},
+			{"id":"#Cust2","prClass01":"B","prClass02":"나","prClass03":"b","prClass04":"ㄴ","code":35444,"name":"아인GTBABY185(방)신","proDivi":"신규","birth":"850505","orNot":"계약중","tel":"010-9455-4560","promoDivi":"무료","perDay":50000,"conDate":"2022-08-08","reHopPrice":2500,"inputDate":"2022-08-08",},
+			{"id":"#Cust2","prClass01":"B","prClass02":"나","prClass03":"b","prClass04":"ㄴ","code":35444,"name":"아인GTBABY185(방)신","proDivi":"재계약","birth":"850505","orNot":"계약중","tel":"010-9455-4560","promoDivi":"무료","perDay":50000,"conDate":"2022-08-08","reHopPrice":2500,"inputDate":"2022-08-08",},	
+		];
+   
+   	$(document).ready(function(){
+        // AUIGrid 생성 후 반환 ID
+        createAUIGrid(columnLayout);
+        // 데이터 요청, 요청 성공 시 AUIGrid 에 데이터 삽입합니다.        
+        
+        AUIGrid.setGridData(myGridID, gridData);
+	    //AUIGrid.setFooter(myGridID, footerLayout);
+    });
+    
+   
+    // AUIGrid 를 생성합니다.
+    function createAUIGrid(columnLayout) {
+        // 그리드 속성 설정
+        var gridPros = {
+                headerHeight : 29,
+                rowHeight : 29,
+                // 편집 가능 여부 (기본값 : false)
+                editable : true,
+                
+                // 엔터키가 다음 행이 아닌 다음 칼럼으로 이동할지 여부 (기본값 : false)
+                enterKeyColumnBase : true,
+				enableCellMerge : true,  // 셀 병합 실행
+				rowSelectionWithMerge : true,
+				//cellMergeRowSpan : false,
+				showRowNumColumn : true, 
+				cellMergePolicy : "withNull",
+                
+                // 셀 선택모드 (기본값: singleCell)
+                selectionMode : "singleRow",
+                showFooter : false,
+                
+                // 컨텍스트 메뉴 사용 여부 (기본값 : false)
+                useContextMenu : true,
+                
+                // 필터 사용 여부 (기본값 : false)
+                enableFilter : true,
+            
+                // 그룹핑 패널 사용
+                useGroupingPanel : false,
+                
+                
+                // 그룹핑 또는 트리로 만들었을 때 펼쳐지게 할지 여부 (기본값 : false)
+                displayTreeOpen : true,
+                
+                noDataMessage : "출력할 데이터가 없습니다.",
+                
+                groupingMessage : "여기에 칼럼을 드래그하면 그룹핑이 됩니다."
+                
+        };
+    
+        // 실제로 #grid_wrap 에 그리드 생성
+        myGridID = AUIGrid.create("#grid_wrap", columnLayout, gridPros);
+        
+    }
+
+    var columnLayout = [{
+			dataField : "prClass01",
+			headerText : "제품대분류",
+            width : "8%",
+            cellMerge : true,
+			cellColSpan : 2,
+        },{
+			dataField : "prClass02",
+			headerText : "제품중분류",
+			width : "8%",
+            cellMerge : true,
+			mergeRef : "prClass01", // 대분류(gubun0 필드) 셀머지의 값을 비교해서 실행함. (mergePolicy : "restrict" 설정 필수)
+			mergePolicy : "restrict"
+        },{
+            dataField : "prClass03",
+			headerText : "제품소분류",
+            width : "8%",
+            cellMerge : true,
+		},{
+            dataField : "prClass04",
+			headerText : "제품세분류",
+            width : "8%",
+            cellMerge : true,
+        },{
+            dataField : "code",
+			headerText : "제품코드",
+			width : "7%",
+			style:"auiLink",
+			cellMerge : true,
+        },{
+			dataField : "name",
+			headerText : "제품명",
+			style:"auiLeft",
+			cellMerge : true,
+        },{
+			dataField : "proDivi",
+			headerText : "판촉구분",
+            width : "8%",
+        },{
+			dataField : "count01",
+			headerText : "1개",
+            width : "5%",
+			renderer : {
+			    type : "TemplateRenderer"
+            },
+            labelFunction : function (rowIndex, columnIndex, value, headerText, item ) {
+                var template = '<div class="my_div">';
+                template += '<span class="my_div_text_box right">' + value + '</span>';
+                template += '</div>';
+                return template;
+            }
+        },{
+			dataField : "count02",
+			headerText : "2개",
+			width : "5%",
+			renderer : {
+			    type : "TemplateRenderer"
+            },
+            labelFunction : function (rowIndex, columnIndex, value, headerText, item ) {
+                var template = '<div class="my_div">';
+                template += '<span class="my_div_text_box right">' + value + '</span>';
+                template += '</div>';
+                return template;
+            }
+        },{
+			dataField : "count03",
+			headerText : "3개",
+            width : "5%",
+			renderer : {
+			    type : "TemplateRenderer"
+            },
+            labelFunction : function (rowIndex, columnIndex, value, headerText, item ) {
+                var template = '<div class="my_div">';
+                template += '<span class="my_div_text_box right">' + value + '</span>';
+                template += '</div>';
+                return template;
+            }
+		},{
+			dataField : "count04",
+			headerText : "4개",
+            width : "5%",
+			renderer : {
+			    type : "TemplateRenderer"
+            },
+            labelFunction : function (rowIndex, columnIndex, value, headerText, item ) {
+                var template = '<div class="my_div">';
+                template += '<span class="my_div_text_box right">' + value + '</span>';
+                template += '</div>';
+                return template;
+            }
+		},{
+			dataField : "count05",
+			headerText : "5개",
+            width : "5%",
+			renderer : {
+			    type : "TemplateRenderer"
+            },
+            labelFunction : function (rowIndex, columnIndex, value, headerText, item ) {
+                var template = '<div class="my_div">';
+                template += '<span class="my_div_text_box right">' + value + '</span>';
+                template += '</div>';
+                return template;
+            }
+		},{
+			dataField : "count06",
+			headerText : "6개",
+			width : "5%",
+			renderer : {
+			    type : "TemplateRenderer"
+            },
+            labelFunction : function (rowIndex, columnIndex, value, headerText, item ) {
+                var template = '<div class="my_div">';
+                template += '<span class="my_div_text_box right">' + value + '</span>';
+                template += '</div>';
+                return template;
+            }
+		},{
+			dataField : "count07",
+			headerText : "7개 이상",
+			width : "5%",
+			renderer : {
+			    type : "TemplateRenderer"
+            },
+            labelFunction : function (rowIndex, columnIndex, value, headerText, item ) {
+                var template = '<div class="my_div">';
+                template += '<span class="my_div_text_box right">' + value + '</span>';
+                template += '</div>';
+                return template;
+            }
+		}
+	];
+
+</script>
+</head>
+<body>
+	<div class="allWrap">
+		<header>
+            <h1><a href="#" class="logo" title="남양유업"></a></h1>
+
+            <div class="logInfo">
+                <ul>
+                    <li><span class="user">김 남양</span> 님 을 환영합니다.</li>
+                    <li>최근접속일시 : <span class="date">2021.12.10 09:30:00</span></li>
+                    <li><a href="#" class="logBtn"><span>로그아웃</span></a></li>
+                    <!-- <li><a href="#" class="logBtn"><span>로그인</span></a></li> -->
+                </ul>
+            </div>
+		</header>
+
+		<div class="contentWrap">
+            <!-- lnb -->
+			<div class="lnbWrap">
+                <!-- 검색영역 -->
+                <div class="leftSearBox">
+                    <input type="text" name="" value="" class="inp type02">
+                    <button type="button" class="searBtn" name="" title="검색하기"></button>
+                </div>
+                <!-- 검색영역 -->
+
+                <div class="lnbTabsWrap">
+                    <ul class="tabs etcMenu">
+                        <li class="active" rel="mtab01"><a href="#" class="allMenu" title="전체메뉴"><span>전체메뉴</span></a></li>
+                        <li class="" rel="mtab02"><a href="#" class="favSearch" title="즐겨찾기"><span>즐겨찾기</span></a></li>
+                    </ul>
+
+                    <!-- <a href="#" class="favSearch" title="즐겨찾기"><span>즐겨찾기</span></a> -->
+
+                    <div id="mtab01" class="tabContent lnb" style="">
+                        <ul>
+                            <li class="depth1">
+                                <a href="#" title="권한 관리"><span>권한 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">사용자그룹 권한관리</a></li>
+                                    <li><a href="#">사용자별 권한관리</a></li>
+                                    <li><a href="#">프로그램 관리</a></li>
+                                    <li><a href="#">프로그램 코드그룹 관리</a></li>
+                                    <li><a href="#">사용자그룹 관리</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="대리점 관리"><span>대리점 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">대리점 사용승인</a></li>
+                                    <li><a href="#">대리점 권한관리</a></li>
+                                    <li><a href="#">제품 관리</a></li>
+                                    <li><a href="#">이사고객 관리</a></li>
+                                    <li><a href="#">직영몰 애음자 관리</a></li>
+                                    <li><a href="#">애음자 분포 현황</a></li>
+                                    <li><a href="#">거래처 정보 조회</a></li>
+                                    <li><a href="#">거래처 지원내역 조회</a></li>
+                                    <li><a href="#">거래처 판매내역 조회</a></li>
+                                    <li><a href="#">거래처 단가 조정내역 조회</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="판촉 관리"><span>판촉 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#">판촉사원 관리</a></li>
+                                    <li><a href="#">판촉사원 등록</a></li>
+                                    <li><a href="#">판촉 홉수 관리</a></li>
+                                    <li><a href="#">판촉물 요청 기간 관리</a></li>
+                                    <li><a href="#">판촉물 요청 자재 관리</a></li>
+                                    <li><a href="#">판촉물 소요량 요청 관리</a></li>
+                                    <li><a href="#">대리점별 판촉물 재고 현황</a></li>
+                                    <li><a href="#">판촉 애음자 조회1</a></li>
+                                    <li><a href="#">판촉 애음자 조회2</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="커뮤니케이션 관리"><span>커뮤니케이션 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="#" class="active">공지사항 관리</a></li>
+                                    <li><a href="#">자료실 관리</a></li>
+                                    <li><a href="#">요청 게시판 관리</a></li>
+                                    <li><a href="#">알림톡 관리</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="mtab02" class="tabContent favor" style="display: none;">
+                        <ul>
+                            <li><a href="#">거래처 관리</a></li>
+                            <li><a href="#">거래처별 단가 관리</a></li>
+                            <li><a href="#">직원 관리</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="#" class="sideBtn"></a>
+			</div>
+            <!-- lnb -->
+			
+            <!-- content -->
+            <div class="rContentBox">
+                <div class="content">
+                    <div class="titTopArea">
+                        <h2 class="tit01">판촉 홉수 관리 <a href="#" class="favor" title="즐겨찾기"></a></h2>
+
+                        <div class="location">
+                            <ul>
+                                <li><i class="home"></i></li>
+                                <li>판촉관리</li>
+                                <li>판촉 홉수 관리</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 조회 -->
+                    <div class="inquiryBox">
+                        <dl>
+							<dt>분류</dt>
+                            <dd>
+								<div class="formWrap">
+									<select name="" class="sel mr10">
+										<option>전체</option>
+										<option>대분류</option>
+										<option>대분류</option>
+									</select>
+
+									<select name="" class="sel mr10">
+										<option>전체</option>
+										<option>중분류</option>
+										<option>중분류</option>
+									</select>
+
+									<select name="" class="sel mr10">
+										<option>전체</option>
+										<option>소분류</option>
+										<option>소분류</option>
+									</select>
+
+									<select name="" class="sel">
+										<option>전체</option>
+										<option>세분류</option>
+										<option>세분류</option>
+									</select>
+								</div>
+                            </dd>
+                            <dt>제품</dt>
+                            <dd>
+								<div class="formWrap">
+									<input type="text" id="" class="inp w120 mr10" value="" title="제품코드 입력" placeholder="제품코드">
+                                    <input type="text" id="" class="inp w160" value="" title="성명 입력" placeholder="제품명">
+
+									<button type="button" name="" class="comBtn" id="">조회</button>
+								</div>
+                            </dd>
+                        </dl>
+
+						<div class="btnGroup right">
+                            <button type="button" name="" class="inquBtn">저장</button>
+                        </div>
+                    </div>
+                    <!-- 조회 -->
+
+					<div class="titleArea">
+                        <p class="numState">
+                            <em>총 <span class="pColor01 fb">123</span></em> 건 이 조회되었습니다.
+                        </p>
+                    </div>
+
+                    <!-- grid -->
+                    <div class="girdBox">
+                        <div id="grid_wrap"></div>
+                    </div>
+                    <!-- grid -->
+                </div>
+
+                <footer>
+                    COPYRIGHT-NAMYANG-DAIRY-PRODUCTS-COLTD-ALL-RIGHT-RESERVED
+                </footer>
+            </div>
+            <!-- content -->
+		</div>
+	</div>
+</body>
+</html>

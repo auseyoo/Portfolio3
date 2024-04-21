@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.auth.dao.CommCodeMngMapper">
+	
+	<select id="commCodeMngList" parameterType="com.namyang.nyorder.auth.vo.CommCodeGrpMngVO" resultType="com.namyang.nyorder.auth.vo.CommCodeGrpMngVO">
+		SELECT CM.COMM_SEQ
+		       , CM.COMM_GRP_CD
+		       , CM.COMM_GRP_NM
+		       , CM.COMM_CD
+		       , CM.COMM_NM
+		       , CM.ORDR
+		       , CM.COMM_DESC1
+		       , CM.COMM_DESC2
+		       , CM.COMM_DESC3
+		       , CM.COMM_DESC4
+		       , CM.COMM_DESC5
+		       , CM.COMM_DESC6
+		       , CM.USE_YN
+		       , CM.REG_DTM
+		       , CM.REG_SEQ
+		       --, CM.UPD_DTM
+		       , CONVERT(CHAR(19), CM.UPD_DTM, 20) AS UPD_DTM
+		       , CM.UPD_SEQ
+		       , AE.ADM_NM AS UPD_ADM_NM
+		  FROM T_COMM CM
+		       LEFT OUTER JOIN T_ADM_EMPL AE 
+		                    ON CM.UPD_SEQ = AE.ADM_SEQ
+		 WHERE 1=1
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commGrpCd)">
+		   AND COMM_GRP_CD LIKE '%'+#{commGrpCd}+'%'  
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commGrpNm)">
+		   AND COMM_GRP_NM LIKE '%'+#{commGrpNm}+'%'
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commCd)">
+		   AND COMM_CD LIKE '%'+#{commCd}+'%'
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commNm)">
+		   AND COMM_NM LIKE '%'+#{commNm}+'%'
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(useYn)">
+		   AND USE_YN = #{useYn}
+		</if>
+		 ORDER BY COMM_GRP_CD ASC
+		          , ORDR ASC
+	</select>
+	
+	<select id="selectGrpCodeCnt" parameterType="Map" resultType="int">
+		SELECT COUNT(*) AS CNT
+		  FROM T_COMM 
+		 WHERE 1=1
+		   AND COMM_GRP_CD = #{commGrpCd}  
+	</select>
+	
+	<update id="updateCommCodeMng" parameterType="Map">
+		UPDATE T_COMM
+		   SET COMM_CD = #{commCd}
+		       , COMM_NM = #{commNm}
+		       , UPD_DTM = CURRENT_TIMESTAMP
+		       , UPD_SEQ = #{admSeq}
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(useYn)">
+		       , USE_YN = #{useYn}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc1)">
+		       , COMM_DESC1 = #{commDesc1}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc2)">
+		       , COMM_DESC2 = #{commDesc2}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc3)">
+		       , COMM_DESC3 = #{commDesc3}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc4)">
+		       , COMM_DESC4 = #{commDesc4}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc5)">
+		       , COMM_DESC5 = #{commDesc5}
+		</if>
+		 WHERE COMM_SEQ = #{commSeq}
+	</update>
+	
+	<update id="insertCommCodeMng" parameterType="Map">
+		INSERT INTO T_COMM 
+		(
+		    COMM_SEQ
+		    , COMM_GRP_CD
+		    , COMM_GRP_NM
+		    , COMM_CD
+		    , COMM_NM
+		    , ORDR
+		    , USE_YN
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc1)">
+		    , COMM_DESC1
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc2)">
+		    , COMM_DESC2
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc3)">
+		    , COMM_DESC3
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc4)">
+		    , COMM_DESC4
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc5)">
+		    , COMM_DESC5
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc6)">
+		    , COMM_DESC6
+		</if>
+		    , REG_DTM
+		    , REG_SEQ
+		    , UPD_DTM
+		    , UPD_SEQ
+		)
+		VALUES(
+		    NEXT VALUE FOR SQ_COMM
+		    , #{commGrpCd}
+		    , #{commGrpNm}
+		    , #{commCd}  
+		    , #{commNm}
+		    , #{ordr}
+		    , #{useYn}
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc1)">
+		    , #{commDesc1}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc2)">
+		    , #{commDesc2}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc3)">
+		    , #{commDesc3}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc4)">
+		    , #{commDesc4}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc5)">
+		    , #{commDesc5}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(commDesc6)">
+		    , #{commDesc6}
+		</if>
+		    , CURRENT_TIMESTAMP
+		    , #{emplSeq}
+		    , CURRENT_TIMESTAMP
+		    , #{emplSeq}
+		)
+	</update>
+	
+	<update id="deleteCommCodeMng" parameterType="Map">
+		DELETE 
+		  FROM T_COMM
+		 WHERE COMM_SEQ = #{commSeq}
+	</update>
+	
+</mapper>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.prmt.dao.PrmtRqstMngMapper">
+
+	<select id="selectPrmtRqstMngList" parameterType="com.namyang.nyorder.prmt.vo.PrmtRqstMngVO" resultType="com.namyang.nyorder.prmt.vo.PrmtRqstMngVO" >
+		/*	prmtRqstMng-Mapper	- selectPrmtRqstMngList	*/
+			SELECT 
+				SUBSTRING(A.DVYFG_RQST_MONTH, 0,5) + '-' + SUBSTRING(A.DVYFG_RQST_MONTH, 5,7) AS DVYFG_RQST_MONTH
+				, A.SALE_CD
+				, (SELECT COMM_NM FROM NY_ORDER.dbo.T_COMM WHERE COMM_GRP_CD = 'SALE_CD' AND COMM_CD = A.SALE_CD) AS SALE_TXT 
+				, B.PRMT_RQST_SEQ, B.AGEN_CLS_DT, B.BHFC_CLS_DT, B.HOFF_CLS_DT, B.DCSN_YN
+			FROM 
+			(
+				SELECT #{dvyfgRqstMonth} AS DVYFG_RQST_MONTH, 'SI' AS SALE_CD
+				UNION
+				SELECT #{dvyfgRqstMonth} AS DVYFG_RQST_MONTH, 'BA' AS SALE_CD
+			) A 
+			LEFT OUTER JOIN (
+				SELECT PRMT_RQST_SEQ, SALE_CD, DVYFG_RQST_MONTH, AGEN_CLS_DT, BHFC_CLS_DT, HOFF_CLS_DT, DCSN_YN
+				FROM T_PRMT_RQST_MNG
+				WHERE 1=1
+				AND SALE_CD = 'BA' 
+				AND DVYFG_RQST_MONTH = #{dvyfgRqstMonth}
+				AND USE_YN = 'Y'
+				
+				UNION
+				
+				SELECT PRMT_RQST_SEQ, SALE_CD, DVYFG_RQST_MONTH, AGEN_CLS_DT, BHFC_CLS_DT, HOFF_CLS_DT, DCSN_YN
+				FROM T_PRMT_RQST_MNG
+				WHERE 1=1
+				AND SALE_CD = 'SI' 
+				AND DVYFG_RQST_MONTH = #{dvyfgRqstMonth}
+				AND USE_YN = 'Y'
+			) B ON A.SALE_CD = B.SALE_CD AND A.DVYFG_RQST_MONTH = B.DVYFG_RQST_MONTH
+	</select>
+	
+	<update id="merPrmtRqstMng" parameterType="com.namyang.nyorder.prmt.vo.PrmtRqstMngVO">
+		/*	prmtRqstMng-Mapper	- merPrmtRqstMng	*/
+		
+			DECLARE @PRMT_RQST_MNG NUMERIC(13)
+			SET @PRMT_RQST_MNG = NEXT VALUE FOR SQ_PRMT_RQST
+
+			MERGE INTO T_PRMT_RQST_MNG A
+			USING(
+					SELECT #{saleCd} AS SALE_CD
+							, #{dvyfgRqstMonth} AS DVYFG_RQST_MONTH
+			) B
+			ON (
+				A.SALE_CD = B.SALE_CD AND A.DVYFG_RQST_MONTH = B.DVYFG_RQST_MONTH  
+			) 
+			WHEN	MATCHED THEN 
+					UPDATE	SET 
+							AGEN_CLS_DT = #{agenClsDt}
+							, BHFC_CLS_DT = #{bhfcClsDt}
+							, HOFF_CLS_DT = #{hoffClsDt}
+							, UPD_DTM = CURRENT_TIMESTAMP
+							, UPD_SEQ = #{emplSeq}
+			WHEN	NOT MATCHED THEN
+					INSERT(PRMT_RQST_SEQ
+							, SALE_CD
+							, DVYFG_RQST_MONTH
+							, AGEN_CLS_DT
+							, BHFC_CLS_DT
+							, HOFF_CLS_DT
+							, DCSN_YN
+							, USE_YN
+							, REG_DTM
+							, REG_SEQ
+							)
+						VALUES(
+							@PRMT_RQST_MNG
+							, #{saleCd}
+							, #{dvyfgRqstMonth}
+							, #{agenClsDt}
+							, #{bhfcClsDt}
+							, #{hoffClsDt}
+							, ''
+							, 'Y'
+							, CURRENT_TIMESTAMP
+							, #{emplSeq, jdbcType=NUMERIC}
+						);
+	</update>
+	
+	<update id="updPrmtRqstMngDcsn" parameterType="com.namyang.nyorder.prmt.vo.PrmtRqstMngVO">
+		/*	prmtRqstMng-Mapper	- updPrmtRqstMngDcsn	*/
+			UPDATE T_PRMT_RQST_MNG
+			SET DCSN_YN = 'Y'
+				, UPD_DTM = CURRENT_TIMESTAMP 
+				, UPD_SEQ = #{emplSeq, jdbcType=NUMERIC} 
+			WHERE SALE_CD = #{saleCd}
+				AND DVYFG_RQST_MONTH = #{dvyfgRqstMonth}			
+				AND	DCSN_YN != 'Y'
+	</update>
+	
+	<select id="selectDvyfgRqstMonth" parameterType="com.namyang.nyorder.prmt.vo.PrmtRqstMngVO" resultType="com.namyang.nyorder.prmt.vo.PrmtRqstMngVO">
+		/* PrmtAgenRqst-Mapper selectDvyfgRqstMonth */	
+			SELECT 
+				PRMT_RQST_SEQ
+				, DVYFG_RQST_MONTH
+				, AGEN_CLS_DT
+				, BHFC_CLS_DT
+				, HOFF_CLS_DT
+			FROM T_PRMT_RQST_MNG
+			WHERE 1=1
+			AND SALE_CD = #{saleCd}
+			AND DVYFG_RQST_MONTH = #{dvyfgRqstMonth}			
+			AND USE_YN = 'Y'
+	</select>	
+	
+</mapper>

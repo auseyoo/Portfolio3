@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.std.dao.StdPrdMngMapper">
+	
+	<select id="selectStdPrdMngDetail" parameterType="com.namyang.nyorder.std.vo.StdPrdMngDetailVO" resultType="com.namyang.nyorder.std.vo.StdPrdMngDetailVO">
+		/* stdPrdMng-Mapper - selectStdPrdMngDetail : 	표준제품 상세 조회 */
+		SELECT 
+				M.PRD_SEQ,
+				M.PUCH_SEQ,
+				P.PUCH_NM,
+				M.PRD_SAP_CD,
+				M.PRD_NM,
+				M.LCLS,
+				PC.LCLS_NM,
+				M.MCLS,
+				PC.MCLS_NM,
+				M.SCLS,
+				PC.SCLS_NM,
+				M.DCLS,
+				PC.DCLS_NM,
+				M.PRMT_CD,
+				M.FALT_CT,
+				M.BRCD,
+				M.IDDY_BRCD,
+				IIF( M.IDDY_BRCD is null , '불가', '가능') AS IDDY_UNT_YN,
+				M.FALT_QTY,
+				M.PRD_STRD,
+				M.PUCH_YN,
+				IIF(M.ORD_USE_YN = 'Y', '주문가능', '주문불가') AS ORD_USE_YN_TX,
+				M.ORD_USE_YN,
+				M.FEE_UNTPC,
+				M.IDDY_UNTPC,
+				ISNULL(M.SPPRC, 0) SPPRC,
+				ISNULL(M.VAT_SPPRC, 0) VAT_SPPRC,
+				M.VALD_PD,
+				M.PRD_UNIT,
+				M.RTGD_PERM_TN,
+				CONVERT(VARCHAR(10), CONVERT(DATE, M.UNTPC_APPL_DT), 120) AS UNTPC_APPL_DT,
+				-- M.UNTPC_APPL_DT,
+				M.REG_DTM,
+				M.REG_SEQ,
+				M.UPD_DTM,
+				M.UPD_SEQ,
+				M.SHTN_NM,
+				M.PRD_TYPE,
+				(SELECT COMM_NM FROM T_COMM WHERE COMM_GRP_CD = 'SD0001' AND COMM_CD = M.PRD_TYPE) PRD_TYPE_NM,
+				M.ORD_PD,
+				M.ETC_BRCD,
+				M.TAXT_CD,
+				--(SELECT COMM_NM FROM T_COMM WHERE COMM_GRP_CD = 'TAXT_CD' AND COMM_CD = M.TAXT_CD) TXAT_NM,
+				IIF(M.TAXT_CD = '2', '면세', '과세') AS TAXT_NM,
+				D.PRD_DTL_SEQ,
+				D.STD_PRD_NM,
+				D.STD_PRD_YN,
+				IIF(D.STD_PRD_YN = 'Y', '사용', '미사용') AS STD_PRD_YN_TX,
+				D.ABRV_NM,
+				IIF(M.USE_YN = 'Y', '사용', '미사용') AS USE_YN_TX,
+				D.ORD_ORDR,
+				D.PRD_ORDR,
+				D.USE_YN,
+				P.PUCH_CD
+		FROM NY_ORDER.dbo.T_PRD_MST	M
+		LEFT
+		JOIN NY_ORDER.dbo.T_PRD_DTL D
+		ON	 M.PRD_SEQ = D.PRD_SEQ
+		AND	 D.AGEN_SEQ = #{agenSeq}
+		AND  D.STD_PRD_YN = 'Y'
+		LEFT
+		JOIN
+		(
+			SELECT	PUCH_SEQ, PUCH_CD, PUCH_NM, USE_CD
+			FROM	T_AGEN_MJR_PUCH
+			WHERE	USE_CD ='USE'
+			UNION ALL
+			SELECT	PUCH_SEQ, PUCH_CD, PUCH_NM, USE_CD  
+			FROM T_AGEN_OTR_PUCH
+			WHERE	USE_CD='USE'
+			AND 	AGEN_SEQ = #{agenSeq}
+		)  P
+		ON	M.PUCH_SEQ = P.PUCH_SEQ
+		LEFT
+		JOIN T_COMM_PRD_CLS pc
+		ON	PC.LCLS = M.LCLS
+		AND PC.MCLS = M.MCLS
+		AND PC.SCLS = M.SCLS
+		AND PC.DCLS = M.DCLS
+		WHERE M.PRD_SEQ = #{prdSeq}
+		<if test="prdDtlSeq != null and prdDtlSeq != '' ">
+			AND D.PRD_DTL_SEQ = #{prdDtlSeq}
+		</if>
+		
+	</select>
+		
+</mapper>

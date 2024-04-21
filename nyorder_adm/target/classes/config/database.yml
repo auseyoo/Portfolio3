@@ -1,0 +1,13 @@
+dev:
+  driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+  jdbcUrl: jdbc:log4jdbc:sqlserver://150.1.2.184:14333;databaseName=NY_ORDER
+  password: btsoft123@
+  username: btsoft
+real:
+  driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+  jdbcUrl: jdbc:log4jdbc:sqlserver://150.1.2.184:14333;databaseName=NY_ORDER
+  password: btsoft123@
+  username: btsoft
+  
+salt:
+  string: NYORDER  

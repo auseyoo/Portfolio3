@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.cmmc.dao.NotibodMapper">
+	<!-- 공지사항 리스트 출력 -->
+	<select id="selectNotiList"	parameterType="com.namyang.nyorder.cmmc.vo.NttVO" resultType="com.namyang.nyorder.cmmc.vo.NttVO">
+		/*Notibod-Mapper.selectNotiList*/
+		
+		SELECT 
+			  NTT_SEQ 
+			, NTT_CD 
+			, NTT_SUB 
+			, NTT_CNTT 
+			, NTT_ATCL_SEQ 
+			, USE_YN 
+			, NOTI_YN
+			, APP_PUSH_YN
+			, REG_DTM
+			, REG_SEQ 
+			, UPD_DTM 
+			, UPD_SEQ 
+			, '공지' AS NTT_ORDR
+			, CASE WHEN NOTI_YN = 'Y' THEN 0 ELSE 1 END TP_ORDR
+		FROM 	T_NTT_MST
+		WHERE  	NTT_CD = 1
+		AND 	USE_YN = 'Y'
+		AND		NOTI_YN = 'Y'
+		
+		UNION ALL 
+		
+		SELECT 
+			  NTT_SEQ 
+			, NTT_CD 
+			, NTT_SUB 
+			, NTT_CNTT 
+			, NTT_ATCL_SEQ 
+			, USE_YN 
+			, NOTI_YN
+			, APP_PUSH_YN
+			, REG_DTM
+			, REG_SEQ 
+			, UPD_DTM 
+			, UPD_SEQ 
+			, CONVERT(VARCHAR, ROW_NUMBER () OVER(ORDER BY REG_DTM DESC) )  AS NTT_ORDR
+			, CASE WHEN NOTI_YN = 'Y' THEN 0 ELSE 1 END TP_ORDR
+		FROM 	T_NTT_MST
+		<where>
+			AND NTT_CD = 1
+			AND USE_YN = 'Y'
+			AND	NOTI_YN = 'N'
+			<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(srcType) and @com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(srcKeyword)">
+				<choose>
+					<when test="srcType == 'all' ">
+						AND (NTT_CNTT like '%'+#{srcKeyword}+'%' OR NTT_SUB like '%'+#{srcKeyword}+'%')
+					</when>
+					<when test="srcType == 'title' ">
+						AND NTT_SUB like '%'+#{srcKeyword}+'%'
+					</when>
+					<when test="srcType == 'content' ">
+						AND NTT_CNTT like '%'+#{srcKeyword}+'%'
+					</when>
+				</choose>
+			</if>
+			<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(notiYn)">
+				AND NOTI_YN = #{notiYn}
+			</if>
+		</where>
+		ORDER BY TP_ORDR, REG_DTM DESC
+	</select>
+	<!-- 논리삭제 -->
+	<update id="updateNotiYn" parameterType="com.namyang.nyorder.cmmc.vo.NttVO">
+	/*Notibod-Mapper.updateNotiYn*/
+		UPDATE T_NTT_MST 
+		SET
+	  	  USE_YN  = 'N'
+		, UPD_DTM = CURRENT_TIMESTAMP
+		, UPD_SEQ = 0
+		WHERE 1=1
+		AND NTT_SEQ = #{nttSeq}
+	</update>
+	<!-- 공지사항 등록 -->
+	<insert id="insertNotibod" parameterType="com.namyang.nyorder.cmmc.vo.NttVO">
+		/*Notibod-Mapper.insertNotibod*/
+		INSERT INTO T_NTT_MST
+		(
+			  NTT_SEQ
+			, NTT_CD
+			, NTT_SUB
+			, NTT_CNTT
+			<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(nttAtclSeq)">
+			, NTT_ATCL_SEQ 
+			</if>
+			, USE_YN
+			, NOTI_YN
+			, APP_PUSH_YN
+			, REG_DTM
+			, REG_SEQ
+		)
+		VALUES
+		(
+			NEXT VALUE FOR SQ_NTT
+			,'1'
+			, #{nttSub}
+			, #{nttCntt}
+			<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(nttAtclSeq)">
+			, #{nttAtclSeq, jdbcType=NUMERIC}
+			</if>
+			, 'Y'
+			, #{notiYn}
+			, #{appPushYn}
+			, CURRENT_TIMESTAMP
+			, #{admSeq}
+		)
+	</insert>
+	
+	<!-- 공지사항 수정 -->
+	<update id="updateNotibod" parameterType="com.namyang.nyorder.cmmc.vo.NttVO">
+		/*Notibod-Mapper.updateNotibod*/
+		UPDATE T_NTT_MST
+		SET
+			NTT_SUB	 = #{nttSub},
+			NTT_CNTT	= #{nttCntt}
+		, NOTI_YN	 = #{notiYn}
+		, APP_PUSH_YN = #{appPushYn}
+		, UPD_DTM	 = CURRENT_TIMESTAMP
+		, UPD_SEQ	 = #{admSeq}
+		WHERE 1=1
+		AND NTT_SEQ = #{nttSeq}
+	</update>
+	
+	
+	<select id="selectNoticeAttachList"  parameterType="com.namyang.nyorder.cmmc.vo.NttVO" resultType="com.namyang.nyorder.cmmc.vo.NttVO">
+		SELECT 
+			  tnad.FILE_NM 
+			, tnad.FILE_ORI_NM 
+			, tnad.FILE_LC 
+			, tnad.FILE_EXT 
+			, tnad.FILE_SIZE 
+		FROM 
+		T_NTT_ATCL_MST tnam
+		INNER JOIN T_NTT_ATCL_DTL tnad 
+		ON tnam.NTT_ATCL_SEQ = tnad.NTT_ATCL_SEQ 
+		WHERE tnam.NTT_ATCL_SEQ = #{nttAtclSeq}
+	</select> 
+	
+</mapper>

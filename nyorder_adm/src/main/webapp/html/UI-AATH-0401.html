@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>ADMIN 남양유업 대리점 주문시스템 - 권한관리 : 공통코드그룹 관리</title>
+<link rel="stylesheet" type="text/css" href="../css/AUIGrid/grid_custom.css"/>
+<link rel="stylesheet" type="text/css" href="../css/layout.css"/>
+<script type="text/javascript" src="../js/lib/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/lib/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGridLicense.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGrid.js"></script>
+<script type="text/javascript" src="../js/common_ui.js"></script>
+<script type="text/javascript">
+    var myGridID2;
+
+    
+    var gridData = [
+        {"id":"#Cust01","commCd":"AM","commGrpId":"AM00001","commGrpNm":"사용자그룹 권한관리","emplRm":"36","lastupdNm":"홍길동","lastupdDtm":"00"},
+        {"id":"#Cust12","commCd":"AM","commGrpId":"AM00002","commGrpNm":"제품조회","emplRm":"36","lastupdNm":"홍길동","lastupdDtm":"00"}
+	];
+    var posList =  ["Y","N"];
+   
+    $(document).ready(function(){
+        // AUIGrid 생성 후 반환 ID
+        createAUIGrid();
+        //createAUIGrid(columnLayout2);
+        // 데이터 요청, 요청 성공 시 AUIGrid 에 데이터 삽입합니다.
+
+        AUIGrid.setGridData(myGridID, gridData);
+	    AUIGrid.setFooter(myGridID, footerLayout);
+
+    });
+    
+   
+    // AUIGrid 를 생성합니다.
+    function createAUIGrid() {
+        // 그리드 속성 설정
+        var gridPros = {
+                headerHeight : 29,
+                rowHeight : 29,
+                editable : true,// 편집 가능 여부 (기본값 : false)
+                
+                enterKeyColumnBase : true, // 엔터키가 다음 행이 아닌 다음 칼럼으로 이동할지 여부 (기본값 : false)
+                fixedColumnCount : 7,
+                editingOnKeyDown : true, // 키보드 입력으로 편집 모드 진입 (기본값:true임;)
+                wrapSelectionMove : true,
+                
+                // 셀 선택모드 (기본값: singleCell)
+                selectionMode : "singleRow",
+                showFooter : true,
+                showRowCheckColumn : true, // 체크박스 사용
+                rowCheckColumnWidth : 30,
+                headerRowCheck: true,
+                
+                // 컨텍스트 메뉴 사용 여부 (기본값 : false)
+                useContextMenu : true,
+                
+                // 필터 사용 여부 (기본값 : false)
+                enableFilter : true,
+            
+                // 그룹핑 패널 사용
+                useGroupingPanel : false,
+                
+                
+                // 그룹핑 또는 트리로 만들었을 때 펼쳐지게 할지 여부 (기본값 : false)
+                displayTreeOpen : true,
+                
+                noDataMessage : "출력할 데이터가 없습니다.",
+                
+                groupingMessage : "여기에 칼럼을 드래그하면 그룹핑이 됩니다."
+                
+        };
+    
+        // 실제로 #grid_wrap 에 그리드 생성
+        myGridID = AUIGrid.create("#grid_wrap", columnLayout, gridPros);
+
+        // 행 추가 이벤트 바인딩 
+	    AUIGrid.bind(myGridID2, "addRow", auiAddRowHandler);
+     
+    }
+
+    // 그리드 속성 설정
+	var auiGridProps = {
+			//scrollHeight : 18, // 스크롤의 높이
+			//scrollThumbHeight : 16, // 스크롤 썸(thumb)의 높이
+			fixedColumnCount : 7
+	};
+
+    var columnLayout = [{
+            dataField : "commCd",
+			headerText : "코드구분",
+			width : "13%",
+            style : "auiCenter"
+		},{
+			dataField : "commGrpId",
+			headerText : "코드그룹ID",
+            width : "13%"
+        },{
+			dataField : "commGrpNm",
+			headerText : "코드그룹명",
+			width : "19.8%",
+            style : "auiLeft",
+            editable : true,
+                renderer : {
+                    type : "TemplateRenderer"
+                },
+                // dataField 로 정의된 필드 값이 HTML 이라면 labelFunction 으로 처리할 필요 없음.
+                labelFunction : function (rowIndex, columnIndex, value, headerText, item ) {
+                    var template = '<div class="my_div">';
+                    template += '<span class="my_div_text_box">' + value + '</span>';
+                    template += '</div>';
+                    return template;
+                }
+        },{
+			dataField : "emplRm",
+			headerText : "비고",
+			width : "19.8%",
+            style: "auiRight",
+            editable : true,
+                renderer : {
+                    type : "TemplateRenderer"
+                },
+                // dataField 로 정의된 필드 값이 HTML 이라면 labelFunction 으로 처리할 필요 없음.
+                labelFunction : function (rowIndex, columnIndex, value, headerText, item ) {
+                    var template = '<div class="my_div">';
+                    template += '<span class="my_div_text_box">' + value + '</span>';
+                    template += '</div>';
+                    return template;
+                }
+        },{
+			dataField : "lastupdNm",
+			headerText : "최종수정자",
+			width : "17%",
+		},{
+			dataField : "lastupdDtm",
+			headerText : "최종수정일시",
+		}
+	];
+
+
+    // 행 추가 이벤트 핸들러
+		function auiAddRowHandler(event) {
+			//alert(event.type + " 이벤트\r\n" + "삽입된 행 인덱스 : " + event.rowIndex + "\r\n삽입된 행 개수 : " + event.items.length);
+			document.getElementById("rowInfo").innerHTML = (event.type + " 이벤트 :  " + "삽입된 행 인덱스 : " + event.rowIndex + ", 삽입된 행 개수 : " + event.items.length);
+		};
+	
+		//행추가
+		var countries = ["commGrpId", "commGrpNm"];
+		var cnt = 0;
+		function addRow(rowPos) {
+			var item = new Object(); 
+			AUIGrid.addRow(myGridID, item, rowPos);
+			
+		}
+
+		// 행 삭제 이벤트 핸들러
+		function auiRemoveRowHandler(event) {
+			document.getElementById("rowInfo").innerHTML = (event.type + " 이벤트 :  " + ", 삭제된 행 개수 : " + event.items.length + ", softRemoveRowMode : " + event.softRemoveRowMode);
+		};
+
+		// 행 삭제
+		function removeRow() {
+			if(!(AUIGrid.getSelectedIndex(myGridID)).length){
+				alert("삭제할 내역을 선택하세요.");
+			}
+			var rowPos = AUIGrid.getSelectedIndex(myGridID);
+			AUIGrid.removeRow(myGridID, rowPos[0]);
+		}
+
+		// 추가, 수정, 삭제 된 아이템들 확인하기
+		function checkItems() {
+			
+			// 추가된 행 아이템들(배열)
+			var addedRowItems = AUIGrid.getAddedRowItems(myGridID);
+			
+			// 수정된 행 아이템들(배열) : 진짜 수정된 필드만 얻음.
+			var editedRowItems = AUIGrid.getEditedRowColumnItems(myGridID);
+			
+			// 수정된 행 아이템들(배열) : 수정된 필드와 수정안된 필드 모두를 얻음.
+			//var editedRowItems = AUIGrid.getEditedRowItems(myGridID); 
+			
+			// 삭제된 행 아이템들(배열)
+			var removedRowItems = AUIGrid.getRemovedItems(myGridID);
+			
+			var i, len, name, rowItem;
+			var str = "";
+		
+			if(addedRowItems.length > 0) {
+				str += "---추가된 행\r\n";
+				for(i=0, len=addedRowItems.length; i<len; i++) {
+					rowItem = addedRowItems[i]; // 행아이템
+					// 전체 조회
+					for(var name in rowItem) {
+						str += name + " : " + rowItem[name] + ", ";	
+					}
+					str += "\r\n";
+				}
+			}
+		
+			if(editedRowItems.length > 0) {
+				str += "---수정된 행\r\n";
+				for(i=0, len=editedRowItems.length; i<len; i++) {
+					rowItem = editedRowItems[i]; // 행아이템
+					
+					// 전체 조회
+					for(var name in rowItem) {
+						str += name + " : " + rowItem[name] + ", ";	
+					}
+					str += "\r\n";
+				}
+			}
+		
+			if(removedRowItems.length > 0) {
+				str += "---삭제된 행\r\n";
+				for(i=0, len=removedRowItems.length; i<len; i++) {
+					rowItem = removedRowItems[i]; // 행아이템
+					// 전체 조회
+					for(var name in rowItem) {
+						str += name + " : " + rowItem[name] + ", ";	
+					}
+					str += "\r\n";
+				}
+			}
+
+        // 하단에 정보 출력.
+        $("#desc_info").html("추가 개수 : " + addedRowItems.length + ", 수정 개수 : " + editedRowItems.length + ", 삭제 개수 : " + removedRowItems.length); 	
+            if(str == "")
+                str = "변경 사항 없음";
+            
+            alert(str);
+        }
+
+    // 푸터 설정
+    var footerLayout = [{
+        labelText : "∑",
+        positionField : "#base"
+        }, {
+            dataField : "code",
+            positionField : "code",
+            operation : "SUM",
+            colSpan : 1, 
+            /*labelFunction : function(value, columnValues, footerValues) {
+               // return "합계 : " + AUIGrid.formatNumber(value, "#,##0");
+               return "합계 : " 
+            }*/
+    }];
+
+    var footerLayout2 = [{
+        labelText : "∑",
+        positionField : "#base"
+        }, {
+            dataField : "code",
+            positionField : "code",
+            operation : "SUM",
+            colSpan : 3, // 자신을 포함하여 4개의 푸터를 가로 병합함.
+            labelFunction : function(value, columnValues, footerValues) {
+            // return "합계 : " + AUIGrid.formatNumber(value, "#,##0");
+            return "합계 : " 
+            }
+        }, {
+            dataField : "totalQuant",
+            positionField : "totalQuant",
+            operation : "SUM",
+            style : "auiRight",
+            colSpan : 1, 
+            labelFunction : function(value, columnValues, footerValues) {
+                return " " + AUIGrid.formatNumber(value, "#,##0");
+            }
+        }, {
+            dataField : "price",
+            positionField : "price",
+            operation : "SUM",
+            style : "auiRight",
+            colSpan : 1, 
+            labelFunction : function(value, columnValues, footerValues) {
+                return " " + AUIGrid.formatNumber(value, "#,##0");
+            }
+        }, {
+            dataField : "tax",
+            positionField : "tax",
+            operation : "SUM",
+            style : "auiRight",
+            colSpan : 1, 
+            labelFunction : function(value, columnValues, footerValues) {
+                return " " + AUIGrid.formatNumber(value, "#,##0");
+            }
+        }, {
+            dataField : "taxFree",
+            positionField : "taxFree",
+            operation : "SUM",
+            style : "auiRight",
+            colSpan : 1, 
+            labelFunction : function(value, columnValues, footerValues) {
+                return " " + AUIGrid.formatNumber(value, "#,##0");
+            }
+        }, {
+            dataField : "totalPrice",
+            positionField : "totalPrice",
+            operation : "SUM",
+            style : "auiRight",
+            colSpan : 1, 
+            labelFunction : function(value, columnValues, footerValues) {
+                return " " + AUIGrid.formatNumber(value, "#,##0");
+            }
+    }];
+
+    
+    //keepEditing 토글
+    function toggleKeepEditing() {
+        var chkbox = document.getElementById("chkbox");
+        AUIGrid.setProp(myGridID, "keepEditing", chkbox.checked);
+    }
+
+    function toggleEditMode() {
+        var editBeginMode = AUIGrid.getProp(myGridID, "editBeginMode");
+        
+        if(editBeginMode == "doubleClick") {
+            AUIGrid.setProp(myGridID, "editBeginMode", "click");
+            document.getElementById("status").innerHTML = "click";
+        }
+        else {
+            AUIGrid.setProp(myGridID, "editBeginMode", "doubleClick");
+            document.getElementById("status").innerHTML = "doubleClick";
+        }
+    };
+
+
+    function requestJsonData() {
+        
+        // 요청 URL
+        var url = "./data/normal_500.json";
+        
+        // ajax 요청 전 그리드에 로더 표시
+        AUIGrid.showAjaxLoader(myGridID);
+        
+        // ajax (XMLHttpRequest) 로 그리드 데이터 요청
+        ajax( {
+            url : url,
+            onSuccess : function(data) {
+                
+                //console.log(data);
+                    
+                // 그리드에 JSON 데이터 설정
+                // data 는 JSON 을 파싱한 Array-Object 임
+                AUIGrid.setGridData(myGridID, data);
+                
+                // 로더 제거
+                AUIGrid.removeAjaxLoader(myGridID);
+            },
+            onError : function(status, e) {
+                alert("데이터 요청에 실패하였습니다.\r\n status : " + status + "\r\nWAS 를 IIS 로 사용하는 경우 json 확장자가 web.config 의 handler 에 등록되었는지 확인하십시오.");
+                // 로더 제거
+                AUIGrid.removeAjaxLoader(myGridID);
+            }
+        });
+     };
+
+     
+
+</script>
+</head>
+<body>
+	<div class="allWrap">
+		<header>
+            <h1><a href="#" class="logo" title="남양유업"></a></h1>
+
+            <div class="logInfo">
+                <ul>
+                    <li><span class="user">김 남양</span> 님 을 환영합니다.</li>
+                    <li>최근접속일시 : <span class="date">2021.12.10 09:30:00</span></li>
+                    <li><a href="#" class="logBtn"><span>로그아웃</span></a></li>
+                    <!-- <li><a href="#" class="logBtn"><span>로그인</span></a></li> -->
+                </ul>
+            </div>
+		</header> 
+
+		<div class="contentWrap">
+            <!-- lnb -->
+			<div class="lnbWrap">
+                <!-- 검색영역 -->
+                <div class="leftSearBox">
+                    <input type="text" name="" value="" class="inp type02">
+                    <button type="button" class="searBtn" name="" title="검색하기"></button>
+                </div>
+                <!-- 검색영역 -->
+
+                <div class="lnbTabsWrap">
+                    <ul class="tabs etcMenu">
+                        <li class="active" rel="mtab01"><a href="#" class="allMenu" title="전체메뉴"><span>전체메뉴</span></a></li>
+                        <li class="" rel="mtab02"><a href="#" class="favSearch" title="즐겨찾기"><span>즐겨찾기</span></a></li>
+                    </ul>
+
+                    <!-- <a href="#" class="favSearch" title="즐겨찾기"><span>즐겨찾기</span></a> -->
+
+                    <div id="mtab01" class="tabContent lnb">
+                        <ul>
+                            <li class="depth1">
+                                <a href="#" title="기준정보 관리"><span>기준정보 관리</span></a>
+                                <ul class="depth2">
+                                    <li><a href="/std/stdPrdSearch.do">제품 조회</a></li>
+                                    <li><a href="/std/stdPrdMng.do">표준제품 관리</a></li>
+                                    <li><a href="/std/stdPrdCdMng.do">타사제품코드 관리</a></li>
+                                    <li><a href="/std/stdPchaMng.do">매입처 관리</a></li>
+                                    <li><a href="/std/stdUntpcInfoMng.do">단가정보 관리</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="대리점 관리"><span>대리점 관리</span></a>
+                                <ul class="depth2">
+                                    <li><h3>주문 관리</h3></li>
+                                    <li><a href="/agn/ordrReg.do">주문 등록</a></li>
+                                    <li><a href="/agn/ordrDcsnDly.do">주문확정/배송 조회</a></li>
+                                    <li><a href="/agn/rtngudList.do">반품/반송 조회</a></li>
+                                    <li><a href="/agn/rtngudReg.do">반품등록</a></li>
+                                    <li><a href="#">학교급식 주문 등록</a></li>
+                                    <li><a href="#">학교급식 주문 조회</a></li>
+                                    <li><h3>매입 관리</h3></li>
+                                    <li><a href="/agn/pchaReg.do">매입 등록</a></li>
+                                    <li><a href="/agn/pchaSumStat.do">매입집계 현황</a></li>
+                                    <li><h3>재고 관리</h3></li>
+                                    <li><a href="">재고 관리</a></li>
+                                    <li><a href="">크레이트 반납 관리</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="애음자 관리"><span>애음자 관리</span></a>
+                                <ul class="depth2">
+                                    <li><h3>애음자관리</h3></li>
+                                    <li><a href="">애음자 관리</a></li>
+                                    <li><a href="">애음자 현황</a></li>
+                                    <li><a href="/cst/dlvMng.do">배달 관리</a></li>
+                                    <li><a href="">이사고객 조회</a></li>
+                                    <li><a href="">애음자 지역변경</a></li>
+                                    <li><a href="">애음자 통계</a></li>
+                                    <li><a href="">더블/휴무 작업</a></li>
+                                    <li><h3>수금 관리</h3></li>
+                                    <li><a href="">애음자 수금 관리</a></li>
+                                    <li><a href="">OCR 관리</a></li>
+                                    <li><a href="">지로 인쇄</a></li>
+                                    <li><a href="">방문영수증 및 수금자료</a></li>
+                                    <li><a href="">CMS 관리</a></li>
+                                    <li><a href="">가상계좌 관리</a></li>                                    
+                                    <li><h3>지역 관리</h3></li>
+                                    <li><a href="/agen/agenAreaMng.do">지역 관리</a></li>
+                                    <li><a href="/cst/untpcInfoMng.do">단가 관리</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="판매 관리"><span>판매 관리</span></a>
+                                <ul class="depth2"> <!--style="display:block" -->
+                                    <li><h3>거래처 관리</h3></li>
+                                    <li><a href="/sale/bcncMng.do">거래처 관리</a></li>
+                                    <li><a href="/sale/bcncUntpcMng.do">거래처별 단가 관리</a></li>
+                                    <li><h3>판매 관리</h3></li>
+                                    <li><a href="/sale/saleReg.do">판매등록</a></li>
+                                    <li><a href="/sale/ediOrg.do">EDI 발주 조회</a></li>
+                                    <li><a href="/sale/ediDlv.do">EDI 납품 조회</a></li>
+                                    <li><a href="/sale/bcncBilctMng.do">거래처 수금 관리</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="매출 분석"><span>매출 분석</span></a>
+                                <ul class="depth2">
+                                    <li><h3>매출 분석</h3></li>
+                                    <li><a href="">월별판매현황</a></li>
+                                    <li><a href="">제품별판매현황</a></li>
+                                    <li><a href="">담당자별판매현황</a></li>
+                                    <li><a href="">거래처별판매현황</a></li>
+                                    <li><h3>마감장 조회</h3></li>
+                                    <li><a href="">마감장 조회</a></li>
+                                    <li><a href="">판매원 결산 조회</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="세무/회계 관리"><span>세무/회계 관리</span></a>
+                                <ul class="depth2">
+                                    <li><h3>세금계산서 관리</h3></li>
+                                    <li><a href="">매출세금계산서발행</a></li>
+                                    <li><a href="">매입세금계산서등록</a></li>
+                                    <li><a href="">세금계산서집계표</a></li>
+                                    <li><h3>현금영수증 관리</h3></li>
+                                    <li><a href="">현금영수증 발행 및 조회</a></li>
+                                    <li><h3>경비 관리</h3></li>
+                                    <li><a href="">경비등록/손익현황</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="장비 관리"><span>장비 관리</span></a>
+                                <ul class="depth2">
+                                    <li><h3>모바일장비 관리</h3></li>
+                                    <li><a href="">모바일프린터 관리</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="판촉 관리"><span>판촉 관리</span></a>
+                                <ul class="depth2">
+                                    <li><h3>판촉물 관리</h3></li>
+                                    <li><a href="">판촉물 소요량 요청 관리</a></li>
+                                    <li><a href="">판촉물 입출고 관리</a></li>
+                                    <li><h3>판촉사원 관리</h3></li>
+                                    <li><a href="">판촉사원 관리</a></li>
+                                    <li><a href="">판촉사원 수당 관리</a></li>
+                                    <li><h3>판촉 애음자 조회</h3></li>
+                                    <li><a href="">판촉 애음자 조회</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="커뮤니케이션 관리"><span>커뮤니케이션 관리</span></a>
+                                <ul class="depth2">
+                                    <li><h3>게시판</h3></li>
+                                    <li><a href="/cmmc/notiList.do"class="active">공지사항</a></li>
+                                    <li><a href="">자료실</a></li>
+                                    <li><a href="">본사요청 게시판</a></li>
+                                    <li><h3>발송 관리</h3></li>
+                                    <li><a href="">SMS/카카오톡 발송</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="마이페이지"><span>마이페이지</span></a>
+                                <ul class="depth2">
+                                    <li><h3>정보 관리</h3></li>
+                                    <li><a href="/myp/myInfoSearch.do">내 정보 조회</a></li>
+                                    <li><a href="/myp/cdtlSearch.do">여신 조회</a></li>
+                                    <li><h3>직원 관리</h3></li>
+                                    <li><a href="/myp/staffMng.do">직원 관리</a></li>
+                                    <li><a href="/myp/agentMenuRoleList.do">권한 관리</a></li>
+                                </ul>
+                            </li>
+                            <li class="depth1">
+                                <a href="#" title="설정"><span>설정</span></a>
+                                <ul class="depth2">
+                                    <li><a href="/comm/menuList.do" >[관리자]메뉴 설정</a></li>
+                                    <li><a href="/comm/commCodeList.do" >[관리자]공통 코드</a></li>
+                                    <li><a href="/comm/dev.do" >실험실</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="mtab02" class="tabContent favor">
+                        <ul>
+                            <li><a href="#">거래처 관리</a></li>
+                            <li><a href="#">거래처별 단가 관리</a></li>
+                            <li><a href="#">직원 관리</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="#" class="sideBtn"></a>
+			</div>
+            <!-- lnb -->
+
+            <!-- content -->
+            <div class="rContentBox">
+                <div class="content">
+                    <div class="titTopArea">
+                        <h2 class="tit01">공통코드그룹 관리 <a href="#" class="favor" title="즐겨찾기"></a></h2>
+
+                        <div class="location">
+                            <ul>
+                                <li><i class="home"></i></li>
+                                <li>권한관리</li>
+                                <li>공통코드그룹 관리</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 조회 -->
+                    <div class="inquiryBox">
+                        <dl>
+                            <dt>코드그룹 ID</dt>
+                            <dd>
+                                <div class="formWrap">
+                                    <input type="text" id="inp_product01" class="inp w120" value="" name="">
+                                </div>
+                            </dd>
+                            <dt>코드그룹명</dt>
+                            <dd>
+                                <div class="formWrap">
+                                    <input type="text" id="inp_product01" class="inp w120" value="" name="">
+                                </div>
+                            </dd>
+                            <dt>비고</dt>
+                            <dd>
+                                <div class="formWrap">
+                                    <input type="text" id="inp_product01" class="inp w120" value="" name="">
+                                    <button type="button" name="" class="comBtn" id="inp_name01">조회</button>                                
+
+                                </div>
+                            </dd>
+                        </dl>
+                        <div class="btnGroup right">
+                            <button type="button" name="" class="comBtn">엑셀다운</button>
+                            <button type="button" name="" class="inquBtn">저장</button>
+                        </div>
+                    </div>
+                    <!-- 조회 -->
+
+                    <!-- grid -->
+                    <div class="girdBox">
+                        <div class="titleArea right">
+                            <p class="numState">
+                                <em>총 <span class="pColor01 fb">2</span></em> 건 이 조회되었습니다.
+                            </p>
+                            <div class="btnGroup">
+                                <button type="button" name="" class="comBtn small" onclick="addRow('first')" value="추가하기">행추가</button>
+                                <button type="button" name="" class="comBtn small" onclick="removeRow('first')">행삭제</button>
+                            </div>
+                        </div>
+
+                        <div id="grid_wrap"> </div>
+                    </div>
+                    <!-- grid -->
+                </div>
+
+				<footer>
+					COPYRIGHT-NAMYANG-DAIRY-PRODUCTS-COLTD-ALL-RIGHT-RESERVED
+				</footer>
+            </div>
+            <!-- content -->
+		</div>
+	</div>
+</body>
+</html>

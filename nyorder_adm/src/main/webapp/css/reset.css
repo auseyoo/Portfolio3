@@ -1,0 +1,115 @@
+@charset "utf-8";
+/*  */
+
+/* Common */
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,
+em,img,ins,kbd,q,samp,small,strong,sub,sup,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,
+table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,
+hgroup,menu,nav,section,summary,time,mark,audio,video {margin:0; padding:0;  border:0; outline:0; font-size:100%; background:transparent; font-family: 'NotoKR' , 'Sans-serif'; letter-spacing:-.8px;}
+input,textarea,table,select,button{color:#222; font-family: 'NotoKR' , 'Sans-serif'; font-size:14px; line-height:1;}
+
+
+/*  */
+body{word-break:break-all; color:#222;}
+html,body{min-height:100%; /* overflow-x:auto; *//*overflow-y:auto*/}
+img,fieldset{border:0}
+img{vertical-align:middle;}
+ul,ol,li{list-style:none}
+li{line-height:100%}
+em,address{font-style:normal}
+i,a,span,em{display:inline-block;}
+a{text-decoration:none;color:#333;/*outline:none;*//* select-dummy:expression(this.hideFocus=true); */cursor:pointer}/* w3c css검사 */
+a:hover,a:active,a:focus{text-decoration:none;cursor:pointer}
+a label{cursor:pointer;}
+
+/* Common Add */
+*{box-sizing:border-box}
+select{width:100%; height:32px; font-size:14px; color:#333; border:1px solid #d8d8d8; padding:0 5px 0 9px; -webkit-appearance:none; -moz-appearance:none; appearance:none; background:url('../images/arrow_01.png') no-repeat right 0; cursor: pointer;}
+select:focus{outline:none; border:1px solid #444}
+select::-ms-expand{display:none;} /* remove default arrow on ie10 and ie11 */
+select:focus::-ms-value {color:#333; background:transparent;}
+select:disabled{border-color:#d8d8d8; background:#f6f6f6; opacity:1; color:#8a8a8a; background:#f6f6f6 url('../images/arrow_01.png') no-repeat right 0;}
+select option{color:#333}
+caption,legend{visibility:hidden;overflow:hidden;width:0;height:0;font-size:0;line-height:0;text-align:left}
+input[type=text],input[type=password],input[type=number]{color:#333; height:32px; padding:3px 9px 3px 9px; border:1px solid #d8d8d8; vertical-align:middle;outline:none;}
+input[type=text]::-ms-clear{display:none}
+input[type="text"]:disabled{border-color:#d8d8d8; background:#f6f6f6; color:#8a8a8a}
+input[type="text"]:read-only{border-color:#d8d8d8; background:#f6f6f6; color:#8a8a8a}
+input:focus{outline:none; border:1px solid #444}
+input[type=radio]{/**width:13px;*height:13px;*/margin:-2px 0 2px;vertical-align:middle}/* w3c css검사 */
+input[type=checkbox]{/**width:12px;*height:12px;*/vertical-align:middle}/* w3c css검사 */
+input[type="checkbox"] + label{cursor:pointer;}
+input[type=file]{border:0}
+textarea{overflow-y:auto; width:100%; padding:10px; text-align:left; border:1px solid #ccc; color:#333; resize:none; line-height:1.5}
+textarea:focus{outline:none}
+hr{display:none}
+table{border-collapse:collapse;border-spacing:0;}
+button {font-size:14px; font-weight:normal; margin:0;padding:0;border:0;background:none;cursor:pointer;letter-spacing:-1px; background-color:transparent; /*overflow:visible !important; ie6,7 padding bug hack*/}
+button span{margin:-2px 0 0 -3px !important;} /* Mozilla 계열만 인식되는 firefox 핵 *//* w3c css검사 */    
+/*@media screen and (-webkit-min-device-pixel-ratio:0) {
+button span{margin:-1px 0 0 -3px !important;}
+}*/ /* Webkit 엔진계열만 인식하는 safari,chrome 핵 */
+
+
+/* Set Class */ 
+.overview{overflow:hidden;/*zoom:1*/}/* w3c css검사 */
+
+
+/* font size 설정 */
+@font-face {
+	font-family: 'NotoKR medium';
+	src: url(../font/NotoSansKR-medium.eot); 
+	src: local('Noto Sans CJK KR medium'), local('Noto Sans KR medium'), local('NotoSansKR-medium'),
+	url(../font/NotoSansKR-Medium.eot?#iefix) format('embedded-opentype'),
+	url(../font/NotoSansKR-Medium.woff2) format('woff2'), 
+	url(../font/NotoSansKR-Medium.woff) format('woff');
+	font-weight: normal
+}
+@font-face {
+	font-family: 'NotoKR';
+	src: url(../font/NotoSansKR-Regular.eot); 
+	src: local('Noto Sans CJK KR Regular'), local('Noto Sans KR Regular'), local('NotoSansKR-Regular'),
+	url(../font/NotoSansKR-Regular.eot?#iefix) format('embedded-opentype'),
+	url(../font/NotoSansKR-Regular.woff2) format('woff2'), 
+	url(../font/NotoSansKR-Regular.woff) format('woff');
+	font-weight: normal
+}
+@font-face {
+	font-family: 'NotoKR Light';
+	src: url(../font/NotoSansKR-Light.eot); 
+	src: local('Noto Sans CJK KR Light'), local('Noto Sans KR Light'), local('NotoSansKR-Light'),
+	url(../font/NotoSansKR-Light.eot?#iefix) format('embedded-opentype'),
+	url(../font/NotoSansKR-Light.woff2) format('woff2'), 
+	url(../font/NotoSansKR-Light.woff) format('woff');
+	font-weight: normal
+}
+
+
+/* 정렬 */
+.al{text-align:left}
+.ar{text-align:right}
+.ac{text-align:center}
+.fl{float:left}
+.fr{float:right}
+.fNone{flex:none}
+
+.blind{position:absolute !important; color:transparent !important; clip:rect(0,0,0,0); overflow:hidden !important} 
+
+.ls_base{letter-spacing:0}
+.tx_ell{overflow:hidden;text-overflow:ellipsis; white-space:nowrap}
+.show{display:block}
+.hide{display:none}
+
+
+/* all */
+input:-webkit-input-placeholder {letter-spacing:-.5px; font-size:14px; color:#969696}
+input:-moz-placeholder {letter-spacing:-.5px; font-size:14px; color:#969696} /* firefox 19+ */
+input:-ms-input-placeholder {letter-spacing:-.5px; font-size:14px; color:#969696} /* ie */
+input:-moz-placeholder {letter-spacing:-.5px; font-size:14px; color:#969696}
+input:-ms-input-placeholder{color:#969696;}
+
+
+textarea::-webkit-input-placeholder {color:#bbbbbb !important}
+textarea:-moz-placeholder {color:#bbbbbb !important}   /* Firefox 18- */
+textarea::-moz-placeholder {color:#bbbbbb !important}  /* Firefox 19+ */
+textarea:-ms-input-placeholder{color:#bbbbbb !important}

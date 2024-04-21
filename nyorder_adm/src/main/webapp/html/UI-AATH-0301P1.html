@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>ADMIN 남양유업 대리점 주문시스템 - 권한관리 : 프로그램 등록 팝업</title>
+<link rel="stylesheet" type="text/css" href="../css/AUIGrid/grid_custom.css"/>
+<link rel="stylesheet" type="text/css" href="../css/layout.css"/>
+<script type="text/javascript" src="../js/lib/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/lib/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGridLicense.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGrid.js"></script>
+<script type="text/javascript" src="../js/common_ui.js"></script>
+<script type="text/javascript">
+    var myGridID;
+    var gridData = [
+			{"id":"공지","reCategory":"본사","title":"주문확정문의","date":"2022-04-01"},
+			{"id":"#Cust0","reCategory":"본사","title":"주문확정문의","date":"2022-04-01"},
+			{"id":"#Cust2","reCategory":"본사","title":"주문확정문의","date":"2022-04-01"}
+        ];
+    
+   $(document).ready(function(){
+        // AUIGrid 생성 후 반환 ID
+        createAUIGrid();
+        //createAUIGrid(columnLayout2);
+        // 데이터 요청, 요청 성공 시 AUIGrid 에 데이터 삽입합니다.        
+        
+        AUIGrid.setGridData(myGridID, gridData);
+	    //AUIGrid.setFooter(myGridID, footerLayout);
+    });
+    
+   
+    // AUIGrid 를 생성합니다.
+    function createAUIGrid() {
+        // 그리드 속성 설정
+        var gridPros = {
+                headerHeight : 29,
+                rowHeight : 29,
+                // 편집 가능 여부 (기본값 : false)
+                editable : false,
+                
+                enterKeyColumnBase : true, // 엔터키가 다음 행이 아닌 다음 칼럼으로 이동할지 여부 (기본값 : false)
+                fixedColumnCount : 7,
+                editingOnKeyDown : true, // 키보드 입력으로 편집 모드 진입 (기본값:true임;)
+                wrapSelectionMove : true,
+                
+                // 셀 선택모드 (기본값: singleCell)
+                selectionMode : "multipleCells",
+                showFooter : false,
+                
+                // 컨텍스트 메뉴 사용 여부 (기본값 : false)
+                useContextMenu : true,
+                
+                // 필터 사용 여부 (기본값 : false)
+                enableFilter : true,
+            
+                // 그룹핑 패널 사용
+                useGroupingPanel : false,
+                
+                
+                // 그룹핑 또는 트리로 만들었을 때 펼쳐지게 할지 여부 (기본값 : false)
+                displayTreeOpen : true,
+                
+                noDataMessage : "출력할 데이터가 없습니다.",
+                
+                groupingMessage : "여기에 칼럼을 드래그하면 그룹핑이 됩니다.",
+
+                // 데이터 요청, 요청 성공 시 AUIGrid 에 데이터 삽입합니다.
+                
+        };
+    
+        // 실제로 #grid_wrap 에 그리드 생성
+        myGridID = AUIGrid.create("#grid_wrap", columnLayout, gridPros);
+      
+    }
+
+    // 그리드 속성 설정
+	var auiGridProps = {
+			//scrollHeight : 18, // 스크롤의 높이
+			//scrollThumbHeight : 16, // 스크롤 썸(thumb)의 높이
+			fixedColumnCount : 7
+	};
+
+    var columnLayout = [{
+			dataField : "reCategory",
+			headerText : "수신구분",
+			style: "auiLink",
+            width : "20%",
+        },{
+			dataField : "title",
+			headerText : "제목",           
+            style: "auiLeft auiLink",
+        },{
+			dataField : "date",
+			headerText : "날짜",
+            width : "30%",	   
+		}
+	];
+
+    var columnLayout2 = [{
+            dataField : "code",
+			headerText : "거래처코드",
+			width : "12%",
+		},{
+			dataField : "name",
+			headerText : "거래처명",
+            style : "auiLeft"			
+        },{
+			dataField : "busiNum",
+			headerText : "사업자번호",
+			width : "12%",
+        },{
+			dataField : "date",
+			headerText : "작성일",
+			width : "12%",
+        },{
+			dataField : "price",
+			headerText : "공급가액",
+            dataType : "numeric",
+			width : "11%",
+            style: "auiRight"
+        },{
+			dataField : "tax",
+			headerText : "세액",
+            dataType : "numeric",
+			width : "11%",
+            style: "auiRight"
+		},{
+			dataField : "total",
+			headerText : "합계금액",
+            dataType : "numeric",
+			width : "12%",
+            style: "auiRight"
+		}
+	];
+
+</script>
+</head>
+<body>
+    <div class="modal_bg" style="display:block"></div> <!-- modal 배경 -->
+
+    <!-- 프로그램 등록 -->
+    <div class="popWrap small modal_wrap h400" data-popup="modalAgencyViews" style="display:block; left:0; right:0; margin:150px auto;">
+        <header>
+            <h3>프로그램 등록</h3>
+            <button type="button" name="" class="closeBtn" id="modalCloseBtn"></button>
+        </header>  
+
+        <div class="popCon">
+            <div class="popTitArea">
+                <h3>프로그램 등록</h3>
+    
+                <div class="popBtnArea">
+                    <button type="button" name="" class="comBtn modalCloseBtn" id="modalCloseBtn">닫기</button>
+                    <button type="button" name="" class="inquBtn">저장</button>
+                </div>
+            </div>
+
+            <div class="txtInfo pColor02">
+                ※ 최초 등록 시 시스템관리자 그룹만 권한이 생성됩니다.  
+            </div>
+
+            <div class="titleArea">
+                <h3 class="tit01">상세 정보</h3>
+            </div>
+
+            <div class="tblWrap">
+                <table class="tbl">
+                    <caption>상세 정보</caption>
+                    <colgroup>
+                        <col style="width:164px;">
+                        <col>
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">
+                                <label for="inp_proName01">프로그램ID</label>
+                            </th>
+                            <td>
+                                <input type="text" id="inp_proName01" class="inp" value="" name="" placeholder="프로그램ID" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="inp_proName02" class="required" title="필수입력">프로그램명</label>
+                            </th>
+                            <td>
+                                <input type="text" id="inp_proName02" class="inp" value="" name="" maxlength="30">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="sel_group" class="required">상위그룹</label>
+                            </th>
+                            <td>
+                                
+                                <select name="" class="sel w160" id="sel_group">
+                                    <option>권한관리</option>
+                                    <option>-</option>
+                                    <option>-</option>
+                                </select>                                   
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="inp_url" class="required">호출 URL</label>
+                            </th>
+                            <td>
+                                <input type="text" id="inp_url" class="inp ar" value="" name="">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 프로그램 등록 -->
+</body>
+</html>

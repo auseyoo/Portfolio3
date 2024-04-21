@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.prmt.dao.PrmtCstSearchMapper">
+	
+	<select id="selectEmplList" parameterType="com.namyang.nyorder.prmt.vo.PrmtCstSearchVO" resultType="com.namyang.nyorder.prmt.vo.PrmtCstSearchVO">
+		/* prmtCstSearch-Mapper selectEmplList */
+		EXEC P_OPEN_KEY
+		SELECT
+			EMPL_SEQ,
+			EMPL_CD,
+			CONVERT(varchar, DecryptByKey(AE.EMPL_NM)) as EMPL_NM
+			
+		FROM T_AGEN_EMPL AE
+		<where>
+			AND AE.AGEN_SEQ = #{agenSeq}
+			AND AE.EMPL_SEC_CD IN (
+				'HOFF_PRMT_EMPL',
+				'AGENT_PRMT_EMPL'
+			)
+		</where>
+		ORDER  by EMPL_SEQ 
+	</select>
+	
+	<select id="selectPrmtCstSearchList" parameterType="com.namyang.nyorder.prmt.vo.PrmtCstSearchVO" resultType="com.namyang.nyorder.prmt.vo.PrmtCstSearchVO">
+		/* prmtCstSearch-Mapper selectPrmtCstSearchList */
+	
+		EXEC P_OPEN_KEY
+
+		SELECT 	AA.AREA_NM,	--	지역
+				CM.CST_SEQ,	-- 애음자코드
+				CONVERT(varchar, DecryptByKey(CM.CST_NM)) as CST_NM, 	-- 성명
+				CONVERT(varchar, DecryptByKey(CM.MOB_NO)) as MOB_NO, 	-- 휴대폰번호
+				CONVERT(varchar, DecryptByKey((SELECT EMPL_NM FROM T_AGEN_EMPL WHERE EMPL_SEQ = CP.PRMT_EMPL_SEQ))) AS PTRM_EMPL_NM,	-- 판촉자
+--				CONVERT(varchar, DecryptByKey(AE.EMPL_NM)) AS EMPL_NM,	-- 판촉사원
+				( SELECT COMM_NM FROM T_COMM WHERE COMM_GRP_CD = 'PRMT_SEC_CD' 
+					AND COMM_CD = PTR.PRMT_SEC_CD) AS PTRM_SEC_NM, -- 판촉구분
+				CP.PRTM_RMK, -- 판촉물 내용
+				PTR.PRMT_PYM_DT AS PTRM_PYM_DT, 	-- 지급일
+				PTR.PRMT_PYM_SEQ AS PTRM_PYM_SEQ, 	-- 지급인(번호)
+				CONVERT(varchar, DecryptByKey((SELECT EMPL_NM FROM T_AGEN_EMPL WHERE EMPL_SEQ = PTR.PRMT_PYM_SEQ))) AS PTRM_PYM_NM,	-- 지급인(이름)
+				CM.REG_DTM AS JOIN_DT, -- 가입일
+				CP.INPT_DT,  -- 투입일
+				STPG.CHG_SEC_CD, -- 투입상태코드
+				( SELECT COMM_NM FROM T_COMM WHERE COMM_GRP_CD = 'CHG_SEC_CD' 
+					AND COMM_CD = STPG.CHG_SEC_CD ) AS PTRM_SEC_NM, -- 투입상태
+				CP.HOP,			-- 홉수
+				CP.HOP_UNTPC,	-- 홉단가
+				CP.CNTR_MONTH,  -- 계약월
+				PM.PRD_NM,		-- 제품명
+				pttn.MON_QTY+ pttn.TUE_QTY+ pttn.WED_QTY+pttn.THU_QTY+pttn.FRI_QTY+pttn.SAT_QTY+pttn.SUN_QTY AS week_Qty, -- 주별 총 수량
+				PTR.PRMT_CT AS PRTM_CT, 	-- 판매원 부담금
+				PTR.PRMT_CST_CT AS PRTM_CST_CT, -- 소비자 부담금
+				CP.STPG_DT, -- 중지일
+				STPG.STAT_DT, -- 보류일
+				untpc.END_DT		-- 계약종료일
+		FROM T_CST_PRD_PRMT PTR
+		
+		INNER
+		JOIN T_CST_PRD CP
+		ON 	 PTR.CST_PRD_SEQ = CP.CST_PRD_SEQ
+		AND  PTR.AGEN_SEQ  = CP.AGEN_SEQ 
+		AND  PTR.AREA_SEQ  = CP.AREA_SEQ 
+		AND  PTR.CST_SEQ   = CP.CST_SEQ
+		AND  PTR.PRD_SEQ   = CP.PRD_SEQ
+
+		INNER
+		JOIN T_CST_MST CM
+		ON   CM.AGEN_SEQ  = CP.AGEN_SEQ 
+		AND  CM.AREA_SEQ  = CP.AREA_SEQ 
+		AND  CM.CST_SEQ   = CP.CST_SEQ
+
+		INNER 
+		JOIN T_PRD_DTL PD
+		ON PD.AGEN_SEQ = CP.AGEN_SEQ 
+		AND PD.PRD_SEQ = CP.PRD_SEQ
+		
+		INNER 
+		JOIN T_PRD_MST PM
+		ON  PM.PRD_SEQ = PD.PRD_SEQ 
+		
+		INNER
+		JOIN T_AGEN_AREA AA
+		ON	 AA.AGEN_SEQ = PTR.AGEN_SEQ
+		AND  AA.AREA_SEQ = PTR.AREA_SEQ
+
+		LEFT OUTER JOIN 
+		T_CST_PTTN pttn
+		ON CP.CST_PRD_SEQ = pttn.CST_PRD_SEQ
+		AND pttn.LAST_YN = 'Y'
+
+		LEFT OUTER 
+		JOIN T_CST_PRD_STPG STPG
+		ON  CP.CST_PRD_SEQ = STPG.CST_STPG_SEQ 
+		AND STPG.LAST_YN = 'Y'
+
+		LEFT OUTER JOIN 
+		T_CST_PRD_UNTPC untpc
+		ON pttn.PTTN_SEQ = untpc.PTTN_SEQ 
+		AND untpc.LAST_YN = 'Y'
+
+		<where> 
+			AND PTR.AGEN_SEQ = #{agenSeq}
+			<if test="srcMonth != null and srcMonth != '' ">
+				AND LEFT(PTR.CNTR_MONTH,6) = replace(#{srcMonth},'-','')
+			</if>
+			<if test="ptrmSecCd != null and ptrmSecCd != '' ">
+				AND PTR.PRMT_SEC_CD = #{ptrmSecCd}
+			</if>
+			AND PTR.PRMT_LNGTR_CD = 'PTRM'
+		</where>
+	</select>
+	
+	
+
+</mapper>

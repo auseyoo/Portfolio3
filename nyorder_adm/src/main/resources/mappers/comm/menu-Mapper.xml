@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.comm.dao.MenuMapper">
+	
+	<sql id="selectMenu">
+		WITH MENU_TABLE
+		AS
+		(
+			   SELECT
+			   		1 AS LEVEL,
+			   		MENU_ID, 
+					MENU_SEQ,
+					MENU_PARENT_SEQ, 
+					MENU_NM,
+					MENU_URL,
+					MENU_ORDR,					
+					USE_YN,
+					convert(varchar(100),RIGHT('0'+convert(varchar(100),MENU_ORDR),4))  sort,
+					convert(varchar(100),MENU_NM)   MENU_CURRENT,
+					convert(varchar(100),MENU_SEQ)   MENU_CURRENT_SEQ,
+					convert(varchar(100),MENU_NM) as lvl1,
+					convert(varchar(100),'') as lvl2,
+					convert(varchar(100),'') as lvl3
+			   FROM		dbo.T_ADM_MENU
+			   WHERE	MENU_PARENT_SEQ = 0
+			   UNION ALL
+			   SELECT 
+			   			LEVEL+1,
+			   			B.MENU_ID,
+			   			B.MENU_SEQ, 
+			   			B.MENU_PARENT_SEQ, 
+			   			B.MENU_NM,
+			   			B.MENU_URL,
+			   			B.MENU_ORDR,			   			
+			   			B.USE_YN,
+			   			convert(varchar(100), convert(nvarchar,C.sort) + ' > ' + RIGHT(('0'+ convert(varchar(100),B.MENU_ORDR)),4)) sort,
+			   			CONVERT(varchar(100), convert(nvarchar,C.MENU_CURRENT) + ' > ' + convert(varchar(100), B.MENU_NM)) MENU_CURRENT,
+			   			CONVERT(varchar(100), convert(nvarchar,C.MENU_CURRENT_SEQ) + ' , ' + convert(varchar(100), B.MENU_SEQ)) MENU_CURRENT_SEQ,
+						convert(varchar(100),C.lvl1) as lvl1,
+			   			case when LEVEL+1 = '2' then convert(varchar(100),B.MENU_NM) else convert(varchar(100),C.MENU_NM) end  as lvl2,
+			   			case when LEVEL+1 = '3' then convert(varchar(100),B.MENU_NM) else '' end  as lvl3
+			   FROM 	dbo.T_ADM_MENU B 
+			   JOIN 	MENU_TABLE C 
+			   ON		B.MENU_PARENT_SEQ = C.MENU_SEQ
+		)
+	</sql>
+	
+	<select id="selectLeftMenuList"  resultType="com.namyang.nyorder.comm.vo.MenuVO" parameterType="com.namyang.nyorder.comm.vo.MenuVO">
+		/* menu-Mapper - selectLeftMenuList */
+		<include refid="selectMenu"/>
+		SELECT  
+				LEVEL,
+				MENU_ID,
+				M.MENU_SEQ, 
+				M.MENU_PARENT_SEQ, 
+				MENU_NM,
+				MENU_URL,				
+				MENU_ORDR,
+				CASE WHEN CHARINDEX(',' , MENU_CURRENT_SEQ) = 0 THEN MENU_CURRENT_SEQ ELSE RTRIM(LTRIM(LEFT(MENU_CURRENT_SEQ, CHARINDEX(',' , MENU_CURRENT_SEQ)-1))) END PARENT_SEQ,
+				MENU_CURRENT				
+		FROM 	MENU_TABLE M		
+		INNER
+		JOIN	
+		(
+				SELECT MENU_SEQ 
+				FROM
+				(
+					SELECT	MENU_SEQ 
+					FROM 	T_ADM_MENU M
+					WHERE  1=1
+						AND CASE WHEN (SELECT MENU_ADM_TYPE FROM T_ADM_EMPL tae WHERE ADM_SEQ = #{admSeq}) = 'SYS' THEN 1 
+							WHEN MENU_ADM_TYPE LIKE '%' + (SELECT MENU_ADM_TYPE FROM T_ADM_EMPL tae WHERE ADM_SEQ = #{admSeq}) + '%' THEN 1 ELSE 0 END =1
+					UNION ALL 
+					SELECT MENU_SEQ 
+					FROM 	T_ADM_MENU M
+					WHERE  1=1
+						AND MENU_SEQ IN (SELECT	MENU_PARENT_SEQ 
+							FROM 	T_ADM_MENU M
+							WHERE  1=1
+								AND CASE WHEN (SELECT MENU_ADM_TYPE FROM T_ADM_EMPL tae WHERE ADM_SEQ = #{admSeq}) = 'SYS' THEN 1 
+									WHEN MENU_ADM_TYPE LIKE '%' + (SELECT MENU_ADM_TYPE FROM T_ADM_EMPL tae WHERE ADM_SEQ = #{admSeq}) + '%' THEN 1 ELSE 0 END =1)
+				) a
+				GROUP BY MENU_SEQ
+		) C	
+		ON		M.MENU_SEQ = C.MENU_SEQ
+		
+		WHERE	M.USE_YN = 'Y'
+		AND		M.MENU_SEQ > 0		
+		ORDER BY SORT
+	</select>
+
+</mapper>

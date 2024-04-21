@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namyang.nyorder.prmt.dao.PrmtHopMngMapper">
+	
+	<select id="prmtHopMngList" parameterType="com.namyang.nyorder.prmt.vo.PrmtHopMngVO" resultType="com.namyang.nyorder.prmt.vo.PrmtHopMngVO">
+		SELECT UN.*
+		  FROM (
+		        SELECT PHM.PRMT_HOP_SEQ 
+		               , PM.PRD_SEQ 
+		               , PM.PRD_SAP_CD 
+		               , PM.PRD_NM 
+		               , PM.PUCH_SEQ 
+		               , '1' AS PRMT_TYPE
+		               , '신규' PRMT_TYPE_NM
+		               , CPC.LCLS
+		               , CPC.LCLS_NM 
+		               , CPC.MCLS
+		               , CPC.MCLS_NM 
+		               , CPC.SCLS
+		               , CPC.SCLS_NM 
+		               , CPC.DCLS
+		               , CPC.DCLS_NM 
+		               , FORMAT(PHM.HOP_1, '##,##0.##') AS HOP_1
+		               , FORMAT(PHM.HOP_2, '##,##0.##') AS HOP_2 
+		               , FORMAT(PHM.HOP_3, '##,##0.##') AS HOP_3
+		               , FORMAT(PHM.HOP_4, '##,##0.##') AS HOP_4
+		               , FORMAT(PHM.HOP_5, '##,##0.##') AS HOP_5
+		               , FORMAT(PHM.HOP_6, '##,##0.##') AS HOP_6
+		               , FORMAT(PHM.HOP_7, '##,##0.##') AS HOP_7
+		          FROM T_PRD_MST PM
+		               INNER JOIN T_COMM_PRD_CLS CPC
+		                       ON CPC.LCLS = PM.LCLS
+		                      AND CPC.MCLS = PM.MCLS
+		                      AND CPC.SCLS = PM.SCLS
+		                      AND CPC.DCLS = PM.DCLS
+		                      AND CPC.USE_YN = 'Y'
+		               LEFT OUTER JOIN T_PRMT_HOP_MNG PHM
+		                            ON PHM.PRD_SEQ = PM.PRD_SEQ 
+		                           AND PHM.USE_YN = 'Y'
+		                           AND PHM.PRMT_TYPE = '1'
+		         WHERE 1=1
+		           AND PM.USE_YN = 'Y'
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(prdSapCd)">
+		           AND PM.PRD_SAP_CD = #{prdSapCd}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(prdNm)">
+		           AND PM.PRD_NM LIKE '%'+#{prdNm}+'%'  
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(lcls)">
+		           AND CPC.LCLS = #{lcls}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(mcls)">
+		           AND CPC.MCLS = #{mcls}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(scls)">
+		           AND CPC.SCLS = #{scls}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(dcls)">
+		           AND CPC.DCLS = #{dcls}
+		</if>
+		        UNION ALL
+		        SELECT PHM.PRMT_HOP_SEQ 
+		               , PM.PRD_SEQ 
+		               , PM.PRD_SAP_CD 
+		               , PM.PRD_NM 
+		               , PM.PUCH_SEQ 
+		               , '2' AS PRMT_TYPE
+		               , '재계약' PRMT_TYPE_NM
+		               , CPC.LCLS
+		               , CPC.LCLS_NM 
+		               , CPC.MCLS
+		               , CPC.MCLS_NM 
+		               , CPC.SCLS
+		               , CPC.SCLS_NM 
+		               , CPC.DCLS
+		               , CPC.DCLS_NM 
+		               , FORMAT(PHM.HOP_1, '##,##0.##') AS HOP_1
+		               , FORMAT(PHM.HOP_2, '##,##0.##') AS HOP_2 
+		               , FORMAT(PHM.HOP_3, '##,##0.##') AS HOP_3
+		               , FORMAT(PHM.HOP_4, '##,##0.##') AS HOP_4
+		               , FORMAT(PHM.HOP_5, '##,##0.##') AS HOP_5
+		               , FORMAT(PHM.HOP_6, '##,##0.##') AS HOP_6
+		               , FORMAT(PHM.HOP_7, '##,##0.##') AS HOP_7
+		          FROM T_PRD_MST PM
+		               INNER JOIN T_COMM_PRD_CLS CPC
+		                       ON CPC.LCLS = PM.LCLS
+		                      AND CPC.MCLS = PM.MCLS
+		                      AND CPC.SCLS = PM.SCLS
+		                      AND CPC.DCLS = PM.DCLS
+		                      AND CPC.USE_YN = 'Y'
+		               LEFT OUTER JOIN T_PRMT_HOP_MNG PHM
+		                            ON PHM.PRD_SEQ = PM.PRD_SEQ 
+		                           AND PHM.USE_YN = 'Y'
+		                           AND PHM.PRMT_TYPE = '2'
+		         WHERE 1=1
+		           AND PM.USE_YN = 'Y'
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(prdSapCd)">
+		           AND PM.PRD_SAP_CD = #{prdSapCd}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(prdNm)">
+		           AND PM.PRD_NM LIKE '%'+#{prdNm}+'%'  
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(lcls)">
+		           AND CPC.LCLS = #{lcls}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(mcls)">
+		           AND CPC.MCLS = #{mcls}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(scls)">
+		           AND CPC.SCLS = #{scls}
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(dcls)">
+		           AND CPC.DCLS = #{dcls}
+		</if>
+		       ) AS UN
+		 ORDER BY UN.PRD_SAP_CD ASC
+		          , UN.PRMT_TYPE ASC
+	</select>
+	
+	<update id="insertPrmtHop" parameterType="Map">
+		<selectKey keyProperty="prmtHopSeq" resultType="String" order="BEFORE">
+		SELECT NEXT VALUE FOR SQ_PRMT_HOP
+		</selectKey>
+		INSERT INTO T_PRMT_HOP_MNG
+		(
+		    PRMT_HOP_SEQ
+		    , PRD_SEQ
+		    , PUCH_SEQ
+		    , PRMT_TYPE
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop1)">
+		    , HOP_1
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop2)">
+		    , HOP_2
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop3)">
+		    , HOP_3
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop4)">
+		    , HOP_4
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop5)">
+		    , HOP_5
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop6)">
+		    , HOP_6
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop7)">
+		    , HOP_7
+		</if>
+		    , USE_YN
+		    , REG_DTM
+		    , REG_SEQ
+		    , UPD_DTM
+		    , UPD_SEQ
+		)
+		VALUES
+		(
+		    #{prmtHopSeq}
+		    , #{prdSeq}
+		    , #{puchSeq}
+		    , #{prmtType}
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop1)">
+		    , CONVERT(numeric(7,2), #{hop1})
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop2)">
+		    , CONVERT(numeric(7,2), #{hop2})
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop3)">
+		    , CONVERT(numeric(7,2), #{hop3})
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop4)">
+		    , CONVERT(numeric(7,2), #{hop4})
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop5)">
+		    , CONVERT(numeric(7,2), #{hop5})
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop6)">
+		    , CONVERT(numeric(7,2), #{hop6})
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop7)">
+		    , CONVERT(numeric(7,2), #{hop7})
+		</if>
+		    , 'Y'
+		    , CURRENT_TIMESTAMP
+		    , #{regSeq}
+		    , CURRENT_TIMESTAMP
+		    , #{updSeq}
+		)
+	</update>
+	
+	<update id="updatePrmtHop" parameterType="Map">
+		UPDATE T_PRMT_HOP_MNG
+		   SET PRMT_TYPE = #{prmtType}
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop1)">
+		       , HOP_1 = CONVERT(numeric(7,2), #{hop1})
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop2)">
+		       , HOP_2 = CONVERT(numeric(7,2), #{hop2})
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop3)">
+		       , HOP_3 = CONVERT(numeric(7,2), #{hop3})
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop4)">
+		       , HOP_4 = CONVERT(numeric(7,2), #{hop4})
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop5)">
+		       , HOP_5 = CONVERT(numeric(7,2), #{hop5})
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop6)">
+		       , HOP_6 = CONVERT(numeric(7,2), #{hop6})
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(hop7)">
+		       , HOP_7 = CONVERT(numeric(7,2), #{hop7})
+		</if>
+		<if test="@com.namyang.nyorder.util.MyBatisCmpr@isNotEmpty(useYn)">
+		       , USE_YN = #{useYn}
+		</if>
+		       , UPD_DTM = CURRENT_TIMESTAMP
+		       , UPD_SEQ = #{updSeq}
+		 WHERE PRMT_HOP_SEQ = #{prmtHopSeq}
+	</update>
+	
+	<select id="selectPrdMst" parameterType="Map" resultType="camelHashMap">
+		SELECT UN.*
+		  FROM (
+		        SELECT PHM.PRMT_HOP_SEQ 
+		               , PM.PRD_SEQ 
+		               , PM.PRD_SAP_CD 
+		               , PM.PRD_NM 
+		               , PM.PUCH_SEQ 
+		               , '1' AS PRMT_TYPE
+		               , '신규' PRMT_TYPE_NM
+		          FROM T_PRD_MST PM
+		               LEFT OUTER JOIN T_PRMT_HOP_MNG PHM
+		                            ON PHM.PRD_SEQ = PM.PRD_SEQ 
+		                           AND PHM.USE_YN = 'Y'
+		                           AND PHM.PRMT_TYPE = '1'
+		         WHERE 1=1
+		           AND PM.USE_YN = 'Y'
+		        UNION ALL
+		        SELECT PHM.PRMT_HOP_SEQ 
+		               , PM.PRD_SEQ 
+		               , PM.PRD_SAP_CD 
+		               , PM.PRD_NM 
+		               , PM.PUCH_SEQ 
+		               , '2' AS PRMT_TYPE
+		               , '재계약' PRMT_TYPE_NM
+		          FROM T_PRD_MST PM
+		               LEFT OUTER JOIN T_PRMT_HOP_MNG PHM
+		                            ON PHM.PRD_SEQ = PM.PRD_SEQ 
+		                           AND PHM.USE_YN = 'Y'
+		                           AND PHM.PRMT_TYPE = '2'
+		         WHERE 1=1
+		           AND PM.USE_YN = 'Y'
+		       ) AS UN
+		 ORDER BY UN.PRD_SAP_CD ASC
+		          , UN.PRMT_TYPE ASC
+	</select>
+	
+	
+</mapper>

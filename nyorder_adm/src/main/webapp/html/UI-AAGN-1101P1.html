@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>ADMIN 남양유업 대리점 주문시스템</title>
+<link rel="stylesheet" type="text/css" href="../css/lib/daterangepicker.css"/>
+<link rel="stylesheet" type="text/css" href="../css/AUIGrid/grid_custom.css"/>
+<link rel="stylesheet" type="text/css" href="../css/lib/boot.css">
+<link rel="stylesheet" type="text/css" href="../css/layout.css"/>
+<script type="text/javascript" src="../js/lib/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/lib/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/lib/moment.min.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGridLicense.js"></script>
+<script type="text/javascript" src="../js/AUIGrid/AUIGrid.js"></script>
+<script type="text/javascript" src="../js/lib/daterangepicker.js"></script>
+<script type="text/javascript" src="../js/datepicker_custom.js"></script>
+<script type="text/javascript" src="../js/common_ui.js"></script>
+<script type="text/javascript">
+    $(function(){	
+        $('.modal_wrap').on('.open', function(e){
+            //-- 그리드 생성되지 않았다면...생성하기
+            if(!AUIGrid.isCreated('#grid_wrap2')) {
+                var $body = $('.modal_wrap .popCon');
+                createAUIGrid('#grid_wrap2', $body.width(), 300);
+            }
+            
+            // 데이터 요청
+            requestData("./data/schedule_tree.json");
+        });
+    });
+
+    var myGridID;
+    var gridData = [
+        {"id":"#Cust0","areaInfo01":4566622,"areaInfo02":"덕원아파트","beforeCh01":34344,"beforeCh02":"강북지점","beforeCh03":1000,"beforeCh04":"광진동대문가정","beforeCh05":"00111","beforeCh06":"논현1동","afterCh01":45788,"afterCh02":"호남지점","afterCh03":23500,"afterCh04":"송정가정대리점","appDt":"2021-12-31","appYn":"대기","worker":"이*은","workTime":"2021-12-12 11:00:00"},
+        {"id":"#Cust1","areaInfo01":4566622,"areaInfo02":"덕원아파트","beforeCh01":34344,"beforeCh02":"강북지점","beforeCh03":580,"beforeCh04":"광진동대문가정","beforeCh05":"00111","beforeCh06":"논현1동","afterCh01":45788,"afterCh02":"호남지점","afterCh03":23500,"afterCh04":"송정가정대리점","appDt":"2021-12-31","appYn":"대기","worker":"이*은","workTime":"2021-12-12 11:00:00"},
+        {"id":"#Cust0","areaInfo01":4566622,"areaInfo02":"덕원아파트","beforeCh01":34344,"beforeCh02":"강북지점","beforeCh03":580,"beforeCh04":"광진동대문가정","beforeCh05":"00111","beforeCh06":"논현1동","afterCh01":45788,"afterCh02":"호남지점","afterCh03":23500,"afterCh04":"송정가정대리점","appDt":"2021-12-31","appYn":"대기","worker":"이*은","workTime":"2021-12-12 11:00:00"},
+        {"id":"#Cust1","areaInfo01":4566622,"areaInfo02":"덕원아파트","beforeCh01":34344,"beforeCh02":"강북지점","beforeCh03":580,"beforeCh04":"광진동대문가정","beforeCh05":"00111","beforeCh06":"논현1동","afterCh01":45788,"afterCh02":"호남지점","afterCh03":23500,"afterCh04":"송정가정대리점","appDt":"2021-12-31","appYn":"대기","worker":"이*은","workTime":"2021-12-12 11:00:00"},
+        {"id":"#Cust0","areaInfo01":4566622,"areaInfo02":"덕원아파트","beforeCh01":34344,"beforeCh02":"강북지점","beforeCh03":580,"beforeCh04":"광진동대문가정","beforeCh05":"00111","beforeCh06":"논현1동","afterCh01":45788,"afterCh02":"호남지점","afterCh03":23500,"afterCh04":"송정가정대리점","appDt":"2021-12-31","appYn":"대기","worker":"이*은","workTime":"2021-12-12 11:00:00"},
+        {"id":"#Cust1","areaInfo01":4566622,"areaInfo02":"덕원아파트","beforeCh01":34344,"beforeCh02":"강북지점","beforeCh03":580,"beforeCh04":"광진동대문가정","beforeCh05":"00111","beforeCh06":"논현1동","afterCh01":45788,"afterCh02":"호남지점","afterCh03":23500,"afterCh04":"송정가정대리점","appDt":"2021-12-31","appYn":"대기","worker":"이*은","workTime":"2021-12-12 11:00:00"},
+        {"id":"#Cust1","areaInfo01":4566622,"areaInfo02":"덕원아파트","beforeCh01":34344,"beforeCh02":"강북지점","beforeCh03":580,"beforeCh04":"광진동대문가정","beforeCh05":"00111","beforeCh06":"논현1동","afterCh01":45788,"afterCh02":"호남지점","afterCh03":23500,"afterCh04":"송정가정대리점","appDt":"2021-12-31","appYn":"대기","worker":"이*은","workTime":"2021-12-12 11:00:00"},
+        {"id":"#Cust0","areaInfo01":4566622,"areaInfo02":"덕원아파트","beforeCh01":34344,"beforeCh02":"강북지점","beforeCh03":580,"beforeCh04":"광진동대문가정","beforeCh05":"00111","beforeCh06":"논현1동","afterCh01":45788,"afterCh02":"호남지점","afterCh03":23500,"afterCh04":"송정가정대리점","appDt":"2021-12-31","appYn":"대기","worker":"이*은","workTime":"2021-12-12 11:00:00"},
+        {"id":"#Cust1","areaInfo01":4566622,"areaInfo02":"덕원아파트","beforeCh01":34344,"beforeCh02":"강북지점","beforeCh03":580,"beforeCh04":"광진동대문가정","beforeCh05":"00111","beforeCh06":"논현1동","afterCh01":45788,"afterCh02":"호남지점","afterCh03":23500,"afterCh04":"송정가정대리점","appDt":"2021-12-31","appYn":"대기","worker":"이*은","workTime":"2021-12-12 11:00:00"},
+        {"id":"#Cust1","areaInfo01":4566622,"areaInfo02":"덕원아파트","beforeCh01":34344,"beforeCh02":"강북지점","beforeCh03":580,"beforeCh04":"광진동대문가정","beforeCh05":"00111","beforeCh06":"논현1동","afterCh01":45788,"afterCh02":"호남지점","afterCh03":23500,"afterCh04":"송정가정대리점","appDt":"2021-12-31","appYn":"대기","worker":"이*은","workTime":"2021-12-12 11:00:00"}
+    ];
+   
+   $(document).ready(function(){
+        // AUIGrid 생성 후 반환 ID
+        createAUIGrid();
+        // 데이터 요청, 요청 성공 시 AUIGrid 에 데이터 삽입합니다.        
+        
+        AUIGrid.setGridData(myGridID, gridData);
+	    //AUIGrid.setFooter(myGridID, footerLayout);
+    });
+    
+   
+    // AUIGrid 를 생성합니다.
+    function createAUIGrid() {
+        // 그리드 속성 설정
+        var gridPros = {
+                headerHeights : [29, 50],
+                rowHeight : 29,
+                // 편집 가능 여부 (기본값 : false)
+                editable : true,
+                
+                // 엔터키가 다음 행이 아닌 다음 칼럼으로 이동할지 여부 (기본값 : false)
+                enterKeyColumnBase : true,
+                
+                // 셀 선택모드 (기본값: singleCell)
+                selectionMode : "singleRow",
+                //showFooter : true,
+                
+                // 컨텍스트 메뉴 사용 여부 (기본값 : false)
+                useContextMenu : true,
+                
+                // 필터 사용 여부 (기본값 : false)
+                enableFilter : true,
+            
+                // 그룹핑 패널 사용
+                useGroupingPanel : false,
+
+                // 체크박스 사용 
+	            showRowCheckColumn : false,
+                
+                
+                // 그룹핑 또는 트리로 만들었을 때 펼쳐지게 할지 여부 (기본값 : false)
+                displayTreeOpen : true,
+                
+                noDataMessage : "출력할 데이터가 없습니다.",
+                
+                groupingMessage : "여기에 칼럼을 드래그하면 그룹핑이 됩니다.",
+
+                showRowNumColumn : true,
+                
+        };
+
+        // 실제로 #grid_wrap 에 그리드 생성
+        myGridID = AUIGrid.create("#grid_wrap", columnLayout, gridPros);
+    }
+
+        var columnLayout = [{
+            dataField : "beforeCh", 
+            headerText : "변경 전",
+            children : [{
+                    dataField : "beforeCh01",
+                    headerText : "지점코드",
+                    width:"6%",
+                },{
+                    dataField : "beforeCh02",
+                    headerText : "지점명",
+                    width:"9%",
+                },{
+                    dataField : "beforeCh03",
+                    headerText : "대리점코드",
+                    width:"6%",
+                },{
+                    dataField : "beforeCh04",
+                    headerText : "대리점명",
+                    width:"7%",
+                },{
+                    dataField : "beforeCh05",
+                    headerText : "지역코드",
+                    width:"7%",
+                },{
+                    dataField : "beforeCh06",
+                    headerText : "지역명",
+                    headerStyle : "auiRightBorR",
+                    width:"7%",
+                }]
+            },{
+            dataField : "afterCh", 
+            headerText : "변경 후",      
+            children : [{
+                        dataField : "afterCh01",
+                        headerText : "지점코드",
+                        width:"5%",
+                    }, {
+                        dataField : "afterCh02",
+                        headerText : "지점명",
+                        width:"10%",
+                    }, {
+                        dataField : "afterCh03",
+                        headerText : "대리점코드",
+                        width:"8%",
+                    }, {
+                        dataField : "afterCh04",
+                        headerText : "대리점명",
+                        width:"10%",
+                }]
+            },{
+                dataField : "appDt", 
+                headerText : "적용일자",
+                width:"7%",
+            },{
+                dataField : "appYn", 
+                headerText : "적용여부",
+                width:"4%",
+            },{
+                dataField : "worker", 
+                headerText : "작업자",
+                width:"5%",
+            },{
+                
+                dataField : "workTime", 
+                headerText : "작업시간",
+            }
+        ];
+
+
+    // 전체 체크 설정/ 해제
+    function checkAll(checked) {
+        var rowCount = AUIGrid.getRowCount(myGridID);
+        if(checked) {
+            // 전체 데이터를 대상으로 isActive 필드를 "Active" 값으로 변경
+            AUIGrid.updateRowBlockToValue(myGridID, 0, rowCount-1, "isActive", "Active");
+        } else {
+            // 전체 데이터를 대상으로 isActive 필드를 "Inactive" 값으로 변경
+            AUIGrid.updateRowBlockToValue(myGridID, 0, rowCount-1, "isActive", "Inactive");
+        }
+    };
+</script>
+</head>
+<body>
+    <!-- 대리점 일괄 변경 이력 -->
+    <div class="modal_bg" style="display:block"></div> <!-- modal 배경 -->
+    <div class="popWrap large modal_wrap h640" data-popup="modalAgencyViews" style="display:block; left:0; right:0; margin:150px auto">
+        <header>
+            <h3>대리점 일괄 변경 이력</h3>
+            <button type="button" name="" class="closeBtn" id="modalCloseBtn"></button>
+        </header>  
+
+        <!-- popCon -->
+        <div class="popCon">
+            <div class="popTitArea">
+                <h3 class="pb10">대리점 일괄 변경 이력</h3>
+    
+                <div class="popBtnArea">
+                    <button type="button" name="" class="comBtn" id="modalCloseBtn">닫기</button>
+                </div>
+            </div>
+
+            <!-- 조회 -->
+            <div class="inquiryBox">
+                <dl>
+                    <dt>적용일자</dt>
+                    <dd>
+                        <div class="formWrap">
+                            <div class="dateWrap">
+                                <input type="text" name="date" value="10/24/1984" class="inp" id="datepicker" readonly="">
+                                <button type="button" class="datepickerBtn" title="날짜입력"></button>
+                            </div>
+                            <span class="divi02">~</span>
+                            <div class="dateWrap">
+                                <input type="text" name="date" value="10/24/1984" class="inp" id="datepicker" readonly="">
+                                <button type="button" class="datepickerBtn" title="날짜입력"></button>
+                            </div>
+                            <button type="button" name="" class="comBtn" id="inp_name01">조회</button>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+            <!--// 조회 -->
+
+            <div class="titleArea right">
+                <p class="numState">
+                    <em>총 <span class="pColor01 fb" id="tab1Cnt">0</span></em> 건 이 조회되었습니다.
+                </p>
+            </div>
+            
+            <!-- grid -->
+            <div class="girdBox rowspan3">                    
+                <div id="grid_wrap"></div>
+            </div>
+            <!-- grid -->
+            
+        </div>
+        <!-- popCon -->
+    </div>
+    <!--// 대리점 일괄 변경 이력 -->
+</body>
+</html>
