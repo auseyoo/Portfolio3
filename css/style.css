@@ -1,15 +1,15 @@
 /* Fontawesome 4.7 */
 /* @import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'); */
 
-
 /* XEICON CDN */
-@import url('http://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css');
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url("/XEIcon-master/xeicon.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
 
 /* Font */
 @font-face {
-  font-family: 'Pretendard-Regular';
-  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-family: "Pretendard-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
   font-weight: 400;
   font-style: normal;
 }
@@ -20,47 +20,63 @@
   font-weight: bold;
   unicode-range: U+0020-007E;
 }
-@import url('https://fonts.googleapis.com/css2?family=Tilt+Prism&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Tilt+Prism&display=swap");
 @font-face {
-  font-family: 'Tilt Prism';
-  src: url('/font/TiltPrism-Regular.ttf') format('ttf');
+  font-family: "Tilt Prism";
+  src: url("/font/TiltPrism-Regular.ttf") format("ttf");
   font-weight: 400;
   font-style: normal;
 }
 
 /* Common */
 * {
-  font-family: 'Pretendard-Regular', 'Luckiest Guy', sans-serif;
+  font-family: "Pretendard-Regular", "Luckiest Guy", sans-serif;
 }
-html, body {
-    overflow-x: hidden;
+html,
+body {
+  overflow-x: hidden;
 }
 body {
-    margin: 0;
-    padding: 0;
-    background: #f2f2f2;
-    font-weight: 300;
-    font-size: 15px;
-    line-height: 1.4;
-    color: #222;
-    letter-spacing: -0.3px;
+  margin: 0;
+  padding: 0;
+  background: #f2f2f2;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.4;
+  color: #222;
+  letter-spacing: -0.3px;
 }
-body,h1,h2,h3,h4,h5,p,blockquote {
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+blockquote {
   margin: 0;
 }
-p, button {
+p,
+button {
   padding: 0;
 }
-body, p, ul {
+body,
+p,
+ul {
   margin: 0;
   padding: 0;
 }
 a {
-    text-decoration: none;
-    color: #222;
-    cursor: pointer;
+  text-decoration: none;
+  color: #222;
+  cursor: pointer;
 }
-h1,h2,h3,h4,h5,h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: normal;
 }
 ul {
@@ -75,18 +91,24 @@ html.active {
 img {
   width: 100%;
 }
-input, button {
+input,
+button {
   outline: none;
 }
-.fa,.fab,.fad,.fal,.far,.fas{
-	font-weight: 900 !important;
+.fa,
+.fab,
+.fad,
+.fal,
+.far,
+.fas {
+  font-weight: 900 !important;
 }
 
 /************* Scroll *************/
 .wrap {
   margin: auto;
 }
-section { 
+section {
   margin: auto;
   margin-bottom: 50px;
   padding: 0 30px;
@@ -128,11 +150,11 @@ h2 {
 
 /************* Header *************/
 header {
-    z-index: 9;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
+  z-index: 9;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
 }
 header nav {
   display: flex;
@@ -147,9 +169,9 @@ header .logo {
   padding-left: 20px;
 }
 header .logo a {
-  color:#6e6e6e;
+  color: #6e6e6e;
   font-size: 20px;
-  font-family: 'Pacifico';
+  font-family: "Pacifico";
 }
 header.dark {
   padding: 0;
@@ -161,7 +183,8 @@ header.dark .nav {
   padding: 10px;
   align-items: center;
 }
-header.dark .logo {}
+header.dark .logo {
+}
 header.dark .logo a {
   color: #fff;
 }
@@ -170,26 +193,26 @@ header.dark .gnb a.active {
   color: crimson;
 }
 .gnb {
-    /* flex: 1 1; */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-basis: 100px;
-    transition: 0.3s;
+  /* flex: 1 1; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-basis: 100px;
+  transition: 0.3s;
 }
 .gnb a {
-    width: 85px;
-    margin: 0 20px;
-    padding: 22px 8px;
-    height: inherit;
-    display: inline-block;
-    position: relative;
-    font-size: 20px;
-    text-align: center;
-    color: #fff;
+  width: 85px;
+  margin: 0 20px;
+  padding: 22px 8px;
+  height: inherit;
+  display: inline-block;
+  position: relative;
+  font-size: 20px;
+  text-align: center;
+  color: #fff;
 }
 .gnb a:before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -205,14 +228,14 @@ header.dark .gnb a.active {
   width: 100%;
 }
 .gnb a.active {
-  color:crimson;
+  color: crimson;
 }
 
 /* Trigger */
 .trigger {
   display: none;
   cursor: pointer;
-  color:#eee;
+  color: #eee;
   flex-direction: column;
   font-size: 28px;
   position: absolute;
@@ -227,25 +250,25 @@ header.dark .gnb a.active {
   margin-bottom: 4px;
 }
 header.dark .trigger {
-  color:#fff;
+  color: #fff;
 }
 header.dark .line {
   background: #fff;
 }
 header.dark .trigger.active .line {
-  background:#000;
+  background: #000;
 }
 /************* Slider *************/
 .myslider {
-    width: 100%;
-    margin: auto;
-    height: 100vh;
+  width: 100%;
+  margin: auto;
+  height: 100vh;
 }
 .myslider div {
-    background: #ddd;
-    font-size: 30px;
-    box-sizing: border-box;
-    height: inherit;
+  background: #ddd;
+  font-size: 30px;
+  box-sizing: border-box;
+  height: inherit;
 }
 .myslider div img {
   display: block;
@@ -260,7 +283,6 @@ header.dark .trigger.active .line {
   z-index: 10;
   width: 50px;
   height: 50px;
-
 }
 .myslider .slick-arrow::before {
   font-family: fontawesome;
@@ -286,7 +308,7 @@ header.dark .trigger.active .line {
   background: #343a40;
   position: relative;
 }
-.main .container { 
+.main .container {
   height: 100%;
   padding: 2%;
   padding-top: 65px;
@@ -306,28 +328,28 @@ header.dark .trigger.active .line {
 .main .bg-box span:nth-child(1) {
   height: 400px;
   top: 200px;
-  left:-30px;
+  left: -30px;
   background: url(../images/bg-box1.jpg) no-repeat 0 0 / 100% 100%;
   border-radius: 0 30px 30px 0;
 }
-.main .bg-box span:nth-child(2){
+.main .bg-box span:nth-child(2) {
   top: 450px;
-  right:-30px;
+  right: -30px;
   background: url(../images/bg-box2.jpg) no-repeat 0 0 / 100% 100%;
   border-radius: 30px 0 0 30px;
 }
-.main .bg-box span:nth-child(3){
+.main .bg-box span:nth-child(3) {
   width: 300px;
   height: 200px;
   right: 6%;
-  bottom:30px;
+  bottom: 30px;
   background: url(../images/bg-box3.jpg) no-repeat 0 0 / 100% 100%;
 }
-.main .bg-box span:nth-child(4){
+.main .bg-box span:nth-child(4) {
   width: 210px;
   height: 110px;
   left: 10%;
-  bottom:0;
+  bottom: 0;
   transform: rotate(360deg);
   background: url(../images/bg-box4.jpg) no-repeat 0 0 / 100% 100%;
   border-radius: 30px 30px 0 0;
@@ -341,16 +363,16 @@ header.dark .trigger.active .line {
 .main .right p {
   margin-bottom: 50px;
   font-size: 50px;
-  color:#fff;
+  color: #fff;
 }
 .main .right span {
-  color: #FED7E1;
+  color: #fed7e1;
 }
 .main .right div {
   width: 100%;
   line-height: 1.5;
   font-size: 15px;
-  color:#f8f9fa;
+  color: #f8f9fa;
 }
 .video-frame {
   height: 100%;
@@ -377,7 +399,7 @@ header.dark .trigger.active .line {
   font-size: 17rem;
   width: 100%;
   word-wrap: break-word;
-  font-family: 'Luckiest Guy';
+  font-family: "Luckiest Guy";
 }
 
 /* AboutMe */
@@ -411,7 +433,7 @@ header.dark .trigger.active .line {
   letter-spacing: -2px;
 }
 .aboutme .item p:before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -2px;
   left: -10px;
@@ -439,13 +461,13 @@ header.dark .trigger.active .line {
   margin-bottom: 0;
 }
 .aboutme ul li {
-  color: #0a033c;  
+  color: #0a033c;
   font-size: 1.2em;
   overflow: hidden;
   line-height: 2em;
 }
 .aboutme ul .date {
-  color:#828792;
+  color: #828792;
   float: right;
 }
 .aboutme h3 {
@@ -461,12 +483,12 @@ header.dark .trigger.active .line {
 }
 .Portfolio .container {
   display: block;
-  overflow: hidden;  
+  overflow: hidden;
 }
 .port {
   margin: 2%;
   box-sizing: border-box;
-  box-shadow: 0px 3px 6px 0px rgba(232,239,242,.5);
+  box-shadow: 0px 3px 6px 0px rgba(232, 239, 242, 0.5);
   border: 1px solid #f1f4f5;
   background: #fff;
   border-radius: 8px;
@@ -478,12 +500,11 @@ header.dark .trigger.active .line {
   cursor: pointer;
 }
 .port:before {
-  content:'';
+  content: "";
   position: absolute;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
-  
 }
 
 .Portfolio .modal-notice {
@@ -516,7 +537,7 @@ header.dark .trigger.active .line {
   transition: ease-out 0.2s;
 }
 .port-box-hover a {
-  color:#fff;
+  color: #fff;
   font-size: 20px;
   position: absolute;
   top: 50%;
@@ -535,9 +556,9 @@ header.dark .trigger.active .line {
 }
 .port-box-hover div {
   position: absolute;
-    bottom: 30px;
-    left: 30px;
-    color: #fff;
+  bottom: 30px;
+  left: 30px;
+  color: #fff;
 }
 .port:hover .port-box-hover {
   visibility: visible;
@@ -561,7 +582,7 @@ header.dark .trigger.active .line {
   overflow: hidden;
 }
 .mobile-mockup:before {
-  content: '';
+  content: "";
   position: absolute;
   width: 97.5%;
   height: 98.5%;
@@ -593,7 +614,7 @@ header.dark .trigger.active .line {
   transform: translateX(-50%);
 }
 .home-btn:before {
-  content: '';
+  content: "";
   width: 60px;
   height: 60px;
   position: absolute;
@@ -640,7 +661,7 @@ header.dark .trigger.active .line {
   left: 130px;
 }
 .volume {
-/*  border: 1px solid red;*/
+  /*  border: 1px solid red;*/
   position: absolute;
   width: 6px;
   height: 150px;
@@ -708,7 +729,7 @@ header.dark .trigger.active .line {
 }
 .card .content {
   position: absolute;
-  top:0;
+  top: 0;
   left: 0;
   width: 100%;
   height: inherit;
@@ -716,7 +737,7 @@ header.dark .trigger.active .line {
   text-align: center;
   padding: 20px;
   padding-top: 165px;
-  color:#222;
+  color: #222;
   box-sizing: border-box;
 }
 .card .content h3 {
@@ -726,7 +747,7 @@ header.dark .trigger.active .line {
 }
 .card .content p {
   padding: 0 50px;
-  font-size:16px;
+  font-size: 16px;
 }
 
 /************* Skill *************/
@@ -749,19 +770,19 @@ header.dark .trigger.active .line {
 }
 .Skill .card .content {
   position: static;
-  top:0;
+  top: 0;
   left: 0;
   height: inherit;
   transition: 0.5s;
   text-align: center;
   padding: 20px;
   padding-top: 0;
-  color:#222;
+  color: #222;
   box-sizing: border-box;
 }
 
 .Skill .card:hover .card .content {
-  top:0;
+  top: 0;
 }
 .Skill .card:hover {
   transform: none;
@@ -785,12 +806,12 @@ header.dark .trigger.active .line {
   margin-bottom: 10px;
 }
 .Skill .tit::before {
-  content: '';
+  content: "";
   display: inline-block;
   width: 110px;
   height: inherit;
   border-radius: 50%;
-  border: 6px solid #00BCD4;
+  border: 6px solid #00bcd4;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -804,7 +825,7 @@ header.dark .trigger.active .line {
   width: 100%;
   height: 100vh;
   background: rgba(0, 0, 0, 0.3);
-  top:0;
+  top: 0;
   left: 0;
   display: none;
   z-index: 10;
@@ -831,16 +852,22 @@ header.dark .trigger.active .line {
   padding-top: 67px;
   cursor: initial;
 }
-.modal-item {  
+.modal-item {
   overflow-x: hidden;
   overflow-y: auto;
   box-sizing: border-box;
   padding: 10px 5%;
   height: 100%;
 }
-.modal-item::-webkit-scrollbar { width: 8px;}
-.modal-item::-webkit-scrollbar-thumb { background: #636C78;}
-.modal-item::-webkit-scrollbar-track { background: #E5E4E4;}
+.modal-item::-webkit-scrollbar {
+  width: 8px;
+}
+.modal-item::-webkit-scrollbar-thumb {
+  background: #636c78;
+}
+.modal-item::-webkit-scrollbar-track {
+  background: #e5e4e4;
+}
 .modal-item .container {
   overflow-y: auto;
   height: 100%;
@@ -880,7 +907,7 @@ header.dark .trigger.active .line {
 }
 .btn-guide {
   background: #000;
-  color:#fff;
+  color: #fff;
   padding: 10px;
   width: 300px;
   display: block;
@@ -896,7 +923,7 @@ header.dark .trigger.active .line {
   text-align: center;
 }
 .tab-btn a {
-  color:#fff;
+  color: #fff;
   background: #000;
   display: inline-block;
   width: 150px;
@@ -910,7 +937,7 @@ header.dark .trigger.active .line {
 }
 .tab-btn a.active {
   background: #fff;
-  color:royalblue;
+  color: royalblue;
   border-top: 3px solid royalblue;
 }
 .tab-btn a:hover {
@@ -938,7 +965,8 @@ header.dark .trigger.active .line {
   margin-top: 0;
   text-transform: uppercase;
 }
-.tab p {}
+.tab p {
+}
 .tab img {
   width: 100%;
 }
@@ -968,7 +996,6 @@ header.dark .trigger.active .line {
 }
 .parent .bg {
   position: relative;
-
 }
 .ltr {
   animation: ltr 1s linear both;
@@ -979,8 +1006,8 @@ header.dark .trigger.active .line {
 /* Top button */
 aside {
   position: fixed;
-  bottom:4%;
-  right:2%;
+  bottom: 4%;
+  right: 2%;
   line-height: 40px;
   width: 40px;
   height: 40px;
@@ -991,7 +1018,7 @@ aside {
 }
 aside a {
   display: block;
-  color:#fff;
+  color: #fff;
   font-size: 14px;
 }
 /* Epilogue */
@@ -1021,8 +1048,6 @@ footer p {
   margin: 0;
 }
 
-
-
 /************* Keyframes *************/
 @keyframes ltr {
   0% {
@@ -1044,7 +1069,7 @@ footer p {
     transform: translateX(0);
   }
 }
-@keyframes slidefade{
+@keyframes slidefade {
   0% {
     opacity: 0;
     margin-top: -100px;
